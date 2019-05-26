@@ -4,8 +4,9 @@
 
 | Function | Description   
 | --- | ---
-| `KethoDoc:DumpAPI()`         | Shows the WoW API
-| `KethoDoc:LuaTableCVars()`   | Shows Console Variables and Commands
-| `KethoDoc:LuaTableEnums()`   | Shows the Enum table and global Enums
-| `KethoDoc:LuaTableEvents()`  | Shows Events grouped by API system
-| `KethoDoc:LuaTableWidgets()` | Shows the Widget API
+| `KethoDoc:DumpGlobalAPI()` | Shows WoW API
+| `KethoDoc:DumpLuaAPI()`    | Shows Lua API
+| `KethoDoc:DumpWidgetAPI()` | Shows Widget API
+| `KethoDoc:DumpEvents()`    | Shows Events grouped by API system
+| `KethoDoc:DumpCVars()`     | Shows Console Variables and Commands
+| `KethoDoc:DumpLuaEnums()`  | Shows Enum table and Lua Enums

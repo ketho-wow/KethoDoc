@@ -10,27 +10,101 @@ local branches = {
 
 KethoDoc.branch = branches[select(4, GetBuildInfo())]
 
-function KethoDoc:DumpAPI(isLuaCheck)
+function KethoDoc:DumpGlobalAPI(isLuaCheck)
 	local frameXML = self.FrameXML[self.branch]
 	self:InsertTable(self.FrameXmlBlacklist, frameXML)
 	self:InsertTable(self.LuaAPI, frameXML)
-	local API = self:GetApiSystemFuncs(isLuaCheck)
+	local api = self:GetApiSystemFuncs(isLuaCheck)
 	
 	-- filter all functions against FrameXML functions and Lua API
 	for funcName in pairs(self:GetGlobalFuncs()) do
 		if not frameXML[funcName] then
-			tinsert(API, funcName)
+			tinsert(api, funcName)
 		end
 	end
+	sort(api)
 	
-	sort(API)
 	eb:Show()
-	for _, apiName in pairs(API) do
-		eb:InsertLine(apiName)
+	eb:InsertLine("local GlobalAPI = {")
+	for _, apiName in pairs(api) do
+		eb:InsertLine(format('\t"%s",', apiName))
 	end
+	eb:InsertLine("}\n\nreturn GlobalAPI")
 end
 
-function KethoDoc:LuaTableCVars()
+function KethoDoc:DumpLuaAPI()
+	local api = {}
+	for apiName in pairs(self.LuaAPI) do
+		tinsert(api, apiName)
+	end
+	
+	for _, tblName in pairs({"bit", "coroutine", "math", "string", "table"}) do
+		for methodName, value in pairs(_G[tblName]) do
+			if type(value) == "function" then -- math.PI, math.huge
+				tinsert(api, format("%s.%s", tblName, methodName))
+			end
+		end
+	end
+	sort(api)
+	
+	eb:Show()
+	eb:InsertLine("local LuaAPI = {")
+	for _, apiName in pairs(api) do
+		eb:InsertLine(format('\t"%s",', apiName))
+	end
+	eb:InsertLine("}\n\nreturn LuaAPI")
+end
+
+-- wannabe table serializer
+function KethoDoc:DumpWidgetAPI()
+	eb:Show()
+	eb:InsertLine("local WidgetAPI = {")
+	for _, objectName in pairs(self.WidgetOrder) do
+		eb:InsertLine("\t"..objectName.." = {")
+		local object = self.WidgetClasses[objectName]
+		
+		local inheritsTable = {}
+		for _, v in pairs(object.inherits) do
+			tinsert(inheritsTable, format('"%s"', v)) -- stringify
+		end
+		eb:InsertLine(format("\t\tinherits = {%s},", table.concat(inheritsTable, ", ")))
+		
+		eb:InsertLine("\t\tmethods = {")
+		local methods = self:SortTable(object.methods())
+		for _, name in pairs(methods) do
+			eb:InsertLine("\t\t\t"..name.." = true,")
+		end
+		
+		eb:InsertLine("\t\t},")
+		eb:InsertLine("\t},")
+	end
+	eb:InsertLine("}\n\nreturn WidgetAPI")
+end
+
+function KethoDoc:DumpEvents()
+	APIDocumentation_LoadUI()
+	eb:Show()
+	eb:InsertLine("local Events = {")
+	
+	sort(APIDocumentation.systems, function(a, b)
+		return (a.Namespace or a.Name) < (b.Namespace or b.Name)
+	end)
+	
+	for _, system in pairs(APIDocumentation.systems) do
+		if #system.Events > 0 then -- skip systems with no events
+			eb:InsertLine("\t"..(system.Namespace or system.Name).." = {")
+			
+			for _, event in pairs(system.Events) do
+				eb:InsertLine(format('\t\t"%s",', event.LiteralName))
+			end
+			
+			eb:InsertLine("\t},")
+		end
+	end
+	eb:InsertLine("}\n\nreturn Events")
+end
+
+function KethoDoc:DumpCVars()
 	local cvarTbl, commandTbl = {}, {}
 	local cvarFs = '\t\t["%s"] = {"%s", %d, %s, %s, "%s"},'
 	local commandFs = '\t\t["%s"] = {%d, "%s"},'
@@ -48,7 +122,7 @@ function KethoDoc:LuaTableCVars()
 	sort(commandTbl, self.SortCaseInsensitive)
 	
 	eb:Show()
-	eb:InsertLine("CVar = {")
+	eb:InsertLine("local CVars = {")
 	eb:InsertLine("\tvariable = {")
 	eb:InsertLine("\t\t-- variable = default, category, server, character, help")
 	for _, cvar in pairs(cvarTbl) do
@@ -61,10 +135,10 @@ function KethoDoc:LuaTableCVars()
 	for _, command in pairs(commandTbl) do
 		eb:InsertLine(command)
 	end
-	eb:InsertLine("\t},\n}")
+	eb:InsertLine("\t},\n}\n\nreturn CVars")
 end
 
-function KethoDoc:LuaTableEnums()
+function KethoDoc:DumpLuaEnums()
 	-- Enum table
 	eb:Show()
 	eb:InsertLine("Enum = {")
@@ -128,52 +202,26 @@ function KethoDoc:LuaTableEnums()
 	end
 end
 
-function KethoDoc:LuaTableEvents()
-	APIDocumentation_LoadUI()
-	eb:Show()
-	eb:InsertLine("Event = {")
-	
-	sort(APIDocumentation.systems, function(a, b)
-		return (a.Namespace or a.Name) < (b.Namespace or b.Name)
-	end)
-	
-	for _, system in pairs(APIDocumentation.systems) do
-		if #system.Events > 0 then -- skip systems with no events
-			eb:InsertLine("\t"..(system.Namespace or system.Name).." = {")
-			
-			for _, event in pairs(system.Events) do
-				eb:InsertLine(format('\t\t"%s",', event.LiteralName))
-			end
-			
-			eb:InsertLine("\t},")
-		end
+-- dumping all 38k~ global frames would be a bit too much; ignore WorldFrame
+function KethoDoc:DumpUIParentFrames()
+	-- load all Blizzard LoD addons
+	for _, addon in pairs(self.LoadOnDemand[self.branch]) do
+		UIParentLoadAddOn(addon)
 	end
 	
-	eb:InsertLine("}")
-end
-
-function KethoDoc:LuaTableWidgets()
-	eb:Show()
-	eb:InsertLine("Widget = {")
-	for _, objectName in pairs(self.WidgetOrder) do
-		eb:InsertLine("\t"..objectName.." = {")
-		local object = self.WidgetClasses[objectName]
-		
-		local inheritsTable = {}
-		for _, v in pairs(object.inherits) do
-			tinsert(inheritsTable, format('"%s"', v)) -- stringify
+	local frames = {}
+	for _, v in pairs({UIParent:GetChildren()}) do
+		-- PTR_IssueReporter has no name field; cant interact with forbidden frames
+		if not v:IsForbidden() and v:GetName() then
+			tinsert(frames, v:GetDebugName())
 		end
-		eb:InsertLine(format("\t\tinherits = {%s},", table.concat(inheritsTable, ", ")))
-		
-		eb:InsertLine("\t\tmethods = {")
-		local methods = self:SortTable(object.methods())
-		for _, methodName in pairs(methods) do
-			eb:InsertLine("\t\t\t"..methodName.." = true,")
-		end
-		
-		eb:InsertLine("\t\t},")
-		eb:InsertLine("\t},")
 	end
+	sort(frames)
 	
-	eb:InsertLine("}")
+	eb:Show()
+	eb:InsertLine("local UIParentFrames = {")
+	for _, name in pairs(frames) do
+		eb:InsertLine(format('\t"%s",', name))
+	end
+	eb:InsertLine("}\n\nreturn UIParentFrames")
 end
