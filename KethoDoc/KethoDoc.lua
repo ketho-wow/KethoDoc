@@ -72,7 +72,7 @@ function KethoDoc:DumpWidgetAPI()
 		eb:InsertLine("\t\tmethods = {")
 		local methods = self:SortTable(object.methods())
 		for _, name in pairs(methods) do
-			eb:InsertLine("\t\t\t"..name.." = true,")
+			eb:InsertLine('\t\t\t"'..name..'",')
 		end
 		
 		eb:InsertLine("\t\t},")
@@ -168,7 +168,7 @@ function KethoDoc:DumpLuaEnums()
 	end
 	eb:InsertLine("}\n")
 	
-	-- NUM_LE_* variables
+	-- NUM_LE_* globals
 	local NumLuaEnum, LuaEnum = {}, {}
 	for enumType, enumValue in pairs(_G) do
 		if enumType:find("^NUM_LE_") then
@@ -185,7 +185,7 @@ function KethoDoc:DumpLuaEnums()
 	end
 	eb:InsertLine("")
 	
-	-- LE_* variables
+	-- LE_* globals
 	for enumType, enumValue in pairs(_G) do
 		if enumType:find("^LE_") and not enumType:find("GAME_ERR") then
 			tinsert(LuaEnum, {enumType, enumValue})
@@ -202,7 +202,6 @@ function KethoDoc:DumpLuaEnums()
 	end
 end
 
--- dumping all 38k~ global frames would be a bit too much; ignore WorldFrame
 function KethoDoc:DumpUIParentFrames()
 	-- load all Blizzard LoD addons
 	for _, addon in pairs(self.LoadOnDemand[self.branch]) do
@@ -211,7 +210,8 @@ function KethoDoc:DumpUIParentFrames()
 	
 	local frames = {}
 	for _, v in pairs({UIParent:GetChildren()}) do
-		-- PTR_IssueReporter has no name field; cant interact with forbidden frames
+		-- cant interact with forbidden frames
+		-- PTR_IssueReporter is an anonymous frame
 		if not v:IsForbidden() and v:GetName() then
 			tinsert(frames, v:GetDebugName())
 		end

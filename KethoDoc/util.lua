@@ -33,27 +33,6 @@ function KethoDoc:MixinTable(...)
 	return t
 end
 
-function KethoDoc:TableEquals(name, actual, expected)
-	local isEquals = true
-	local size1, size2 = 0, 0
-	
-	for k in pairs(actual) do
-		size1 = size1 + 1
-		if not expected[k] then
-			isEquals = false
-		end
-	end
-	
-	for k in pairs(expected) do
-		size2 = size2 + 1
-		if not actual[k] then
-			isEquals = false
-		end
-	end
-	
-	assert(isEquals, format("%s NotEquals: %d, %d", name, size1, size2))
-end
-
 function KethoDoc:CompareTable(left, right)
 	local intersect, onlyLeft, onlyRight = {}, {}, {}
 	
