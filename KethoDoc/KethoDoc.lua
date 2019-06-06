@@ -202,12 +202,28 @@ function KethoDoc:DumpLuaEnums()
 	end
 end
 
-function KethoDoc:DumpUIParentFrames()
-	-- load all Blizzard LoD addons
-	for _, addon in pairs(self.LoadOnDemand[self.branch]) do
-		UIParentLoadAddOn(addon)
-	end
+function KethoDoc:DumpFrameXmlFuncs()
+	self:LoadLodAddons()
 	
+	local funcs = {}
+	for k in pairs(self.FrameXML[self.branch]) do
+		if type(_G[k]) == "function" then
+			tinsert(funcs, k)
+		end
+	end
+	sort(funcs)
+	
+	eb:Show()
+	eb:InsertLine("local FrameXmlFuncs = {")
+	for _, name in pairs(funcs) do
+		eb:InsertLine(format('\t"%s",', name))
+	end
+	eb:InsertLine("}\n\nreturn FrameXmlFuncs")
+end
+
+function KethoDoc:DumpUIParentFrames()
+	self:LoadLodAddons()
+
 	local frames = {}
 	for _, v in pairs({UIParent:GetChildren()}) do
 		-- cant interact with forbidden frames

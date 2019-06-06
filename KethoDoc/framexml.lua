@@ -23,6 +23,10 @@ Get-ChildItem "D:\8.1.5 (29981)\" -Recurse -Name -Filter *.lua |
 
 KethoDoc.FrameXML = {}
 
+if KethoDoc.branch ~= "live" then
+	return
+end
+
 KethoDoc.FrameXML.live = { -- live 8.1.5 (29981)
 	["ACCOUNTNAME_BUTTON_HEIGHT"] = true,
 	["ACCOUNT_BINDINGS"] = true,

@@ -2,6 +2,13 @@
 local KD = KethoDoc
 KD.LoadOnDemand = {}
 
+function KD:LoadLodAddons()
+	-- load all Blizzard LoD addons
+	for _, addon in pairs(self.LoadOnDemand[self.branch]) do
+		UIParentLoadAddOn(addon)
+	end
+end
+
 KD.LoadOnDemand.live = { -- 8.1.5 (29981)
 	"Blizzard_AchievementUI",
 	"Blizzard_AdventureMap",

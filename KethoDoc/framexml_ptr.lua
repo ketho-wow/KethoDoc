@@ -1,4 +1,8 @@
 
+if KethoDoc.branch ~= "ptr" then
+	return
+end
+
 KethoDoc.FrameXML.ptr = { -- ptr 8.2.0 (30430)
 	["ACCOUNTNAME_BUTTON_HEIGHT"] = true,
 	["ACCOUNT_BINDINGS"] = true,
