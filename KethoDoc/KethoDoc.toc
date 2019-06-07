@@ -1,5 +1,5 @@
 ## Interface: 80100
-## Version: 1.1.2
+## Version: 1.1.3
 ## Title: KethoDoc
 
 editbox.lua
@@ -8,9 +8,8 @@ KethoDoc.lua
 util.lua
 
 api.lua
-framexml.lua
+framexml_live.lua
 framexml_ptr.lua
 framexml_classic.lua
 widget.lua
-widget_classic.lua
 loadondemand.lua
