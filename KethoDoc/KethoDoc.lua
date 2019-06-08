@@ -11,7 +11,7 @@ local branches = {
 KethoDoc.branch = branches[select(4, GetBuildInfo())]
 
 function KethoDoc:DumpGlobalAPI(isLuaCheck)
-	local frameXML = self.FrameXML[self.branch]
+	local frameXML = CopyTable(self.FrameXML[self.branch])
 	self:InsertTable(self.FrameXmlBlacklist, frameXML)
 	self:InsertTable(self.LuaAPI, frameXML)
 	local api = self:GetApiSystemFuncs(isLuaCheck)
