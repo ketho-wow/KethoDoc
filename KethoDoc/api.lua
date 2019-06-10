@@ -50,7 +50,7 @@ KethoDoc.FrameXmlBlacklist = {
 	CombatLog_String_PowerType = true,
 	CombatLog_String_SchoolString = true,
 	COMBAT_TEXT_SCROLL_FUNCTION = true, -- set within a function
-	
+
 	-- DressUpFrames.xml
 	OnMaximize = true,
 	OnMinimize = true,

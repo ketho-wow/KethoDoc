@@ -6,12 +6,12 @@
 	- Mirrors
 		https://www.townlong-yak.com/framexml
 		https://github.com/Gethe/wow-ui-source
-	
+
 	- Convert any UTF-8-BOM encoded files to UTF-8 to make them readable
 
 * Find all FrameXML SETGLOBALfile globals with FindGlobals
 	https://www.wowace.com/projects/findglobals
-	
+
 * PowerShell script has to be run in the directory
 	e.g. within \8.1.5 (29981)\ idk how to use it properly
 

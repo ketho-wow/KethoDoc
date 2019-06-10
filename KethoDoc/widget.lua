@@ -58,7 +58,7 @@ KethoDoc.WidgetClasses = {
 		end, -- FontInstance \ Object
 		unique_methods = function() return KD:RemoveTable(W.FontInstance.meta_object(), W.Object.meta_object()) end,
 	},
-	
+
 	Font = { -- Font \ FontInstance
 		inherits = {"FontInstance"},
 		object = CreateFont(""),
@@ -72,7 +72,7 @@ KethoDoc.WidgetClasses = {
 			return KD:RemoveTable(obj, W.LayeredRegion.meta_object())
 		end,
 	},
-	
+
 	Texture = { -- Texture \ LayeredRegion
 		inherits = {"LayeredRegion"},
 		object = CreateFrame("Frame"):CreateTexture(),
@@ -88,7 +88,7 @@ KethoDoc.WidgetClasses = {
 		object = CreateFrame("Frame"):CreateMaskTexture(),
 		unique_methods = function() return KD:RemoveTable(W.MaskTexture.meta_object, W.Texture.meta_object) end,
 	},
-	
+
 	AnimationGroup = { -- AnimationGroup \ (UIObject ∧ ScriptObject)
 		inherits = {"UIObject", "ScriptObject"},
 		object = CreateFrame("Frame"):CreateAnimationGroup(),
@@ -160,7 +160,7 @@ KethoDoc.WidgetClasses = {
 		unique_methods = function() return KD:RemoveTable(W.Translation.meta_object, W.Animation.meta_object) end,
 		unique_handlers = function() return KD:RemoveTable(W.Translation.handlers, W.Animation.handlers) end,
 	},
-	
+
 	Frame = { -- Frame \ (Region ∧ ScriptObject)
 		inherits = {"Region", "ScriptObject"},
 		object = CreateFrame("Frame"),
@@ -176,7 +176,7 @@ KethoDoc.WidgetClasses = {
 		unique_methods = function() return KD:RemoveTable(W.Browser.meta_object, W.Frame.meta_object) end,
 		unique_handlers = function() return KD:RemoveTable(W.Browser.handlers, W.Frame.handlers) end,
 	},
-	
+
 	Button = { -- Button \ Frame
 		inherits = {"Frame"},
 		object = CreateFrame("Button"),
@@ -196,7 +196,7 @@ KethoDoc.WidgetClasses = {
 		unique_handlers = function() return KD:RemoveTable(W.ItemButton.handlers, W.ItemButton.handlers) end,
 	},
 	-- UnitButton unavailable
-	
+
 	Checkout = { -- Checkout \ Frame
 		inherits = {"Frame"},
 		object = CreateFrame("Checkout"),
@@ -251,7 +251,7 @@ KethoDoc.WidgetClasses = {
 		unique_methods = function() return KD:RemoveTable(W.Minimap.meta_object, W.Frame.meta_object) end,
 		unique_handlers = function() return KD:RemoveTable(W.Minimap.handlers, W.Frame.handlers) end,
 	},
-	
+
 	Model = { -- Model \ Frame
 		inherits = {"Frame"},
 		object = CreateFrame("Model"),
@@ -284,7 +284,7 @@ KethoDoc.WidgetClasses = {
 		unique_handlers = function() return KD:RemoveTable(W.TabardModel.handlers, W.PlayerModel.handlers) end,
 	},
 	-- UICamera unavailable
-	
+
 	ModelScene = { -- ModelScene \ Frame
 		inherits = {"Frame"},
 		object = CreateFrame("ModelScene"),
@@ -407,14 +407,14 @@ KethoDoc.WidgetOrder = {
 	"Region", -- (LayoutFrame)
 	"LayeredRegion",
 	"FontInstance",
-	
+
 	-- fontinstance
 	"Font",
 	"FontString",
-	
+
 	-- texture
 	"Texture", "Line", "MaskTexture",
-	
+
 	-- animation
 	"AnimationGroup",
 	"Animation",
@@ -426,7 +426,7 @@ KethoDoc.WidgetOrder = {
 	"Path", "ControlPoint",
 	"Rotation",
 	"TextureCoordTranslation",
-	
+
 	-- frame
 	"Frame",
 	"Browser",

@@ -35,7 +35,6 @@ end
 
 function KethoDoc:CompareTable(left, right)
 	local intersect, onlyLeft, onlyRight = {}, {}, {}
-	
 	for k, v in pairs(left) do
 		if right[k] then
 			intersect[k] = v
@@ -43,13 +42,11 @@ function KethoDoc:CompareTable(left, right)
 			onlyLeft[k] = v
 		end
 	end
-	
 	for k, v in pairs(right) do
 		if not left[k] then
 			onlyRight[k] = v
 		end
 	end
-	
 	return intersect, onlyLeft, onlyRight
 end
 

@@ -50,9 +50,9 @@ KD.LoadOnDemand.live = { -- 8.1.5 (29981)
 	"Blizzard_IslandsPartyPoseUI",
 	"Blizzard_IslandsQueueUI",
 	"Blizzard_ItemSocketingUI",
+	"Blizzard_ItemUpgradeUI",
 	-- Message: ...ns\Blizzard_ItemUpgradeUI\Blizzard_ItemUpgradeUI.lua line 27:
 	--  attempt to index global 'ItemUpgradeFrameTopTileStreaks' (a nil value)
-	"Blizzard_ItemUpgradeUI",
 	"Blizzard_LookingForGuildUI",
 	"Blizzard_MacroUI",
 	"Blizzard_MapCanvas",

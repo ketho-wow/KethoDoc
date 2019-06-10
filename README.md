@@ -4,11 +4,11 @@
 
 | Function | Description   
 | --- | ---
-| `KethoDoc:DumpGlobalAPI()`      | Dumps WoW API
-| `KethoDoc:DumpLuaAPI()`         | Dumps Lua API
-| `KethoDoc:DumpWidgetAPI()`      | Dumps Widget API
-| `KethoDoc:DumpEvents()`         | Dumps Events grouped by API system
-| `KethoDoc:DumpCVars()`          | Dumps Console Variables and Commands
-| `KethoDoc:DumpLuaEnums()`       | Dumps Enum table and Lua Enums
-| `KethoDoc:DumpUIParentFrames()` | Dumps UIParent child frames
-| `KethoDoc:DumpFrameXML()`       | Dumps FrameXML functions
+| `KethoDoc:DumpGlobalAPI()` | Dumps WoW API
+| `KethoDoc:DumpLuaAPI()`    | Dumps Lua API
+| `KethoDoc:DumpWidgetAPI()` | Dumps Widget API
+| `KethoDoc:DumpEvents()`    | Dumps Events by API system
+| `KethoDoc:DumpCVars()`     | Dumps Console Variables and Commands
+| `KethoDoc:DumpLuaEnums()`  | Dumps Lua Enums
+| `KethoDoc:DumpFrames()`    | Dumps top-level frames
+| `KethoDoc:DumpFrameXML()`  | Dumps FrameXML functions

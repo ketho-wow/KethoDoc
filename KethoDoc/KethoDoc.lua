@@ -204,7 +204,7 @@ function KethoDoc:DumpLuaEnums()
 	end
 end
 
-function KethoDoc:DumpUIParentFrames()
+function KethoDoc:DumpFrames()
 	self:LoadLodAddons()
 	local frames = {}
 	for _, v in pairs({UIParent:GetChildren()}) do
@@ -214,14 +214,17 @@ function KethoDoc:DumpUIParentFrames()
 			tinsert(frames, v:GetDebugName())
 		end
 	end
+	for _, v in pairs({UIParent, WorldFrame, ActionStatus}) do
+		tinsert(frames, v:GetDebugName())
+	end
 	sort(frames)
 
 	eb:Show()
-	eb:InsertLine("local UIParentFrames = {")
+	eb:InsertLine("local Frames = {")
 	for _, name in pairs(frames) do
 		eb:InsertLine(format('\t"%s",', name))
 	end
-	eb:InsertLine("}\n\nreturn UIParentFrames")
+	eb:InsertLine("}\n\nreturn Frames")
 end
 
 function KethoDoc:DumpFrameXML()
