@@ -1,4 +1,3 @@
-
 -- deprecated / script wrapper API
 local SystemBlacklist = {
 	C_PvP = {

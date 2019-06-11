@@ -1,15 +1,14 @@
 
-local KD = KethoDoc
-KD.LoadOnDemand = {}
+KethoDoc.LoadOnDemand = {}
 
-function KD:LoadLodAddons()
-	-- load all Blizzard LoD addons
+-- this might throw some blizzard errors
+function KethoDoc:LoadLodAddons()
 	for _, addon in pairs(self.LoadOnDemand[self.branch]) do
 		UIParentLoadAddOn(addon)
 	end
 end
 
-KD.LoadOnDemand.live = { -- 8.1.5 (29981)
+KethoDoc.LoadOnDemand.live = { -- 8.1.5 (29981)
 	"Blizzard_AchievementUI",
 	"Blizzard_AdventureMap",
 	"Blizzard_AlliedRacesUI",
@@ -51,8 +50,6 @@ KD.LoadOnDemand.live = { -- 8.1.5 (29981)
 	"Blizzard_IslandsQueueUI",
 	"Blizzard_ItemSocketingUI",
 	"Blizzard_ItemUpgradeUI",
-	-- Message: ...ns\Blizzard_ItemUpgradeUI\Blizzard_ItemUpgradeUI.lua line 27:
-	--  attempt to index global 'ItemUpgradeFrameTopTileStreaks' (a nil value)
 	"Blizzard_LookingForGuildUI",
 	"Blizzard_MacroUI",
 	"Blizzard_MapCanvas",
@@ -78,15 +75,15 @@ KD.LoadOnDemand.live = { -- 8.1.5 (29981)
 	"Blizzard_WarfrontsPartyPoseUI",
 }
 
-KD.LoadOnDemand.ptr = { -- ptr 8.2.0 (30495)
+KethoDoc.LoadOnDemand.ptr = { -- 8.2.0 (30495)
 	"Blizzard_AzeriteEssenceUI",
 }
 
-for _, v in pairs(KD.LoadOnDemand.live) do
-	tinsert(KD.LoadOnDemand.ptr, v)
+for _, v in pairs(KethoDoc.LoadOnDemand.live) do
+	tinsert(KethoDoc.LoadOnDemand.ptr, v)
 end
 
-KD.LoadOnDemand.classic = { -- 1.13.2 (30550)
+KethoDoc.LoadOnDemand.classic = { -- 1.13.2 (30550)
 	"Blizzard_APIDocumentation",
 	"Blizzard_AuctionUI",
 	"Blizzard_BattlefieldMap",

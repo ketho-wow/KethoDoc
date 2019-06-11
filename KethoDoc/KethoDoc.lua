@@ -40,7 +40,7 @@ function KethoDoc:DumpLuaAPI()
 
 	for _, tblName in pairs({"bit", "coroutine", "math", "string", "table"}) do
 		for methodName, value in pairs(_G[tblName]) do
-			if type(value) == "function" then -- math.PI, math.huge
+			if type(value) == "function" then -- ignore math.PI, math.huge
 				tinsert(api, format("%s.%s", tblName, methodName))
 			end
 		end
@@ -57,13 +57,15 @@ end
 
 -- wannabe table serializer
 function KethoDoc:DumpWidgetAPI()
+	if not self.WidgetClasses then
+		self:SetupWidgets()
+	end
 	eb:Show()
 	eb:InsertLine("local WidgetAPI = {")
 	for _, objectName in pairs(self.WidgetOrder) do
 		local object = self.WidgetClasses[objectName]
 		if object.meta_object then -- sanity check for Classic
 			eb:InsertLine("\t"..objectName.." = {")
-
 			local inheritsTable = {}
 			for _, v in pairs(object.inherits) do
 				tinsert(inheritsTable, format('"%s"', v)) -- stringify
@@ -120,11 +122,11 @@ function KethoDoc:DumpCVars()
 	local commandFs = '\t\t["%s"] = {%d, "%s"},'
 
 	for _, v in pairs(C_Console.GetAllCommands()) do
-		if v.commandType == 0 then -- cvar
+		if v.commandType == Enum.ConsoleCommandType.Cvar then
 			local _, defaultValue, server, character = GetCVarInfo(v.command)
 			local helpString = v.help and v.help:gsub('"', '\\"') or ""
 			tinsert(cvarTbl, cvarFs:format(v.command, defaultValue or "", v.category, tostring(server), tostring(character), helpString))
-		elseif v.commandType == 1 then -- command
+		elseif v.commandType == Enum.ConsoleCommandType.Command then
 			tinsert(commandTbl, commandFs:format(v.command, v.category, v.help or ""))
 		end
 	end
@@ -207,21 +209,18 @@ end
 function KethoDoc:DumpFrames()
 	self:LoadLodAddons()
 	local frames = {}
-	for _, v in pairs({UIParent:GetChildren()}) do
-		-- cant interact with forbidden frames
-		-- PTR_IssueReporter is an anonymous frame
-		if not v:IsForbidden() and v:GetName() then
-			tinsert(frames, v:GetDebugName())
+	for _, v in pairs(_G) do
+		-- cant interact with forbidden frames; only check for named frames
+		if type(v) == "table" and v.IsForbidden and not v:IsForbidden() and v:GetName() then
+			local parent = v:GetParent()
+			if not parent or (parent == UIParent) or (parent == WorldFrame) then
+				frames[v:GetDebugName()] = true
+			end
 		end
 	end
-	for _, v in pairs({UIParent, WorldFrame, ActionStatus}) do
-		tinsert(frames, v:GetDebugName())
-	end
-	sort(frames)
-
 	eb:Show()
 	eb:InsertLine("local Frames = {")
-	for _, name in pairs(frames) do
+	for _, name in pairs(self:SortTable(frames)) do
 		eb:InsertLine(format('\t"%s",', name))
 	end
 	eb:InsertLine("}\n\nreturn Frames")
