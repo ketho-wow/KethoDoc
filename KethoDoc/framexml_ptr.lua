@@ -3,7 +3,8 @@ if KethoDoc.branch ~= "ptr" then
 	return
 end
 
-KethoDoc.FrameXML.ptr = { -- 8.2.0 (30774)
+-- 8.2.0 (30827)
+KethoDoc.FrameXML.ptr = {
 	ACCOUNTNAME_BUTTON_HEIGHT = true,
 	ACCOUNT_BINDINGS = true,
 	ACCOUNT_SUSPENDED_ERROR_CODE = true,
