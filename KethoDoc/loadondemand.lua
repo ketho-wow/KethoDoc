@@ -8,7 +8,8 @@ function KethoDoc:LoadLodAddons()
 	end
 end
 
-KethoDoc.LoadOnDemand.live = { -- 8.1.5 (29981)
+-- 8.2.0.30918
+KethoDoc.LoadOnDemand.live = {
 	"Blizzard_AchievementUI",
 	"Blizzard_AdventureMap",
 	"Blizzard_AlliedRacesUI",
@@ -17,6 +18,7 @@ KethoDoc.LoadOnDemand.live = { -- 8.1.5 (29981)
 	"Blizzard_ArenaUI",
 	"Blizzard_ArtifactUI",
 	"Blizzard_AuctionUI",
+	"Blizzard_AzeriteEssenceUI",
 	"Blizzard_AzeriteRespecUI",
 	"Blizzard_AzeriteUI",
 	"Blizzard_BarberShopUI",
@@ -75,15 +77,15 @@ KethoDoc.LoadOnDemand.live = { -- 8.1.5 (29981)
 	"Blizzard_WarfrontsPartyPoseUI",
 }
 
-KethoDoc.LoadOnDemand.ptr = { -- 8.2.0 (30495)
-	"Blizzard_AzeriteEssenceUI",
+KethoDoc.LoadOnDemand.ptr = {
 }
 
 for _, v in pairs(KethoDoc.LoadOnDemand.live) do
 	tinsert(KethoDoc.LoadOnDemand.ptr, v)
 end
 
-KethoDoc.LoadOnDemand.classic = { -- 1.13.2 (30550)
+-- 1.13.2 (30550)
+KethoDoc.LoadOnDemand.classic = {
 	"Blizzard_APIDocumentation",
 	"Blizzard_AuctionUI",
 	"Blizzard_BattlefieldMap",

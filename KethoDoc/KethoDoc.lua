@@ -3,18 +3,18 @@ KethoDoc = {}
 local eb = KethoEditBox
 
 local branches = {
-	[80100] = "live",
-	[80200] = "ptr",
+	[80200] = "live",
+	--[80200] = "ptr",
 	[11302] = "classic",
 }
 
 KethoDoc.branch = branches[select(4, GetBuildInfo())]
 
-function KethoDoc:DumpGlobalAPI(isLuaCheck)
+function KethoDoc:DumpGlobalAPI()
 	local frameXML = CopyTable(self.FrameXML[self.branch])
 	self:InsertTable(self.FrameXmlBlacklist, frameXML)
 	self:InsertTable(self.LuaAPI, frameXML)
-	local api = self:GetApiSystemFuncs(isLuaCheck)
+	local api = self:GetApiSystemFuncs()
 
 	-- filter all functions against FrameXML functions and Lua API
 	for funcName in pairs(self:GetGlobalFuncs()) do

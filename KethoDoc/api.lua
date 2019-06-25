@@ -148,17 +148,13 @@ function KethoDoc:GetGlobalFuncs()
 	return t
 end
 
-function KethoDoc:GetApiSystemFuncs(isLuaCheck)
+function KethoDoc:GetApiSystemFuncs()
 	local t = {}
 	for systemName, v in pairs(_G) do
 		if systemName:find("^C_") and type(v) == "table" then
-			if isLuaCheck then
-				tinsert(t, systemName)
-			else
-				for funcName in pairs(v) do
-					if not SystemBlacklist[systemName] or not SystemBlacklist[systemName][funcName] then
-						tinsert(t, format("%s.%s", systemName, funcName))
-					end
+			for funcName in pairs(v) do
+				if not SystemBlacklist[systemName] or not SystemBlacklist[systemName][funcName] then
+					tinsert(t, format("%s.%s", systemName, funcName))
 				end
 			end
 		end
