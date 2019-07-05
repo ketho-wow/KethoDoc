@@ -84,7 +84,7 @@ for _, v in pairs(KethoDoc.LoadOnDemand.live) do
 	tinsert(KethoDoc.LoadOnDemand.ptr, v)
 end
 
--- 1.13.2 (30550)
+-- 1.13.2 (30979)
 KethoDoc.LoadOnDemand.classic = {
 	"Blizzard_APIDocumentation",
 	"Blizzard_AuctionUI",
@@ -95,6 +95,7 @@ KethoDoc.LoadOnDemand.classic = {
 	"Blizzard_Commentator",
 	"Blizzard_Communities",
 	"Blizzard_CraftUI",
+	"Blizzard_DeathRecap",
 	"Blizzard_DebugTools",
 	"Blizzard_FlightMap",
 	"Blizzard_GMChatUI",

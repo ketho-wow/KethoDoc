@@ -18,7 +18,7 @@
 Get-ChildItem "D:\8.1.5 (29981)\" -Recurse -Name -Filter *.lua |
 	Foreach-Object {luac5.1 -l -p $_ |
 	lua5.1 "D:\findglobals\globals.lua" $_} |
-	Out-File -filepath API_live.txt
+	Out-File -FilePath API_live.txt
 ]]
 
 KethoDoc.FrameXML = {}

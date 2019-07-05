@@ -3,7 +3,8 @@ if KethoDoc.branch ~= "classic" then
 	return
 end
 
-KethoDoc.FrameXML.classic = { -- 1.13.2 (30786)
+-- 1.13.2 (30979)
+KethoDoc.FrameXML.classic = {
 	ACCOUNTNAME_BUTTON_HEIGHT = true,
 	ACCOUNT_BINDINGS = true,
 	ACCOUNT_SUSPENDED_ERROR_CODE = true,
@@ -1887,6 +1888,11 @@ KethoDoc.FrameXML.classic = { -- 1.13.2 (30786)
 	DamageColor_OpenColorPicker = true,
 	DeathKnniggetThrobFunction = true,
 	DeathMapDataProviderMixin = true,
+	DeathRecapFrame_Amount_OnEnter = true,
+	DeathRecapFrame_GetEventInfo = true,
+	DeathRecapFrame_OnHide = true,
+	DeathRecapFrame_OpenRecap = true,
+	DeathRecapFrame_Spell_OnEnter = true,
 	DeathRecap_LoadUI = true,
 	DeathReleasePinMixin = true,
 	DebuffButton_UpdateAnchors = true,
@@ -3905,6 +3911,7 @@ KethoDoc.FrameXML.classic = { -- 1.13.2 (30786)
 	NUM_CONTAINER_FRAMES = true,
 	NUM_CREDITS_ART_TEXTURES_HIGH = true,
 	NUM_CREDITS_ART_TEXTURES_WIDE = true,
+	NUM_DEATH_RECAP_EVENTS = true,
 	NUM_EVALUATION_TREE_FLAGS = true,
 	NUM_FACTIONS_DISPLAYED = true,
 	NUM_FILTERS_TO_DISPLAY = true,
