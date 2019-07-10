@@ -95,7 +95,6 @@ KethoDoc.LoadOnDemand.classic = {
 	"Blizzard_Commentator",
 	"Blizzard_Communities",
 	"Blizzard_CraftUI",
-	"Blizzard_DeathRecap",
 	"Blizzard_DebugTools",
 	"Blizzard_FlightMap",
 	"Blizzard_GMChatUI",
