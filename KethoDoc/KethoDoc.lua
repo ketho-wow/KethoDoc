@@ -2,13 +2,17 @@
 KethoDoc = {}
 local eb = KethoEditBox
 
+local build = select(4, GetBuildInfo())
 local branches = {
 	[80200] = "live",
-	--[80200] = "ptr",
 	[11302] = "classic",
 }
 
-KethoDoc.branch = branches[select(4, GetBuildInfo())]
+if IsTestBuild() and build == 80200 then -- bit hacky
+	branches[80200] = "ptr"
+end
+
+KethoDoc.branch = branches[build]
 
 function KethoDoc:DumpGlobalAPI()
 	local frameXML = CopyTable(self.FrameXML[self.branch])

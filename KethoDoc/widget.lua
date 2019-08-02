@@ -270,11 +270,11 @@ function KethoDoc:SetupWidgets()
 			unique_methods = function() return self:RemoveTable(W.CinematicModel.meta_object, W.PlayerModel.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.CinematicModel.handlers, W.PlayerModel.handlers) end,
 		},
-		DressupModel = { -- DressupModel \ Model
+		DressUpModel = { -- DressUpModel \ Model
 			inherits = {"PlayerModel"},
-			object = CreateFrame("DressupModel"),
-			unique_methods = function() return self:RemoveTable(W.DressupModel.meta_object, W.PlayerModel.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.DressupModel.handlers, W.PlayerModel.handlers) end,
+			object = CreateFrame("DressUpModel"),
+			unique_methods = function() return self:RemoveTable(W.DressUpModel.meta_object, W.PlayerModel.meta_object) end,
+			unique_handlers = function() return self:RemoveTable(W.DressUpModel.handlers, W.PlayerModel.handlers) end,
 		},
 		-- ModelFFX unavailable
 		TabardModel = { -- TabardModel \ Model
@@ -463,7 +463,7 @@ KethoDoc.WidgetOrder = {
 	"MessageFrame",
 	"Minimap", -- unique
 	"Model", "PlayerModel",
-		"CinematicModel", "DressupModel", "TabardModel", --"ModelFFX", "UICamera",
+		"CinematicModel", "DressUpModel", "TabardModel", --"ModelFFX", "UICamera",
 	"ModelScene",
 	"MovieFrame",
 	"OffScreenFrame",
