@@ -5,12 +5,9 @@ local eb = KethoEditBox
 local build = select(4, GetBuildInfo())
 local branches = {
 	[80200] = "live",
+	[80205] = "ptr",
 	[11302] = "classic",
 }
-
-if IsTestBuild() and build == 80200 then -- bit hacky
-	branches[80200] = "ptr"
-end
 
 KethoDoc.branch = branches[build]
 
@@ -139,8 +136,8 @@ function KethoDoc:DumpCVars()
 
 	eb:Show()
 	eb:InsertLine("local CVars = {")
-	eb:InsertLine("\tvariable = {")
-	eb:InsertLine("\t\t-- variable = default, category, server, character, help")
+	eb:InsertLine("\tvar = {")
+	eb:InsertLine("\t\t-- var = default, category, server, character, help")
 	for _, cvar in pairs(cvarTbl) do
 		eb:InsertLine(cvar)
 	end
