@@ -13,9 +13,8 @@
 	https://www.wowace.com/projects/findglobals
 
 * PowerShell script has to be run in the directory
-	e.g. within \8.1.5 (29981)\ idk how to use it properly
 
-Get-ChildItem "D:\8.1.5 (29981)\" -Recurse -Name -Filter *.lua |
+Get-ChildItem -Recurse -Name -Filter *.lua |
 	Foreach-Object {luac5.1 -l -p $_ |
 	lua5.1 "D:\findglobals\globals.lua" $_} |
 	Out-File -FilePath API_live.txt
