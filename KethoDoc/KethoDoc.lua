@@ -84,12 +84,19 @@ function KethoDoc:DumpWidgetAPI()
 				end
 			end
 
-			eb:InsertLine("\t\tmethods = {")
-			local methods = self:SortTable(object.unique_methods())
-			for _, name in pairs(methods) do
-				eb:InsertLine('\t\t\t"'..name..'",')
+			if object.unique_methods then
+				eb:InsertLine("\t\tmethods = {")
+				local methods = self:SortTable(object.unique_methods())
+				for _, name in pairs(methods) do
+					eb:InsertLine('\t\t\t"'..name..'",')
+				end
+				eb:InsertLine("\t\t},")
 			end
-			eb:InsertLine("\t\t},")
+
+			if object.intrinsic then
+				eb:InsertLine(format('\t\tmixin = "%s",', object.mixin))
+				eb:InsertLine("\t\tintrinsic = true,")
+			end
 			eb:InsertLine("\t},")
 		end
 	end

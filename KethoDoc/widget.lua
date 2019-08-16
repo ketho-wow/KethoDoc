@@ -191,9 +191,9 @@ function KethoDoc:SetupWidgets()
 		},
 		ItemButton = { -- ItemButton \ Button
 			inherits = {"Button"},
-			object = not IsClassic and CreateFrame("ItemButton"), -- no extra methods
-			unique_methods = function() return self:RemoveTable(W.ItemButton.meta_object, W.ItemButton.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.ItemButton.handlers, W.ItemButton.handlers) end,
+			object = not IsClassic and CreateFrame("ItemButton"),
+			mixin = "ItemButtonMixin",
+			intrinsic = true,
 		},
 		-- UnitButton unavailable
 
@@ -335,33 +335,9 @@ function KethoDoc:SetupWidgets()
 		},
 		ScrollingMessageFrame = {
 			inherits = {"Frame", "FontInstance"},
-			meta_object = function()
-				-- the non-inherited methods are not in metatable, get from both tables
-				local obj = {}
-				for k, v in pairs(CreateFrame("ScrollingMessageFrame")) do
-					if type(v) == "function" then
-						obj[k] = true
-					end
-				end
-				for k, v in pairs(getmetatable(CreateFrame("ScrollingMessageFrame")).__index) do
-					obj[k] = v
-				end
-				return obj
-			end,
-			unique_methods = function() -- ScrollingMessageFrame \ (FontInstance ∧ Frame)
-				local object = self:RemoveTable(W.ScrollingMessageFrame.meta_object(), W.FontInstance.meta_object())
-				return self:RemoveTable(object, W.Frame.meta_object)
-			end,
-			unique_handlers = function()
-				local handler = {}
-				local obj = CreateFrame("ScrollingMessageFrame")
-				for k in pairs(self.WidgetHandlers) do
-					if obj:HasScript(k) then
-						handler[k] = true
-					end
-				end
-				return handler
-			end,
+			object = CreateFrame("ScrollingMessageFrame"),
+			mixin = "ScrollingMessageFrameMixin",
+			intrinsic = true,
 		},
 		SimpleHTML = { -- SimpleHTML \ (FontInstance ∧ Frame)
 			inherits = {"Frame", "FontInstance"},
