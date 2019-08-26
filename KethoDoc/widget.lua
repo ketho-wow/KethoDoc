@@ -454,9 +454,10 @@ KethoDoc.WidgetOrder = {
 	"WorldFrame", -- unique
 }
 
--- https://www.townlong-yak.com/framexml/8.1.5/UI.xsd#282
+-- https://www.townlong-yak.com/framexml/8.2.5/UI.xsd#286
 KethoDoc.WidgetHandlers = {
 	"OnAnimFinished",
+	"OnAnimStarted",
 	"OnArrowPressed",
 	"OnAttributeChanged",
 	"OnButtonUpdate",
