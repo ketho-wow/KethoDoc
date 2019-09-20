@@ -14,4 +14,4 @@ Every patch `framexml_<branch>.lua` has to be manually updated with [FindGlobals
 
 The text is shown in an editbox
 
-![](https://i.imgur.com/Ako9UIU.png)
+![](https://i.imgur.com/Ym5xebg.png)
