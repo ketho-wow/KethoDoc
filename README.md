@@ -1,6 +1,5 @@
 ### Dumps the WoW API for [BlizzardInterfaceResources](https://github.com/Ketho/BlizzardInterfaceResources)
-* The text is shown in an editbox
-* Every patch `framexml_branch.lua` has to be manually updated with [FindGlobals](https://www.wowace.com/projects/findglobals)
+Every patch `framexml_<branch>.lua` has to be manually updated with [FindGlobals](https://www.wowace.com/projects/findglobals)
 
 | Function | Description   
 | --- | ---
@@ -12,3 +11,7 @@
 | `KethoDoc:DumpLuaEnums()`  | Dumps Lua Enums
 | `KethoDoc:DumpFrames()`    | Dumps top-level frames
 | `KethoDoc:DumpFrameXML()`  | Dumps FrameXML functions
+
+The text is shown in an editbox
+
+![](https://i.imgur.com/Ako9UIU.png)
