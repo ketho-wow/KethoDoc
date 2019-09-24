@@ -373,6 +373,20 @@ function KethoDoc:SetupWidgets()
 			unique_methods = function() return self:RemoveTable(W.WorldFrame.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.WorldFrame.handlers, W.Frame.handlers) end,
 		},
+		ModelSceneActor = {
+			inherits = {"Object"},
+			object = CreateFrame("ModelScene"):CreateActor(),
+			unique_methods = function() return self:RemoveTable(W.ModelSceneActor.meta_object, W.Object.meta_object()) end,
+			unique_handlers = function()
+				return { -- can only set these from XML
+					OnLoad = true,
+					OnUpdate = true,
+					OnModelLoading = true,
+					OnModelLoaded = true,
+					OnAnimFinished = true,
+				}
+			end,
+		},
 	}
 
 	-- set meta objects
@@ -452,6 +466,7 @@ KethoDoc.WidgetOrder = {
 	--"TaxiRouteFrame",
 	"UnitPositionFrame",
 	"WorldFrame", -- unique
+	"ModelSceneActor",
 }
 
 -- https://www.townlong-yak.com/framexml/8.2.5/UI.xsd#286
