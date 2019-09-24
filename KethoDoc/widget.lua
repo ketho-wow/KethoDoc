@@ -379,8 +379,6 @@ function KethoDoc:SetupWidgets()
 			unique_methods = function() return self:RemoveTable(W.ModelSceneActor.meta_object, W.Object.meta_object()) end,
 			unique_handlers = function()
 				return { -- can only set these from XML
-					OnLoad = true,
-					OnUpdate = true,
 					OnModelLoading = true,
 					OnModelLoaded = true,
 					OnAnimFinished = true,
