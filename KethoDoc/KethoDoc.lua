@@ -4,8 +4,8 @@ local eb = KethoEditBox
 
 local build = select(4, GetBuildInfo())
 local branches = {
-	[80200] = "live",
-	[80205] = "ptr",
+	[80205] = "live",
+	--[80205] = "ptr",
 	[11302] = "classic",
 }
 
@@ -131,9 +131,12 @@ function KethoDoc:DumpCVars()
 
 	for _, v in pairs(C_Console.GetAllCommands()) do
 		if v.commandType == Enum.ConsoleCommandType.Cvar then
-			local _, defaultValue, server, character = GetCVarInfo(v.command)
-			local helpString = v.help and v.help:gsub('"', '\\"') or ""
-			tinsert(cvarTbl, cvarFs:format(v.command, defaultValue or "", v.category, tostring(server), tostring(character), helpString))
+			if not v.command:find("^CACHE") then -- these just keep switching between false/nil
+				local _, defaultValue, server, character = GetCVarInfo(v.command)
+				-- every time they change the category they seem to lose the help text
+				local helpString = v.help and #v.help > 0 and v.help:gsub('"', '\\"') or self.cvars.ptr.var[v.command].help or ""
+				tinsert(cvarTbl, cvarFs:format(v.command, defaultValue or "", v.category, tostring(server), tostring(character), helpString))
+			end
 		elseif v.commandType == Enum.ConsoleCommandType.Command then
 			tinsert(commandTbl, commandFs:format(v.command, v.category, v.help or ""))
 		end

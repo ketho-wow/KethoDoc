@@ -1,5 +1,5 @@
 -- deprecated / script wrapper API
-local SystemBlacklist = {
+local blacklist = {
 	C_AreaPoiInfo = {
 		GetAreaPOITimeLeft = true,
 	},
@@ -159,7 +159,7 @@ function KethoDoc:GetApiSystemFuncs()
 	for systemName, v in pairs(_G) do
 		if systemName:find("^C_") and type(v) == "table" then
 			for funcName in pairs(v) do
-				if not SystemBlacklist[systemName] or not SystemBlacklist[systemName][funcName] then
+				if not blacklist[systemName] or not blacklist[systemName][funcName] then
 					tinsert(t, format("%s.%s", systemName, funcName))
 				end
 			end

@@ -1,5 +1,5 @@
 ## Interface: 80200
-## Version: 1.2.4
+## Version: 1.2.5
 ## Title: KethoDoc
 
 editbox.lua
@@ -12,3 +12,4 @@ framexml_ptr.lua
 framexml_classic.lua
 widget.lua
 loadondemand.lua
+cvar_helpcache.lua
