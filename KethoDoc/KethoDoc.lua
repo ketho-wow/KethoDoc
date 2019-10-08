@@ -245,6 +245,7 @@ function KethoDoc:DumpLuaEnums()
 		if not NumEnumCache[numEnum] then
 			eb:InsertLine(format("%s = %d", numEnum, _G[numEnum]))
 		end
+	end
 
 	-- print not yet grouped enums
 	if #EnumUngrouped > 0 then
@@ -255,7 +256,6 @@ function KethoDoc:DumpLuaEnums()
 		for _, enum in pairs(EnumUngrouped) do
 			eb:InsertLine(format("%s = %d", enum[1], enum[2]))
 		end
-	end
 	end
 end
 
