@@ -17,7 +17,7 @@ KethoDoc.LoadOnDemand.live = {
 	"Blizzard_ArchaeologyUI",
 	"Blizzard_ArenaUI",
 	"Blizzard_ArtifactUI",
-	"Blizzard_AuctionUI",
+	"Blizzard_AuctionHouseUI",
 	"Blizzard_AzeriteEssenceUI",
 	"Blizzard_AzeriteRespecUI",
 	"Blizzard_AzeriteUI",
