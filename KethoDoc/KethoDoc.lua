@@ -5,7 +5,7 @@ local eb = KethoEditBox
 local build = select(4, GetBuildInfo())
 local branches = {
 	[80205] = "live",
-	--[80205] = "ptr",
+	[80300] = "ptr",
 	[11302] = "classic",
 }
 
@@ -161,6 +161,7 @@ function KethoDoc:DumpCVars()
 	eb:InsertLine("\t},\n}\n\nreturn CVars")
 end
 
+-- kind of messy
 function KethoDoc:DumpLuaEnums()
 	-- Enum table
 	eb:Show()
@@ -187,33 +188,74 @@ function KethoDoc:DumpLuaEnums()
 	end
 	eb:InsertLine("}\n")
 
-	-- NUM_LE_* globals
-	local NumLuaEnum, LuaEnum = {}, {}
-	for enumType, enumValue in pairs(_G) do
-		if enumType:find("^NUM_LE_") then
-			tinsert(NumLuaEnum, {enumType, enumValue})
-		end
-	end
-	sort(NumLuaEnum, function(a, b)
-		return a[1] < b[1]
-	end)
-	for _, enum in pairs(NumLuaEnum) do
-		eb:InsertLine(format("%s = %d", enum[1], enum[2]))
-	end
-	eb:InsertLine("")
-
+	local EnumGroup, EnumGroupSorted = {}, {}
+	local EnumUngrouped = {}
 	-- LE_* globals
 	for enumType, enumValue in pairs(_G) do
 		if enumType:find("^LE_") and not enumType:find("GAME_ERR") then
-			tinsert(LuaEnum, {enumType, enumValue})
+			-- try to group enums together so we can sort by value
+			local found
+			for group in pairs(self.EnumGroups) do
+				if enumType:find("^"..group) then
+					EnumGroup[group] = EnumGroup[group] or {}
+					tinsert(EnumGroup[group], {enumType, enumValue})
+					found = true
+					break
+				end
+			end
+			if not found then
+				tinsert(EnumUngrouped, {enumType, enumValue})
+			end
 		end
 	end
-	-- cba to filter by enum value and group, too difficult
-	sort(LuaEnum, function(a, b)
-		return a[1] < b[1]
-	end)
-	for _, enum in pairs(LuaEnum) do
-		eb:InsertLine(format("%s = %d", enum[1], enum[2]))
+	-- sort groups by name
+	for groupName in pairs(EnumGroup) do
+		tinsert(EnumGroupSorted, groupName)
+	end
+	sort(EnumGroupSorted)
+	-- sort values in groups
+	for group, tbl in pairs(EnumGroup) do
+		sort(tbl, function(a, b)
+			return a[2] < b[2]
+		end)
+	end
+	-- print group enums
+	for _, group in pairs(EnumGroupSorted) do
+		local numEnum = self.EnumGroups[group]
+		if type(numEnum) == "string" then
+			eb:InsertLine(format("%s = %d", numEnum, _G[numEnum]))
+		end
+		for _, values in pairs(EnumGroup[group]) do
+			eb:InsertLine(format("%s = %d", values[1], values[2]))
+		end
+		eb:InsertLine("")
+	end
+
+	-- print any NUM_LE_* globals not belonging to a group
+	local NumLuaEnum, NumEnumCache = {}, {}
+	for enum, value in pairs(_G) do
+		if enum:find("^NUM_LE_") then
+			NumLuaEnum[enum] = value
+		end
+	end
+	for _, numEnum in pairs(self.EnumGroups) do
+		NumEnumCache[numEnum] = true
+	end
+	for numEnum in pairs(NumLuaEnum) do
+		if not NumEnumCache[numEnum] then
+			eb:InsertLine(format("%s = %d", numEnum, _G[numEnum]))
+		end
+
+	-- print not yet grouped enums
+	if #EnumUngrouped > 0 then
+		eb:InsertLine("\n-- to be categorized")
+		sort(EnumUngrouped, function(a, b)
+			return a[1] < b[1]
+		end)
+		for _, enum in pairs(EnumUngrouped) do
+			eb:InsertLine(format("%s = %d", enum[1], enum[2]))
+		end
+	end
 	end
 end
 

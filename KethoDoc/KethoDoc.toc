@@ -1,4 +1,4 @@
-## Interface: 80200
+## Interface: 80205
 ## Version: 1.2.5
 ## Title: KethoDoc
 
@@ -13,3 +13,4 @@ framexml_classic.lua
 widget.lua
 loadondemand.lua
 cvar_helpcache.lua
+lua_enum.lua
