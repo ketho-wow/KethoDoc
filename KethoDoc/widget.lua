@@ -374,9 +374,9 @@ function KethoDoc:SetupWidgets()
 			unique_handlers = function() return self:RemoveTable(W.WorldFrame.handlers, W.Frame.handlers) end,
 		},
 		ModelSceneActor = {
-			inherits = {"Object"},
+			inherits = {"UIObject"},
 			object = CreateFrame("ModelScene"):CreateActor(),
-			unique_methods = function() return self:RemoveTable(W.ModelSceneActor.meta_object, W.Object.meta_object()) end,
+			unique_methods = function() return self:RemoveTable(W.ModelSceneActor.meta_object, W.UIObject.meta_object()) end,
 			unique_handlers = function()
 				return { -- can only set these from XML
 					OnModelLoading = true,
