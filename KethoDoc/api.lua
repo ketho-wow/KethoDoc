@@ -1,5 +1,12 @@
 -- deprecated / script wrapper API
-local blacklist = {
+local augments = {
+	C_Timer = {
+		NewTicker = true,
+		NewTimer = true,
+	}
+}
+
+local deprecated = {
 	C_AreaPoiInfo = {
 		GetAreaPOITimeLeft = true,
 	},
@@ -32,11 +39,11 @@ local blacklist = {
 		GetScreenshotByIndex = true,
 		GetNumCharactersPerMedia = true,
 	},
-	C_Timer = {
-		NewTicker = true,
-		NewTimer = true,
-	}
+	C_Timer = augments.C_Timer,
 }
+
+local IsClassic = (KethoDoc.branch == "classic")
+local blacklist = IsClassic and augments or deprecated
 
 KethoDoc.FrameXmlBlacklist = {
 	-- these globals are set through _G instead
