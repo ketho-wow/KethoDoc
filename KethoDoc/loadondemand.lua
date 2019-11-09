@@ -78,6 +78,7 @@ KethoDoc.LoadOnDemand.live = {
 }
 
 KethoDoc.LoadOnDemand.ptr = {
+	"Blizzard_ItemInteractionUI",
 }
 
 for _, v in pairs(KethoDoc.LoadOnDemand.live) do
