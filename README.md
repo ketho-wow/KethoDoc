@@ -4,7 +4,6 @@ Every patch `framexml_<branch>.lua` has to be manually updated by running [FindG
 | Function | Description   
 | --- | ---
 | `KethoDoc:DumpGlobalAPI()` | Dumps WoW API
-| `KethoDoc:DumpLuaAPI()`    | Dumps Lua API
 | `KethoDoc:DumpWidgetAPI()` | Dumps Widget API
 | `KethoDoc:DumpEvents()`    | Dumps Events by API system
 | `KethoDoc:DumpCVars()`     | Dumps Console Variables and Commands

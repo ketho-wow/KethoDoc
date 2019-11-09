@@ -30,7 +30,10 @@ function KethoDoc:DumpGlobalAPI()
 	for _, apiName in pairs(api) do
 		eb:InsertLine(format('\t"%s",', apiName))
 	end
-	eb:InsertLine("}\n\nreturn GlobalAPI")
+	eb:InsertLine("}\n")
+	self:DumpLuaAPI()
+
+	eb:InsertLine("}\n\nreturn GlobalAPI, LuaAPI")
 end
 
 function KethoDoc:DumpLuaAPI()
@@ -48,12 +51,12 @@ function KethoDoc:DumpLuaAPI()
 	end
 	sort(api)
 
-	eb:Show()
+	--eb:Show()
 	eb:InsertLine("local LuaAPI = {")
 	for _, apiName in pairs(api) do
 		eb:InsertLine(format('\t"%s",', apiName))
 	end
-	eb:InsertLine("}\n\nreturn LuaAPI")
+	--eb:InsertLine("}\n\nreturn LuaAPI")
 end
 
 -- wannabe table serializer
