@@ -26,7 +26,6 @@ if KethoDoc.branch ~= "live" then
 	return
 end
 
--- 8.2.5 (30921)
 KethoDoc.FrameXML.live = {
 	ACCOUNTNAME_BUTTON_HEIGHT = true,
 	ACCOUNT_BINDINGS = true,
@@ -9603,6 +9602,7 @@ KethoDoc.FrameXML.live = {
 	ToggleChatMessageGroup = true,
 	ToggleCollectionsJournal = true,
 	ToggleCommunitiesFrame = true,
+	ToggleCommunityFinder = true,
 	ToggleDropDownMenu = true,
 	ToggleEncounterJournal = true,
 	ToggleFrame = true,
