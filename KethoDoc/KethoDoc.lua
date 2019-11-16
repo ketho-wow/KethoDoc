@@ -299,3 +299,22 @@ function KethoDoc:DumpFrameXML()
 	end
 	eb:InsertLine("}\n\nreturn FrameXML")
 end
+
+local currentDump = 0
+local api = {
+	"DumpGlobalAPI",
+	"DumpWidgetAPI",
+	"DumpEvents",
+	"DumpCVars",
+	"DumpLuaEnums",
+	"DumpFrames",
+	"DumpFrameXML",
+}
+
+function KethoDoc:LazyDump()
+	currentDump = currentDump + 1
+	local func = self[api[currentDump]]
+	if func then
+		func(self)
+	end
+end

@@ -17,7 +17,7 @@ KethoDoc.LoadOnDemand.live = {
 	"Blizzard_ArchaeologyUI",
 	"Blizzard_ArenaUI",
 	"Blizzard_ArtifactUI",
-	"Blizzard_AuctionHouseUI",
+	"Blizzard_AuctionUI",
 	"Blizzard_AzeriteEssenceUI",
 	"Blizzard_AzeriteRespecUI",
 	"Blizzard_AzeriteUI",
@@ -78,6 +78,7 @@ KethoDoc.LoadOnDemand.live = {
 }
 
 KethoDoc.LoadOnDemand.ptr = {
+	"Blizzard_AuctionHouseUI",
 	"Blizzard_ItemInteractionUI",
 }
 
