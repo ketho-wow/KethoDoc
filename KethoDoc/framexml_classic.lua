@@ -3,7 +3,6 @@ if KethoDoc.branch ~= "classic" then
 	return
 end
 
--- 1.13.2 (31402)
 KethoDoc.FrameXML.classic = {
 	ACCOUNTNAME_BUTTON_HEIGHT = true,
 	ACCOUNT_BINDINGS = true,
