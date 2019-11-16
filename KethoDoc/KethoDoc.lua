@@ -137,7 +137,8 @@ function KethoDoc:DumpCVars()
 			if not v.command:find("^CACHE") then -- these just keep switching between false/nil
 				local _, defaultValue, server, character = GetCVarInfo(v.command)
 				-- every time they change the category they seem to lose the help text
-				local helpString = v.help and #v.help > 0 and v.help:gsub('"', '\\"') or self.cvars.ptr.var[v.command][5] or ""
+				local backupDesc = self.cvars.ptr.var[v.command]
+				local helpString = v.help and #v.help > 0 and v.help:gsub('"', '\\"') or backupDesc and backupDesc[5] or ""
 				tinsert(cvarTbl, cvarFs:format(v.command, defaultValue or "", v.category, tostring(server), tostring(character), helpString))
 			end
 		elseif v.commandType == Enum.ConsoleCommandType.Command then
