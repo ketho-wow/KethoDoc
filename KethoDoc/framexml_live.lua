@@ -1,25 +1,3 @@
---[[
-* Get FrameXML
-	- https://wow.gamepedia.com/Viewing_Blizzard%27s_interface_code
-		ExportInterfaceFiles code
-
-	- Mirrors
-		https://www.townlong-yak.com/framexml
-		https://github.com/Gethe/wow-ui-source
-
-	- Convert any UTF-8-BOM encoded files to UTF-8 to make them readable
-
-* Find all FrameXML SETGLOBALfile globals with FindGlobals
-	https://www.wowace.com/projects/findglobals
-
-* PowerShell script has to be run in the directory
-
-Get-ChildItem -Recurse -Name -Filter *.lua |
-	Foreach-Object {luac5.1 -l -p $_ |
-	lua5.1 "D:\findglobals\globals.lua" $_} |
-	Out-File -FilePath API_live.txt
-]]
-
 KethoDoc.FrameXML = {}
 
 if KethoDoc.branch ~= "live" then
