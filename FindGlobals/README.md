@@ -9,5 +9,5 @@
 Get-ChildItem -Recurse -Name -Filter *.lua |
 	Foreach-Object {luac5.1 -l -p $_ |
 	lua5.1 "D:\findglobals\globals.lua" $_} |
-	Out-File -FilePath API_live.txt
+	Out-File -FilePath API.txt
 ```
