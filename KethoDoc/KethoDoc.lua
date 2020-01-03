@@ -33,7 +33,7 @@ function KethoDoc:DumpGlobalAPI()
 	eb:InsertLine("}\n")
 	self:DumpLuaAPI()
 
-	eb:InsertLine("}\n\nreturn GlobalAPI, LuaAPI")
+	eb:InsertLine("}\n\nreturn {GlobalAPI, LuaAPI}")
 end
 
 function KethoDoc:DumpLuaAPI()
