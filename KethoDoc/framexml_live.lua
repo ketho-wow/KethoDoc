@@ -2828,6 +2828,7 @@ KethoDoc.FrameXML.live = {
 	CompactUnitFrame_Util_IsPriorityDebuff = true,
 	CompactUnitFrame_Util_ShouldDisplayDebuff = true,
 	ComputePetBonus = true,
+	ConfirmAuctionPosting = true,
 	ConfirmBNJoinGroupRequestDialogMixin = true,
 	ConfirmInviteToGroupDialogMixin = true,
 	ConfirmInviteToGroupReceivedDialogMixin = true,
