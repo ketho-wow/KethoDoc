@@ -306,6 +306,7 @@ end
 
 local currentDump = 0
 local api = {
+	"GetBuildInfo",
 	"DumpGlobalAPI",
 	"DumpWidgetAPI",
 	"DumpEvents",
@@ -314,6 +315,13 @@ local api = {
 	"DumpFrames",
 	"DumpFrameXML",
 }
+
+function KethoDoc:GetBuildInfo()
+	local fs = 'GetBuildInfo() => "%s", "%s", "%s", %d'
+	eb:Show()
+	eb:InsertLine(fs:format(GetBuildInfo()))
+end
+
 
 function KethoDoc:LazyDump()
 	currentDump = currentDump + 1
