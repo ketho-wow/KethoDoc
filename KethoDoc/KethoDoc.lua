@@ -2,13 +2,13 @@
 KethoDoc = {}
 local eb = KethoEditBox
 
-local build = select(4, GetBuildInfo())
-
-if IsPublicBuild() then
-	KethoDoc.branch = "live"
-elseif IsTestBuild() then
-	KethoDoc.branch = "ptr"
-elseif build == 11303 then
+if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+	if IsPublicBuild() then
+		KethoDoc.branch = "live"
+	elseif IsTestBuild() then
+		KethoDoc.branch = "ptr"
+	end
+elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 	KethoDoc.branch = "classic"
 end
 
