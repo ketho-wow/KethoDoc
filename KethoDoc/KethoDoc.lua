@@ -3,13 +3,14 @@ KethoDoc = {}
 local eb = KethoEditBox
 
 local build = select(4, GetBuildInfo())
-local branches = {
-	[80300] = "live",
-	--[80300] = "ptr",
-	[11303] = "classic",
-}
 
-KethoDoc.branch = branches[build]
+if IsPublicBuild() then
+	KethoDoc.branch = "live"
+elseif IsTestBuild() then
+	KethoDoc.branch = "ptr"
+elseif build == 11303 then
+	KethoDoc.branch = "classic"
+end
 
 function KethoDoc:DumpGlobalAPI()
 	local frameXML = CopyTable(self.FrameXML[self.branch])
