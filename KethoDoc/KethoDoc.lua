@@ -4,8 +4,8 @@ local eb = KethoEditBox
 
 local build = select(4, GetBuildInfo())
 local branches = {
-	[80205] = "live",
-	[80300] = "ptr",
+	[80300] = "live",
+	--[80300] = "ptr",
 	[11303] = "classic",
 }
 
