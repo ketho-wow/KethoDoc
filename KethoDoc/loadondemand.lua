@@ -8,16 +8,16 @@ function KethoDoc:LoadLodAddons()
 	end
 end
 
--- 8.2.0.30918
+-- 8.3.0.33051
 KethoDoc.LoadOnDemand.live = {
+	"Blizzard_APIDocumentation",
 	"Blizzard_AchievementUI",
 	"Blizzard_AdventureMap",
 	"Blizzard_AlliedRacesUI",
-	"Blizzard_APIDocumentation",
 	"Blizzard_ArchaeologyUI",
 	"Blizzard_ArenaUI",
 	"Blizzard_ArtifactUI",
-	"Blizzard_AuctionUI",
+	"Blizzard_AuctionHouseUI",
 	"Blizzard_AzeriteEssenceUI",
 	"Blizzard_AzeriteRespecUI",
 	"Blizzard_AzeriteUI",
@@ -39,10 +39,10 @@ KethoDoc.LoadOnDemand.live = {
 	"Blizzard_DebugTools",
 	"Blizzard_EncounterJournal",
 	"Blizzard_FlightMap",
-	"Blizzard_GarrisonTemplates",
-	"Blizzard_GarrisonUI",
 	"Blizzard_GMChatUI",
 	"Blizzard_GMSurveyUI",
+	"Blizzard_GarrisonTemplates",
+	"Blizzard_GarrisonUI",
 	"Blizzard_GuildBankUI",
 	"Blizzard_GuildControlUI",
 	"Blizzard_GuildRecruitmentUI",
@@ -50,6 +50,7 @@ KethoDoc.LoadOnDemand.live = {
 	"Blizzard_InspectUI",
 	"Blizzard_IslandsPartyPoseUI",
 	"Blizzard_IslandsQueueUI",
+	"Blizzard_ItemInteractionUI",
 	"Blizzard_ItemSocketingUI",
 	"Blizzard_ItemUpgradeUI",
 	"Blizzard_LookingForGuildUI",
@@ -58,8 +59,8 @@ KethoDoc.LoadOnDemand.live = {
 	"Blizzard_MovePad",
 	"Blizzard_ObliterumUI",
 	"Blizzard_OrderHallUI",
-	"Blizzard_PartyPoseUI",
 	"Blizzard_PVPUI",
+	"Blizzard_PartyPoseUI",
 	"Blizzard_QuestChoice",
 	"Blizzard_RaidUI",
 	"Blizzard_ScrappingMachineUI",
@@ -78,8 +79,6 @@ KethoDoc.LoadOnDemand.live = {
 }
 
 KethoDoc.LoadOnDemand.ptr = {
-	"Blizzard_AuctionHouseUI",
-	"Blizzard_ItemInteractionUI",
 }
 
 for _, v in pairs(KethoDoc.LoadOnDemand.live) do
