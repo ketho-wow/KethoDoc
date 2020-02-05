@@ -12,6 +12,5 @@ framexml_ptr.lua
 framexml_classic.lua
 widget.lua
 loadondemand.lua
-cvarcache_live.lua
-cvarcache_ptr.lua
+cvarcache.lua
 lua_enum.lua
