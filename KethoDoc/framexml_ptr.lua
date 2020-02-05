@@ -9156,6 +9156,7 @@ KethoDoc.FrameXML.ptr = {
 	SplashFrameStartButton_OnClick = true,
 	SplashFrame_Close = true,
 	SplashFrame_Display = true,
+	SplashFrame_GetShowTag = true,
 	SplashFrame_OnEvent = true,
 	SplashFrame_OnHide = true,
 	SplashFrame_OnLoad = true,
