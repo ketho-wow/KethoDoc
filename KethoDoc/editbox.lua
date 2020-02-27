@@ -65,11 +65,11 @@ function KethoEditBox:Create()
 	end)
 end
 
-function KethoEditBox:Show()
+function KethoEditBox:Show(text)
 	if not self.EditBox then
 		self:Create()
 	end
-	self.EditBox:SetText("")
+	self.EditBox:SetText(text or "")
 	self.Frame:Show()
 end
 
