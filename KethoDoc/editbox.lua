@@ -13,7 +13,7 @@ function KethoEditBox:Create()
 		edgeSize = 16,
 		insets = { left = 8, right = 6, top = 8, bottom = 8 },
 	})
-	f:SetBackdropBorderColor(0, .44, .87, 0.5) -- darkblue
+	f:SetBackdropBorderColor(0, .44, .87, .5) -- darkblue
 
 	-- Movable
 	f:SetMovable(true)
