@@ -1,4 +1,5 @@
- -- get framexml data before any loadondemand addons load
+-- get framexml data before any loadondemand addons load
+KethoDoc:PreloadFrames()
 KethoDoc:PreloadFrameXML()
 
 KethoDoc.LoadOnDemand = {}

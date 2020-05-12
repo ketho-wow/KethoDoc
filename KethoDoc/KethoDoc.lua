@@ -264,50 +264,69 @@ function KethoDoc:DumpLuaEnums()
 	end
 end
 
-function KethoDoc:DumpFrames()
-	self:LoadLodAddons()
-	local frames = {}
+function KethoDoc:PreloadFrames()
+	self.frames = {}
 	for _, v in pairs(_G) do
 		-- cant interact with forbidden frames; only check for named frames
 		if type(v) == "table" and v.IsForbidden and not v:IsForbidden() and v:GetName() then
 			local parent = v:GetParent()
 			if not parent or (parent == UIParent) or (parent == WorldFrame) then
-				frames[v:GetDebugName()] = true
+				self.frames[v:GetDebugName()] = true
 			end
 		end
 	end
+end
+
+function KethoDoc:DumpFrames()
+	self:LoadLodAddons()
+	local lodframes = {}
+	for _, v in pairs(_G) do
+		if type(v) == "table" and v.IsForbidden and not v:IsForbidden() and v:GetName() then
+			local parent = v:GetParent()
+			local name = v:GetDebugName()
+			if not self.frames[name] and (not parent or (parent == UIParent) or (parent == WorldFrame)) then
+				tinsert(lodframes, name)
+			end
+		end
+	end
+	local frames = self:SortTable(self.frames)
+	sort(lodframes)
+
 	eb:Show()
 	eb:InsertLine("local Frames = {")
-	for _, name in pairs(self:SortTable(frames)) do
+	for _, name in pairs(frames) do
 		eb:InsertLine(format('\t"%s",', name))
 	end
-	eb:InsertLine("}\n\nreturn Frames")
+	eb:InsertLine("}\n\nlocal LodFrames = {")
+	for _, name in pairs(lodframes) do
+		eb:InsertLine(format('\t"%s",', name))
+	end
+	eb:InsertLine("}\n\nreturn {Frames, LodFrames}")
 end
 
 function KethoDoc:PreloadFrameXML()
-	self.funcs, self.funcHash = {}, {}
+	self.funcs = {}
 	for k in pairs(KethoDoc.FrameXML[KethoDoc.branch]) do
 		if type(_G[k]) == "function" then
-			tinsert(self.funcs, k)
-			self.funcHash[k] = true
+			self.funcs[k] = true
 		end
 	end
-	sort(self.funcs)
 end
 
 function KethoDoc:DumpFrameXML()
 	self:LoadLodAddons()
 	local lodfuncs = {}
 	for k in pairs(self.FrameXML[self.branch]) do
-		if not self.funcHash[k] and type(_G[k]) == "function" then
+		if not self.funcs[k] and type(_G[k]) == "function" then
 			tinsert(lodfuncs, k)
 		end
 	end
+	local funcs = self:SortTable(self.funcs)
 	sort(lodfuncs)
 
 	eb:Show()
 	eb:InsertLine("local FrameXML = {")
-	for _, name in pairs(self.funcs) do
+	for _, name in pairs(funcs) do
 		eb:InsertLine(format('\t"%s",', name))
 	end
 	eb:InsertLine("}\n\nlocal LodFrameXML = {")
