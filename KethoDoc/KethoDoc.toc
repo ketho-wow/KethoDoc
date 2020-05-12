@@ -1,5 +1,5 @@
 ## Interface: 80300
-## Version: 1.2.7
+## Version: 1.2.9
 ## Title: KethoDoc
 
 editbox.lua
