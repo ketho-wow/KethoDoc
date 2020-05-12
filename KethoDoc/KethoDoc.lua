@@ -285,21 +285,34 @@ function KethoDoc:DumpFrames()
 end
 
 function KethoDoc:DumpFrameXML()
-	self:LoadLodAddons()
-	local funcs = {}
+	local funcs, funcHash = {}, {}
 	for k in pairs(self.FrameXML[self.branch]) do
 		if type(_G[k]) == "function" then
 			tinsert(funcs, k)
+			funcHash[k] = true
 		end
 	end
 	sort(funcs)
+	self:LoadLodAddons()
+	local lodfuncs = {}
+	for k in pairs(self.FrameXML[self.branch]) do
+		if not funcHash[k] and type(_G[k]) == "function" then
+			tinsert(lodfuncs, k)
+		end
+	end
+	sort(lodfuncs)
 
 	eb:Show()
 	eb:InsertLine("local FrameXML = {")
 	for _, name in pairs(funcs) do
 		eb:InsertLine(format('\t"%s",', name))
 	end
-	eb:InsertLine("}\n\nreturn FrameXML")
+	eb:InsertLine("}\n\n-- LoadOnDemand addons that are not loaded during initial load")
+	eb:InsertLine("local LodFrameXML = {")
+	for _, name in pairs(lodfuncs) do
+		eb:InsertLine(format('\t"%s",', name))
+	end
+	eb:InsertLine("}\n\nreturn {FrameXML, LodFrameXML}")
 end
 
 local currentDump = 0
