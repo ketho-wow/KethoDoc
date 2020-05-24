@@ -151,6 +151,10 @@ KethoDoc.LuaAPI = { -- see compat.lua
 	xpcall = true,
 }
 
+KethoDoc.LuaApiBlacklist = {
+	["string.rtgsub"] = true, -- RestrictedTable_rtgsub()
+}
+
 function KethoDoc:GetGlobalFuncs()
 	local t = {}
 	for k, v in pairs(_G) do

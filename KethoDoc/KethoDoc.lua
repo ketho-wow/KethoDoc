@@ -50,6 +50,11 @@ function KethoDoc:DumpLuaAPI()
 			end
 		end
 	end
+	for i, funcName in pairs(api) do
+		if self.LuaApiBlacklist[funcName] then
+			table.remove(api, i)
+		end
+	end
 	sort(api)
 
 	--eb:Show()
