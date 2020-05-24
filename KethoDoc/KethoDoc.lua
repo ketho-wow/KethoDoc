@@ -50,11 +50,7 @@ function KethoDoc:DumpLuaAPI()
 			end
 		end
 	end
-	for i, funcName in pairs(api) do
-		if self.LuaApiBlacklist[funcName] then
-			table.remove(api, i)
-		end
-	end
+	tDeleteItem(api, "string.rtgsub") -- RestrictedTable_rtgsub()
 	sort(api)
 
 	--eb:Show()
