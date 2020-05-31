@@ -168,13 +168,15 @@ function KethoDoc:DumpCVars()
 end
 
 -- kind of messy
-function KethoDoc:DumpLuaEnums()
+function KethoDoc:DumpLuaEnums(filterMeta)
 	-- Enum table
 	eb:Show()
 	eb:InsertLine("Enum = {")
 	local enums = {}
 	for name in pairs(Enum) do
-		tinsert(enums, name)
+		if not filterMeta or not name:find("Meta$") then
+			tinsert(enums, name)
+		end
 	end
 	sort(enums)
 
