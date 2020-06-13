@@ -300,11 +300,11 @@ function KethoDoc:DumpFrames()
 	for _, name in pairs(frames) do
 		eb:InsertLine(format('\t"%s",', name))
 	end
-	eb:InsertLine("}\n\nlocal LodFrames = {")
+	eb:InsertLine("}\n\nlocal LoadOnDemand = {")
 	for _, name in pairs(lodframes) do
 		eb:InsertLine(format('\t"%s",', name))
 	end
-	eb:InsertLine("}\n\nreturn {Frames, LodFrames}")
+	eb:InsertLine("}\n\nreturn {Frames, LoadOnDemand}")
 end
 
 function KethoDoc:PreloadFrameXML()
@@ -332,11 +332,11 @@ function KethoDoc:DumpFrameXML()
 	for _, name in pairs(funcs) do
 		eb:InsertLine(format('\t"%s",', name))
 	end
-	eb:InsertLine("}\n\nlocal LodFrameXML = {")
+	eb:InsertLine("}\n\nlocal LoadOnDemand = {")
 	for _, name in pairs(lodfuncs) do
 		eb:InsertLine(format('\t"%s",', name))
 	end
-	eb:InsertLine("}\n\nreturn {FrameXML, LodFrameXML}")
+	eb:InsertLine("}\n\nreturn {FrameXML, LoadOnDemand}")
 end
 
 local currentDump = 0
