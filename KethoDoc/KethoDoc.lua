@@ -131,6 +131,7 @@ end
 
 function KethoDoc:DumpCVars()
 	local cvarTbl, commandTbl = {}, {}
+	local test_cvarTbl, test_commandTbl = {}, {}
 	local cvarFs = '\t\t["%s"] = {"%s", %d, %s, %s, "%s"},'
 	local commandFs = '\t\t["%s"] = {%d, "%s"},'
 
@@ -139,16 +140,19 @@ function KethoDoc:DumpCVars()
 			if not v.command:find("^CACHE") then -- these just keep switching between false/nil
 				local _, defaultValue, server, character = GetCVarInfo(v.command)
 				-- every time they change the category they seem to lose the help text
-				local backupDesc = self.cvars[v.command]
+				local backupDesc = self.cvar_cache[v.command]
 				local helpString = v.help and #v.help > 0 and v.help:gsub('"', '\\"') or backupDesc or ""
-				tinsert(cvarTbl, cvarFs:format(v.command, defaultValue or "", v.category, tostring(server), tostring(character), helpString))
+				local tbl = self.cvar_test[v.command] and test_cvarTbl or cvarTbl
+				tinsert(tbl, cvarFs:format(v.command, defaultValue or "", v.category, tostring(server), tostring(character), helpString))
 			end
 		elseif v.commandType == Enum.ConsoleCommandType.Command then
-			tinsert(commandTbl, commandFs:format(v.command, v.category, v.help or ""))
+			local tbl = self.cvar_test[v.command] and test_commandTbl or commandTbl
+			tinsert(tbl, commandFs:format(v.command, v.category, v.help or ""))
 		end
 	end
-	sort(cvarTbl, self.SortCaseInsensitive)
-	sort(commandTbl, self.SortCaseInsensitive)
+	for _, t in pairs({cvarTbl, commandTbl, test_cvarTbl, test_commandTbl}) do
+		sort(t, self.SortCaseInsensitive)
+	end
 
 	eb:Show()
 	eb:InsertLine("local CVars = {")
@@ -164,7 +168,25 @@ function KethoDoc:DumpCVars()
 	for _, command in pairs(commandTbl) do
 		eb:InsertLine(command)
 	end
-	eb:InsertLine("\t},\n}\n\nreturn CVars")
+	eb:InsertLine("\t},\n}\n")
+
+	if #test_cvarTbl > 0 then
+		eb:InsertLine("local PTR = {")
+		eb:InsertLine("\tvar = {")
+		for _, cvar in pairs(test_cvarTbl) do
+			eb:InsertLine(cvar)
+		end
+		eb:InsertLine("\t},")
+		eb:InsertLine("\tcommand = {")
+		for _, command in pairs(test_commandTbl) do
+			eb:InsertLine(command)
+		end
+	else
+		eb:InsertLine("local PTR = {}")
+	end
+
+	eb:InsertLine("\t},\n}\n")
+	eb:InsertLine("return {CVars, PTR}")
 end
 
 -- kind of messy

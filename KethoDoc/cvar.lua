@@ -1,6 +1,6 @@
 -- every time they change the category they seem to lose the help text
 -- keep our own local copy as a backup
-KethoDoc.cvars = {
+KethoDoc.cvar_cache = {
 	ActionButtonUseKeyDown = "Activate the action button on a keydown",
 	actionedAdventureJournalEntries = "Which adventure journal entries flagged with ADVENTURE_JOURNAL_HIDE_AFTER_ACTION the user acted upon",
 	activeCUFProfile = "The last active CUF Profile.",
@@ -194,6 +194,7 @@ KethoDoc.cvars = {
 	graphicsLiquidDetail = "UI value of the graphics setting",
 	graphicsParticleDensity = "UI value of the graphics setting",
 	graphicsProjectedTextures = "UI value of the graphics setting",
+	graphicsQuality = "save for Graphics Quality Selection",
 	graphicsShadowQuality = "UI value of the graphics setting",
 	graphicsSSAO = "UI value of the graphics setting",
 	graphicsSunshafts = "UI value of the graphics setting",
@@ -704,4 +705,25 @@ KethoDoc.cvars = {
 	worldQuestFilterResources = "If enabled, world quests with order resource rewards or war resource rewards will be shown on the map",
 	worldViewCullMaxJobs = "Maximum job threads for culling",
 	xpBarText = "Whether the XP bar shows the numeric experience value",
+}
+
+KethoDoc.cvar_test = {
+	-- cvars
+	agentLogLevel = true,
+	debugAllocSingleBlade = true,
+	debugAllocTrackStacktrace = true,
+	debugLog0 = true,
+	debugLog1 = true,
+	debugLog2 = true,
+	enableRefHistory = true,
+	ErrorFileLog = true,
+	useDebugAllocators = true,
+	-- commands
+	HeapUsage = true,
+	HeapUsage2 = true,
+	HeapUsage3 = true,
+	logWowConnections = true,
+	MemTimings = true,
+	memTypeUsage = true,
+	MemUsage = true,
 }
