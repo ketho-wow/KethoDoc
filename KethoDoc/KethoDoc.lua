@@ -150,8 +150,8 @@ function KethoDoc:DumpCVars()
 			tinsert(tbl, commandFs:format(v.command, v.category, v.help or ""))
 		end
 	end
-	for _, t in pairs({cvarTbl, commandTbl, test_cvarTbl, test_commandTbl}) do
-		sort(t, self.SortCaseInsensitive)
+	for _, tbl in pairs({cvarTbl, commandTbl, test_cvarTbl, test_commandTbl}) do
+		sort(tbl, self.SortCaseInsensitive)
 	end
 
 	eb:Show()
@@ -181,12 +181,12 @@ function KethoDoc:DumpCVars()
 		for _, command in pairs(test_commandTbl) do
 			eb:InsertLine(command)
 		end
+		eb:InsertLine("\t},\n}")
 	else
 		eb:InsertLine("local PTR = {}")
 	end
 
-	eb:InsertLine("\t},\n}\n")
-	eb:InsertLine("return {CVars, PTR}")
+	eb:InsertLine("\nreturn {CVars, PTR}")
 end
 
 -- kind of messy
