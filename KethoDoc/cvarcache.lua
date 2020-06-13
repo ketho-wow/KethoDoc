@@ -369,6 +369,7 @@ KethoDoc.cvars = {
 	raidFramesHeight = "The height of the individual raid frames",
 	raidFramesPosition = "Where the raid frames should be placed",
 	raidFramesWidth = "The width of the individual raid frames",
+	RAIDgraphicsQuality = "save for Raid Graphics Quality Selection",
 	RAIDgroundEffectFade = "Raid Ground effect fade",
 	raidOptionDisplayMainTankAndAssist = "Whether to display main tank and main assist units in the raid frames",
 	raidOptionDisplayPets = "Whether to display pets on the raid frames",
