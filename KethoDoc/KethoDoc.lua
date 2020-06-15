@@ -190,31 +190,38 @@ function KethoDoc:DumpCVars()
 end
 
 -- kind of messy
-function KethoDoc:DumpLuaEnums(filterMeta)
+function KethoDoc:DumpLuaEnums(isEmmyLua)
 	-- Enum table
 	eb:Show()
 	eb:InsertLine("Enum = {")
 	local enums = {}
 	for name in pairs(Enum) do
-		if not filterMeta or not name:find("Meta$") then
+		if not isEmmyLua or not name:find("Meta$") then
 			tinsert(enums, name)
 		end
 	end
 	sort(enums)
 
-	for _, name in pairs(enums) do
-		local TableEnum = {}
-		eb:InsertLine("\t"..name.." = {")
-		for enumType, enumValue in pairs(Enum[name]) do
-			tinsert(TableEnum, {enumType, enumValue})
+	if isEmmyLua then
+		for _, name in pairs(enums) do
+			eb:InsertLine("\t---@type "..name)
+			eb:InsertLine("\t"..name.." = {},\n")
 		end
-		sort(TableEnum, function(a, b)
-			return a[2] < b[2]
-		end)
-		for _, enum in pairs(TableEnum) do
-			eb:InsertLine(format("\t\t%s = %d,", enum[1], enum[2]))
+	else
+		for _, name in pairs(enums) do
+			local TableEnum = {}
+			eb:InsertLine("\t"..name.." = {")
+			for enumType, enumValue in pairs(Enum[name]) do
+				tinsert(TableEnum, {enumType, enumValue})
+			end
+			sort(TableEnum, function(a, b)
+				return a[2] < b[2]
+			end)
+			for _, enum in pairs(TableEnum) do
+				eb:InsertLine(format("\t\t%s = %d,", enum[1], enum[2]))
+			end
+			eb:InsertLine("\t},")
 		end
-		eb:InsertLine("\t},")
 	end
 	eb:InsertLine("}\n")
 
