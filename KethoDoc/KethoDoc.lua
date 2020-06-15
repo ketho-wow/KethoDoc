@@ -205,7 +205,7 @@ function KethoDoc:DumpLuaEnums(isEmmyLua)
 	if isEmmyLua then
 		for _, name in pairs(enums) do
 			eb:InsertLine("\t---@type "..name)
-			eb:InsertLine("\t"..name.." = {},\n")
+			eb:InsertLine("\t"..name.." = {},")
 		end
 	else
 		for _, name in pairs(enums) do
