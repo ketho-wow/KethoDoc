@@ -368,6 +368,31 @@ function KethoDoc:DumpFrameXML()
 	eb:InsertLine("}\n\nreturn {FrameXML, LoadOnDemand}")
 end
 
+-- api that is in C_ namespaces but not documented
+function KethoDoc:DumpNonBlizzardDocumented()
+	local BAD = {}
+	UIParentLoadAddOn("Blizzard_APIDocumentation")
+	for _, apiTable in pairs(APIDocumentation.functions) do
+		if apiTable.System.Namespace then
+			BAD[apiTable.System.Namespace.."."..apiTable.Name] = true
+		end
+	end
+
+	local systemAPI = {}
+	for _, name in pairs(self:GetApiSystemFuncs()) do
+		if not BAD[name] then
+			tinsert(systemAPI, name)
+		end
+	end
+
+	eb:Show()
+	eb:InsertLine("local NonDocumentedAPI = {")
+	for _, name in pairs(systemAPI) do
+		eb:InsertLine(format('\t"%s",', name))
+	end
+	eb:InsertLine("}\n\nreturn NonDocumentedAPI")
+end
+
 local currentDump = 0
 local api = {
 	"GetBuildInfo",
