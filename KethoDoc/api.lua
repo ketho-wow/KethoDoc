@@ -69,16 +69,20 @@ KethoDoc.FrameXmlBlacklist = {
 }
 
 KethoDoc.LuaAPI = { -- see compat.lua
+	bit = true,
+	coroutine = true,
+	math = true,
+	string = true,
+	table = true,
+
 	abs = true, -- math.abs
 	acos = true, -- function (x) return math.deg(math.acos(x)) end
 	asin = true, -- function (x) return math.deg(math.asin(x)) end
 	assert = true,
 	atan = true, -- function (x) return math.deg(math.atan(x)) end
 	atan2 = true, -- function (x,y) return math.deg(math.atan2(x,y)) end
-	--bit
 	ceil = true, -- math.ceil
 	collectgarbage = true,
-	--coroutine
 	cos = true, -- function (x) return math.cos(math.rad(x)) end
 	date = true,
 	deg = true, -- math.deg
@@ -103,7 +107,6 @@ KethoDoc.LuaAPI = { -- see compat.lua
 	log = true, -- math.log
 	log10 = true, -- math.log10
 	max = true, -- math.max
-	--math
 	min = true, -- math.min
 	mod = true, -- math.fmod
 	newproxy = true,
@@ -121,7 +124,6 @@ KethoDoc.LuaAPI = { -- see compat.lua
 	sin = true, -- function (x) return math.sin(math.rad(x)) end
 	sort = true, -- table.sort
 	sqrt = true, -- math.sqrt
-	--string
 	strbyte = true, -- string.byte
 	strchar = true, -- string.char
 	strcmputf8i = true, -- wow lua
@@ -138,7 +140,6 @@ KethoDoc.LuaAPI = { -- see compat.lua
 	strsub = true, -- string.sub
 	strtrim = true, -- string.trim; wow lua
 	strupper = true, -- string.upper
-	--table
 	tan = true, -- function (x) return math.tan(math.rad(x)) end
 	time = true,
 	tinsert = true, -- table.insert
