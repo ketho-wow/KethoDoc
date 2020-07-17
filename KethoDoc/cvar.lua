@@ -583,6 +583,7 @@ KethoDoc.cvar_cache = {
 	spellClutterMinWeaponTrailCount = "Min weaponTrails in the scene before we apply clutter logic (min 0)",
 	spellClutterPartySizeScalar = "Scales the targetScalar by how different the party size is from this (min 1)",
 	spellClutterPlayerScalarMultiplier = "Increases number of effects on \"interesting\" targets multiplicatively (min 0.1)",
+	spellClutterRangeConstant = "The number of yards before the priority is doubled (min 1.0)",
 	SpellQueueWindow = "Sets how early you can pre-activate/queue a spell/ability. (In Milliseconds)",
 	splashScreenBoost = "Show boost splash screen id ",
 	splashScreenNormal = "Show normal splash screen id",
