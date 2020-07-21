@@ -3,10 +3,14 @@ KethoDoc = {}
 local eb = KethoEditBox
 
 if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
-	if IsPublicBuild() then
-		KethoDoc.branch = "live"
-	elseif IsTestBuild() then
-		KethoDoc.branch = "ptr"
+	if LE_EXPANSION_LEVEL_CURRENT == LE_EXPANSION_SHADOWLANDS then
+		KethoDoc.branch = "beta"
+	else
+		if IsPublicBuild() then
+			KethoDoc.branch = "live"
+		elseif IsTestBuild() then
+			KethoDoc.branch = "ptr"
+		end
 	end
 elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 	KethoDoc.branch = "classic"
