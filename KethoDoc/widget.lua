@@ -467,7 +467,7 @@ KethoDoc.WidgetOrder = {
 	"ModelSceneActor",
 }
 
--- https://www.townlong-yak.com/framexml/8.2.5/UI.xsd#286
+-- https://www.townlong-yak.com/framexml/9.0.1/UI.xsd#286
 KethoDoc.WidgetHandlers = {
 	"OnAnimFinished",
 	"OnAnimStarted",
@@ -495,17 +495,14 @@ KethoDoc.WidgetHandlers = {
 	"OnEvent",
 	"OnExternalLink",
 	"OnFinished",
+	"OnGamePadDown",
+	"OnGamePadUp",
 	"OnHide",
 	"OnHorizontalScroll",
 	"OnHyperlinkClick",
 	"OnHyperlinkEnter",
 	"OnHyperlinkLeave",
 	"OnInputLanguageChanged",
-	"OnJoystickAxisMotion",
-	"OnJoystickButtonDown",
-	"OnJoystickButtonUp",
-	"OnJoystickHatMotion",
-	"OnJoystickStickMotion",
 	"OnKeyDown",
 	"OnKeyUp",
 	"OnLeave",
