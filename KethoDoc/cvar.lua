@@ -187,6 +187,7 @@ KethoDoc.cvar_cache = {
 	fstack_showregions = "0: Hide Regions, 1: Show Regions (Default).",
 	fullDump = "When you crash, generate a full memory dump",
 	fullSizeFocusFrame = "Increases the size of the focus frame to that of the target frame",
+	GamePadEnable = "Whether GamePad input should be enabled",
 	Gamma = "Gamma correction. Range: [0.3 - 2.8]",
 	graphicsDepthEffects = "UI value of the graphics setting",
 	graphicsEnvironmentDetail = "UI value of the graphics setting",
