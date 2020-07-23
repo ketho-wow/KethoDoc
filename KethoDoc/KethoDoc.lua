@@ -151,7 +151,8 @@ function KethoDoc:DumpCVars()
 			end
 		elseif v.commandType == Enum.ConsoleCommandType.Command then
 			local tbl = self.cvar_test[v.command] and test_commandTbl or commandTbl
-			tinsert(tbl, commandFs:format(v.command, v.help or ""))
+			local helpString = v.help and #v.help > 0 and v.help:gsub('"', '\\"') or ""
+			tinsert(tbl, commandFs:format(v.command, helpString))
 		end
 	end
 	for _, tbl in pairs({cvarTbl, commandTbl, test_cvarTbl, test_commandTbl}) do
