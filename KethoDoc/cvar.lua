@@ -400,6 +400,7 @@ KethoDoc.cvar_cache = {
 	questLogOpen = "Whether the quest log appears the side of the windowed map. ",
 	questPOI = "If enabled, the quest POI system will be used.",
 	RAIDcomponentTextureLevel = "Level of detail for character component textures. 0 means full detail.",
+	RAIDDepthBasedOpacity = "Raid Enable/Disable Soft Edge Effect",
 	RAIDentityLodDist = "Raid Entity level of detail distance",
 	RAIDentityShadowFadeScale = "Raid Entity shadow fade scale",
 	RAIDfarclip = "Raid Far clip plane distance",
