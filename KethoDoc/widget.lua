@@ -13,6 +13,20 @@ function KethoDoc.GetObject()
 	return (KethoDoc:CompareTable(W.UIObject.meta_object(), W.FontInstance.meta_object()))
 end
 
+local function GetMixinFrame(name)
+	local t = {}
+	local frame = CreateFrame(name)
+	for k, v in pairs(frame) do
+		if type(v) == "function" then
+			t[k] = true
+		end
+	end
+	for k in pairs(getmetatable(frame).__index) do
+		t[k] = true
+	end
+	return t
+end
+
 function KethoDoc:SetupWidgets()
 	self.WidgetClasses = {
 		ScriptObject = {
@@ -192,7 +206,7 @@ function KethoDoc:SetupWidgets()
 		},
 		ItemButton = { -- ItemButton \ Button
 			inherits = {"Button"},
-			object = not IsClassic and CreateFrame("ItemButton"),
+			meta_object = function() return not IsClassic and GetMixinFrame("ItemButton") end,
 			mixin = "ItemButtonMixin",
 			intrinsic = true,
 			unique_methods = function() return ItemButtonMixin end,
@@ -337,7 +351,7 @@ function KethoDoc:SetupWidgets()
 		},
 		ScrollingMessageFrame = {
 			inherits = {"Frame", "FontInstance"},
-			object = CreateFrame("ScrollingMessageFrame"),
+			meta_object = function() return not IsClassic and GetMixinFrame("ScrollingMessageFrame") end,
 			mixin = "ScrollingMessageFrameMixin",
 			intrinsic = true,
 			unique_methods = function() return ScrollingMessageFrameMixin end,
@@ -588,6 +602,7 @@ function KethoDoc:WidgetTest()
 		{"Browser",					{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
 		{"Button",					{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
 		{"CheckButton",				{W.Button, W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		-- .itemContextChangedCallback is set on ItemButtonMixin:PostOnLoad() so the test fails
 		{"ItemButton",				{W.Button, W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
 		{"Checkout",				{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
 		{"ColorSelect",				{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
@@ -637,7 +652,6 @@ function KethoDoc:WidgetTest()
 	print(format("Passed %d of %d tests", passed_count, #widgets))
 	-- Failed: Line 84 95
 	-- Failed: MaskTexture 85 89
-	-- Failed: ItemButton 180 189
-	-- Failed: ScrollingMessageFrame 140 232
-	-- Passed 50 of 54 tests
+	-- Failed: ItemButton 190 189
+	-- Passed 51 of 54 tests
 end
