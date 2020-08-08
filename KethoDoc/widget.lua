@@ -206,7 +206,7 @@ function KethoDoc:SetupWidgets()
 		},
 		ItemButton = { -- ItemButton \ Button
 			inherits = {"Button"},
-			meta_object = function() return not IsClassic and GetMixinFrame("ItemButton") end,
+			meta_object = not IsClassic and GetMixinFrame("ItemButton"),
 			mixin = "ItemButtonMixin",
 			intrinsic = true,
 			unique_methods = function() return ItemButtonMixin end,
@@ -351,7 +351,7 @@ function KethoDoc:SetupWidgets()
 		},
 		ScrollingMessageFrame = {
 			inherits = {"Frame", "FontInstance"},
-			meta_object = function() return not IsClassic and GetMixinFrame("ScrollingMessageFrame") end,
+			meta_object = GetMixinFrame("ScrollingMessageFrame"),
 			mixin = "ScrollingMessageFrameMixin",
 			intrinsic = true,
 			unique_methods = function() return ScrollingMessageFrameMixin end,
@@ -643,10 +643,9 @@ function KethoDoc:WidgetTest()
 		local expected = self:MixinTable(widget_class, unpack(v[2]))
 		local equal, size1, size2 = self:TableEquals(meta_object, expected)
 		if equal then
-			-- print("Passed:", v[1])
 			passed_count = passed_count + 1
 		else
-			print("|cffFF0000Failed:|r", v[1], size1, size2)
+			print("Failed:", v[1], size1, size2)
 		end
 	end
 	print(format("Passed %d of %d tests", passed_count, #widgets))
