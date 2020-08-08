@@ -26,7 +26,7 @@ function KethoDoc:MixinTable(...)
 	local t = {}
 	for i = 1, select("#", ...) do
 		local object = select(i, ...)
-		for name in pairs(object.methods or object) do
+		for name in pairs(object.unique_methods()) do
 			t[name] = true
 		end
 	end
@@ -52,4 +52,25 @@ end
 
 function KethoDoc.SortCaseInsensitive(a, b)
 	return a:lower() < b:lower()
+end
+
+function KethoDoc:TableEquals(actual, expected)
+	local isEquals = true
+	local size1, size2 = 0, 0
+
+	for k in pairs(actual) do
+		size1 = size1 + 1
+		if not expected[k] then
+			isEquals = false
+		end
+	end
+
+	for k in pairs(expected) do
+		size2 = size2 + 1
+		if not actual[k] then
+			isEquals = false
+		end
+	end
+
+	return isEquals, size1, size2
 end

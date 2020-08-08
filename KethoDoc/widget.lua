@@ -149,7 +149,8 @@ function KethoDoc:SetupWidgets()
 			unique_handlers = function() return self:RemoveTable(W.Scale.handlers, W.Animation.handlers) end,
 		},
 		TextureCoordTranslation = { -- TextureCoordTranslation \ Animation
-			inherits = {"Animation"},
+		inherits = {"Animation"},
+			-- cant seem to actually create this in Lua
 			object = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("TextureCoordTranslation"),
 			unique_methods = function() return self:RemoveTable(W.TextureCoordTranslation.meta_object, W.Animation.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.TextureCoordTranslation.handlers, W.Animation.handlers) end,
@@ -194,6 +195,7 @@ function KethoDoc:SetupWidgets()
 			object = not IsClassic and CreateFrame("ItemButton"),
 			mixin = "ItemButtonMixin",
 			intrinsic = true,
+			unique_methods = function() return ItemButtonMixin end,
 		},
 		-- UnitButton unavailable
 
@@ -338,6 +340,7 @@ function KethoDoc:SetupWidgets()
 			object = CreateFrame("ScrollingMessageFrame"),
 			mixin = "ScrollingMessageFrameMixin",
 			intrinsic = true,
+			unique_methods = function() return ScrollingMessageFrameMixin end,
 		},
 		SimpleHTML = { -- SimpleHTML \ (FontInstance ∧ Frame)
 			inherits = {"Frame", "FontInstance"},
@@ -549,3 +552,92 @@ KethoDoc.WidgetHandlers = {
 	"PostClick",
 	"PreClick",
 }
+
+-- not really a proper and structured unit test
+function KethoDoc:WidgetTest()
+	if not self.WidgetClasses then
+		self:SetupWidgets()
+	end
+	-- combine unique methods plus inherited methods
+	local widgets = {
+		{"ScriptObject",			{}},
+		{"Object",					{}},
+		{"UIObject",				{W.Object}},
+		{"Region",					{W.UIObject, W.Object}},
+		{"LayeredRegion",			{W.Region, W.UIObject, W.Object}},
+
+		{"FontInstance",			{W.Object}},
+		{"Font",					{W.FontInstance, W.Object}},
+		{"FontString",				{W.LayeredRegion, W.Region, W.UIObject, W.Object, W.FontInstance}},
+		{"Texture",					{W.LayeredRegion, W.Region, W.UIObject, W.Object}},
+		{"Line",					{W.Texture, W.LayeredRegion, W.Region, W.UIObject, W.Object}},
+		{"MaskTexture",				{W.Texture, W.LayeredRegion, W.Region, W.UIObject, W.Object}},
+
+		{"AnimationGroup",			{W.UIObject, W.Object, W.ScriptObject}},
+		{"Animation",				{W.UIObject, W.Object, W.ScriptObject}},
+		{"Alpha",					{W.Animation, W.UIObject, W.Object, W.ScriptObject}},
+		{"LineScale",				{W.Animation, W.UIObject, W.Object, W.ScriptObject}},
+		{"Translation",				{W.Animation, W.UIObject, W.Object, W.ScriptObject}},
+		{"LineTranslation",			{W.Animation, W.UIObject, W.Object, W.ScriptObject}},
+		{"Path",					{W.Animation, W.UIObject, W.Object, W.ScriptObject}},
+		{"ControlPoint",			{W.UIObject, W.Object}},
+		{"Rotation",				{W.Animation, W.UIObject, W.Object, W.ScriptObject}},
+		{"TextureCoordTranslation",	{W.Animation, W.UIObject, W.Object, W.ScriptObject}},
+
+		{"Frame",					{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"Browser",					{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"Button",					{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"CheckButton",				{W.Button, W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"ItemButton",				{W.Button, W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"Checkout",				{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"ColorSelect",				{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"Cooldown",				{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"EditBox",					{W.FontInstance, W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"FogOfWarFrame",			{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"GameTooltip",				{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"MessageFrame",			{W.FontInstance, W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"Minimap",					{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"Model",					{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"PlayerModel",				{W.Model, W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"CinematicModel",			{W.PlayerModel, W.Model, W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"DressUpModel",			{W.PlayerModel, W.Model, W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"TabardModel",				{W.PlayerModel, W.Model, W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"ModelScene",				{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"MovieFrame",				{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"OffScreenFrame",			{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"POIFrame",				{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"ArchaeologyDigSiteFrame",	{W.POIFrame, W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"QuestPOIFrame",			{W.POIFrame, W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"ScenarioPOIFrame",		{W.POIFrame, W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"ScrollFrame",				{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"ScrollingMessageFrame",	{W.FontInstance, W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"SimpleHTML",				{W.FontInstance, W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"Slider",					{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"StatusBar",				{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"UnitPositionFrame",		{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+		{"WorldFrame",				{W.Frame, W.Region, W.UIObject, W.Object, W.ScriptObject}},
+
+		{"ModelSceneActor",			{W.UIObject, W.Object}},
+	}
+
+	local passed_count = 0
+	for _, v in pairs(widgets) do
+		local widget_class = W[v[1]]
+		local meta_source = widget_class.meta_object
+		local meta_object = type(meta_source) == "function" and meta_source() or meta_source
+		local expected = self:MixinTable(widget_class, unpack(v[2]))
+		local equal, size1, size2 = self:TableEquals(meta_object, expected)
+		if equal then
+			-- print("Passed:", v[1])
+			passed_count = passed_count + 1
+		else
+			print("|cffFF0000Failed:|r", v[1], size1, size2)
+		end
+	end
+	print(format("Passed %d of %d tests", passed_count, #widgets))
+	-- Failed: Line 84 95
+	-- Failed: MaskTexture 85 89
+	-- Failed: ItemButton 180 189
+	-- Failed: ScrollingMessageFrame 140 232
+	-- Passed 50 of 54 tests
+end
