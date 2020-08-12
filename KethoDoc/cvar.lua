@@ -449,6 +449,7 @@ KethoDoc.cvar_cache = {
 	raidOptionShowBorders = "Displays borders around the raid frames.",
 	raidOptionSortMode = "The way to sort raid frames",
 	raidOrBattleCount = "How many times we've sent a raid or battleground survey to the servers",
+	RAIDOutlineEngineMode = "Mode for the OutlineBuffer",
 	RAIDparticleDensity = "Particle density",
 	RAIDparticleMTDensity = "Multi-Tex particle density",
 	RAIDprojectedTextures = "Projected Textures",
