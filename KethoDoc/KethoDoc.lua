@@ -6,10 +6,10 @@ if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
 	if LE_EXPANSION_LEVEL_CURRENT == LE_EXPANSION_SHADOWLANDS then
 		KethoDoc.branch = "beta"
 	else
-		if IsPublicBuild() then
-			KethoDoc.branch = "live"
-		elseif IsTestBuild() then
+		if IsTestBuild() then
 			KethoDoc.branch = "ptr"
+		else
+			KethoDoc.branch = "live"
 		end
 	end
 elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
