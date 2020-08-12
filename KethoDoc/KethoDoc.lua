@@ -93,7 +93,7 @@ function KethoDoc:DumpWidgetAPI()
 				end
 			end
 
-			if object.unique_methods then
+			if object.unique_methods and not object.mixin then
 				eb:InsertLine("\t\tmethods = {")
 				local methods = self:SortTable(object.unique_methods())
 				for _, name in pairs(methods) do
