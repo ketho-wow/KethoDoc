@@ -514,6 +514,7 @@ KethoDoc.WidgetHandlers = {
 	"OnFinished",
 	"OnGamePadButtonDown",
 	"OnGamePadButtonUp",
+	"OnGamePadStick",
 	"OnHide",
 	"OnHorizontalScroll",
 	"OnHyperlinkClick",
