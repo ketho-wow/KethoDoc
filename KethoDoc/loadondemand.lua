@@ -83,7 +83,7 @@ KethoDoc.LoadOnDemand.live = {
 
 KethoDoc.LoadOnDemand.ptr = KethoDoc.LoadOnDemand.live
 
--- 9.0.1 (35213)
+-- 9.0.1 (35679)
 KethoDoc.LoadOnDemand.beta = {
 	"Blizzard_AchievementUI",
 	"Blizzard_AdventureMap",
@@ -104,7 +104,7 @@ KethoDoc.LoadOnDemand.beta = {
 	"Blizzard_BoostTutorial",
 	"Blizzard_Calendar",
 	"Blizzard_ChallengesUI",
-	"Blizzard_CharacterCreate",
+	-- "Blizzard_CharacterCreate",
 	"Blizzard_CharacterCustomize",
 	"Blizzard_ChromieTimeUI",
 	"Blizzard_ClassTrial",
@@ -148,7 +148,7 @@ KethoDoc.LoadOnDemand.beta = {
 	"Blizzard_OrderHallUI",
 	"Blizzard_PartyPoseUI",
 	"Blizzard_PlayerChoiceUI",
-	"Blizzard_PTRFeedbackGlue", -- OnlyBetaAndPTR
+	-- "Blizzard_PTRFeedbackGlue", -- OnlyBetaAndPTR
 	"Blizzard_PVPUI",
 	"Blizzard_RaidUI",
 	"Blizzard_RuneforgeUI",
