@@ -262,6 +262,7 @@ KethoDoc.cvar_cache = {
 	lastTransmogOutfitIDSpec3 = "SetID of the last applied transmog outfit for the 3rd spec",
 	lastTransmogOutfitIDSpec4 = "SetID of the last applied transmog outfit for the 4th spec",
 	lastVoidStorageTutorial = "Stores the last void storage tutorial the player has accepted",
+	latestSplashScreen = "The ID of the latest splash screen from the UISPLASHSCREEN table.",
 	latestTransmogSetSource = "itemModifiedAppearanceID of the latest collected source belonging to a set",
 	launchAgent = "Set this to have the client start up Agent",
 	lfdCollapsedHeaders = "Stores which LFD headers are collapsed.",
