@@ -124,7 +124,7 @@ KethoDoc.LoadOnDemand.beta = {
 	"Blizzard_GarrisonTemplates",
 	"Blizzard_GarrisonUI",
 	"Blizzard_GMChatUI",
-	"Blizzard_GMSurveyUI",
+	-- "Blizzard_GMSurveyUI",
 	"Blizzard_GuildBankUI",
 	"Blizzard_GuildControlUI",
 	"Blizzard_GuildRecruitmentUI",
