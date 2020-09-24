@@ -5347,6 +5347,7 @@ KethoDoc.FrameXML.beta = {
 	HelpPlateBox_OnEnter = true,
 	HelpPlateBox_OnLeave = true,
 	HelpPlateBox_OnLoad = true,
+	HelpPlateTooltip_IsShowing = true,
 	HelpPlate_Button_AnimGroup_Show_OnFinished = true,
 	HelpPlate_Button_OnEnter = true,
 	HelpPlate_Button_OnLeave = true,
