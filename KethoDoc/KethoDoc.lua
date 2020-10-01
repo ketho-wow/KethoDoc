@@ -228,7 +228,7 @@ function KethoDoc:DumpLuaEnums(isEmmyLua)
 			eb:InsertLine("\t},")
 		end
 	end
-	eb:InsertLine("}\n")
+	eb:InsertLine("}")
 
 	local EnumGroup, EnumGroupSorted = {}, {}
 	local EnumUngrouped = {}
@@ -263,6 +263,7 @@ function KethoDoc:DumpLuaEnums(isEmmyLua)
 	end
 	-- print group enums
 	for _, group in pairs(EnumGroupSorted) do
+		eb:InsertLine("")
 		local numEnum = self.EnumGroups[group]
 		if type(numEnum) == "string" then
 			eb:InsertLine(format("%s = %d", numEnum, _G[numEnum]))
@@ -270,7 +271,6 @@ function KethoDoc:DumpLuaEnums(isEmmyLua)
 		for _, values in pairs(EnumGroup[group]) do
 			eb:InsertLine(format("%s = %d", values[1], values[2]))
 		end
-		eb:InsertLine("")
 	end
 
 	-- print any NUM_LE_* globals not belonging to a group
