@@ -231,10 +231,10 @@ function KethoDoc:DumpLuaEnums(isEmmyLua)
 			sort(TableEnum, function(a, b)
 				return a[2] < b[2]
 			end)
+			local isBitflag = self.EnumBitGroups[name]
+			local numberFormat = isBitflag and "0x%X" or "%d"
 			for _, enum in pairs(TableEnum) do
-				local isBitmask = self.EnumBitGroups[name]
-				local numberValue = string.format(isBitmask and "0x%X" or "%d", enum[2])
-				eb:InsertLine(format("\t\t%s = %s,", enum[1], numberValue))
+				eb:InsertLine(format("\t\t%s = %s,", enum[1], format(numberFormat, enum[2])))
 			end
 			eb:InsertLine("\t},")
 		end
