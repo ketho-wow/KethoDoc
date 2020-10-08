@@ -232,7 +232,9 @@ function KethoDoc:DumpLuaEnums(isEmmyLua)
 				return a[2] < b[2]
 			end)
 			for _, enum in pairs(TableEnum) do
-				eb:InsertLine(format("\t\t%s = %d,", enum[1], enum[2]))
+				local isBitmask = self.EnumBitGroups[name]
+				local numberValue = string.format(isBitmask and "0x%X" or "%d", enum[2])
+				eb:InsertLine(format("\t\t%s = %s,", enum[1], numberValue))
 			end
 			eb:InsertLine("\t},")
 		end
@@ -247,8 +249,8 @@ function KethoDoc:DumpLuaEnums(isEmmyLua)
 			-- try to group enums together so we can sort by value
 			local found
 			for group in pairs(self.EnumGroups) do
-				enumType = EnumTypo[enumType] or enumType -- hack
-				if enumType:find("^"..group) then
+				local enumType2 = EnumTypo[enumType] or enumType -- hack
+				if enumType2:find("^"..group) then
 					EnumGroup[group] = EnumGroup[group] or {}
 					tinsert(EnumGroup[group], {enumType, enumValue})
 					found = true

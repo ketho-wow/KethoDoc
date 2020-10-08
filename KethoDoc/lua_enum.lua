@@ -72,6 +72,13 @@ KethoDoc.EnumGroups = {
 	LE_DEMON_HUNTER = "NUM_LE_DEMON_HUNTER_CREATION_DISABLED_REASONS",
 }
 
+KethoDoc.EnumBitGroups = {
+	CalendarEventBits = true,
+	CurrencyFlags = true,
+	Damageclass = true,
+	UIMapFlag = true,
+}
+
 -- they dont exist anymore but it looks ugly having an empty group
 LE_TOKEN_REDEEM_TYPE_GAME_TIME = 1
 LE_TOKEN_REDEEM_TYPE_BALANCE = 2
