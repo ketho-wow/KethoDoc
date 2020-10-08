@@ -194,6 +194,15 @@ function KethoDoc:DumpCVars()
 	eb:InsertLine("\nreturn {CVars, PTR}")
 end
 
+local EnumOrder = { -- some special enums share the same value
+	LE_EXPANSION_LEVEL_PREVIOUS = true,
+	LE_EXPANSION_LEVEL_CURRENT = true,
+}
+
+local EnumTypo = { -- ACCOUNT -> ACCCOUNT; yes they use 3 Cs
+	LE_FRAME_TUTORIAL_ACCOUNT_CLUB_FINDER_NEW_COMMUNITY_JOINED = "LE_FRAME_TUTORIAL_ACCCOUNT_CLUB_FINDER_NEW_COMMUNITY_JOINED",
+}
+
 -- kind of messy
 function KethoDoc:DumpLuaEnums(isEmmyLua)
 	-- Enum table
@@ -238,6 +247,7 @@ function KethoDoc:DumpLuaEnums(isEmmyLua)
 			-- try to group enums together so we can sort by value
 			local found
 			for group in pairs(self.EnumGroups) do
+				enumType = EnumTypo[enumType] or enumType -- hack
 				if enumType:find("^"..group) then
 					EnumGroup[group] = EnumGroup[group] or {}
 					tinsert(EnumGroup[group], {enumType, enumValue})
@@ -256,9 +266,17 @@ function KethoDoc:DumpLuaEnums(isEmmyLua)
 	end
 	sort(EnumGroupSorted)
 	-- sort values in groups
-	for group, tbl in pairs(EnumGroup) do
-		sort(tbl, function(a, b)
-			return a[2] < b[2]
+	for _, group in pairs(EnumGroup) do
+		sort(group, function(a, b)
+			if a[2] == b[2] then -- handle enums with same values
+				if EnumOrder[a[1]] then
+					return false
+				elseif EnumOrder[b[1]] then
+					return true
+				end
+			else
+				return a[2] < b[2]
+			end
 		end)
 	end
 	-- print group enums
