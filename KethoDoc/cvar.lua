@@ -744,4 +744,5 @@ KethoDoc.cvar_test = {
 	MemTimings = true,
 	memTypeUsage = true,
 	MemUsage = true,
+	MemUsageDetailed = true,
 }

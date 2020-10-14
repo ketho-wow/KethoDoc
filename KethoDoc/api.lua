@@ -7,38 +7,6 @@ local augments = {
 }
 
 local deprecated = {
-	C_AreaPoiInfo = {
-		GetAreaPOITimeLeft = true,
-	},
-	C_Calendar = {
-		GetDate = true,
-	},
-	C_ChatInfo = {
-		ReportPlayer = true,
-		CanReportPlayer = true,
-	},
-	C_Club = {
-		AddClubStreamToChatWindow = true,
-	},
-	C_DateAndTime = {
-		GetDateFromEpoch = true,
-		GetTodaysDate = true,
-		GetYesterdaysDate = true,
-	},
-	C_PvP = {
-		GetBrawlInfo = true,
-		GetMatchPVPStatIDs = true,
-	},
-	C_RecruitAFriend = {
-		IsSendingEnabled = true,
-		CheckEmailEnabled = true,
-		SendRecruit = true,
-	},
-	C_Social = {
-		GetLastScreenshot = true,
-		GetScreenshotByIndex = true,
-		GetNumCharactersPerMedia = true,
-	},
 	C_Timer = augments.C_Timer,
 }
 
