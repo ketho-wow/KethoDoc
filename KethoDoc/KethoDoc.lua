@@ -162,7 +162,7 @@ function KethoDoc:DumpCVars()
 	eb:Show()
 	eb:InsertLine("local CVars = {")
 	eb:InsertLine("\tvar = {")
-	eb:InsertLine("\t\t-- var = default, server, character, help")
+	eb:InsertLine("\t\t-- var = default, account, character, help")
 	for _, cvar in pairs(cvarTbl) do
 		eb:InsertLine(cvar)
 	end
