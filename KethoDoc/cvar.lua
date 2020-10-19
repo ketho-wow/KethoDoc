@@ -611,6 +611,7 @@ KethoDoc.cvar_cache = {
 	ssaoMagicNormals = "SSAO Use combined GBuffer and face normals; attempts to get the best compromise for architecture, foliage, and characters",
 	ssaoMagicThresholdHigh = "SSAO High threshold for transitioning from gbuffer to face normal (degrees)",
 	ssaoMagicThresholdLow = "SSAO Low threshold for transitioning from gbuffer to face normal (degrees)",
+	SSAOType = "Screen-Space Ambient Occlusion Type",
 	statusText = "Whether the status bars show numeric health/mana values",
 	statusTextDisplay = "Whether numeric health/mana values are shown as raw values or percentages, or both",
 	stopAutoAttackOnTargetChange = "Whether to stop attacking when changing targets",
