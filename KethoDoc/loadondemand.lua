@@ -98,9 +98,7 @@ KethoDoc.LoadOnDemand.live = {
 }
 
 KethoDoc.LoadOnDemand.ptr = KethoDoc.LoadOnDemand.live
-
-KethoDoc.LoadOnDemand.beta = CopyTable(KethoDoc.LoadOnDemand.live)
-tinsert(KethoDoc.LoadOnDemand.beta, "Blizzard_CovenantRenown")
+KethoDoc.LoadOnDemand.beta = KethoDoc.LoadOnDemand.live
 
 -- 1.13.3 (32790)
 KethoDoc.LoadOnDemand.classic = {
