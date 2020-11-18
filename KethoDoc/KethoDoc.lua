@@ -2,8 +2,14 @@
 KethoDoc = {}
 local eb = KethoEditBox
 
+
+KethoDoc.branch = "live"
+--KethoDoc.branch = "ptr"
+--KethoDoc.branch = "beta"
+
 local tocVersion = select(4, GetBuildInfo())
 
+--[[
 if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
 	if LE_EXPANSION_LEVEL_CURRENT == LE_EXPANSION_SHADOWLANDS then
 		if tocVersion == 90002 then
@@ -19,6 +25,7 @@ if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
 elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 	KethoDoc.branch = "classic"
 end
+]]
 
 function KethoDoc:DumpGlobalAPI()
 	local frameXML = CopyTable(self.FrameXML[self.branch])
