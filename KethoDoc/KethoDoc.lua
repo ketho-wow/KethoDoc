@@ -7,7 +7,7 @@ KethoDoc.branch = "live"
 --KethoDoc.branch = "ptr"
 --KethoDoc.branch = "beta"
 
-local tocVersion = select(4, GetBuildInfo())
+-- local tocVersion = select(4, GetBuildInfo())
 
 --[[
 if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
@@ -27,11 +27,11 @@ elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 end
 ]]
 
-function KethoDoc:DumpGlobalAPI()
+function KethoDoc:DumpGlobalAPI(includeTables)
 	local frameXML = CopyTable(self.FrameXML[self.branch])
 	self:InsertTable(self.FrameXmlBlacklist, frameXML)
 	self:InsertTable(self.LuaAPI, frameXML)
-	local api = self:GetApiSystemFuncs()
+	local api = self:GetApiSystemFuncs(includeTables)
 
 	-- filter all functions against FrameXML functions and Lua API
 	for funcName in pairs(self:GetGlobalFuncs()) do

@@ -130,11 +130,13 @@ function KethoDoc:GetGlobalFuncs()
 	return t
 end
 
-function KethoDoc:GetApiSystemFuncs()
+function KethoDoc:GetApiSystemFuncs(includeTables)
 	local t = {}
 	for systemName, v in pairs(_G) do
 		if systemName:find("^C_") and type(v) == "table" then
-			tinsert(t, systemName)
+			if includeTables then
+				tinsert(t, systemName)
+			end
 			for funcName in pairs(v) do
 				if not blacklist[systemName] or not blacklist[systemName][funcName] then
 					tinsert(t, format("%s.%s", systemName, funcName))
