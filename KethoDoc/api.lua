@@ -37,11 +37,11 @@ KethoDoc.FrameXmlBlacklist = {
 }
 
 KethoDoc.LuaAPI = { -- see compat.lua
-	bit = true,
-	coroutine = true,
-	math = true,
-	string = true,
-	table = true,
+	--bit = true,
+	--coroutine = true,
+	--math = true,
+	--string = true,
+	--table = true,
 
 	abs = true, -- math.abs
 	acos = true, -- function (x) return math.deg(math.acos(x)) end
