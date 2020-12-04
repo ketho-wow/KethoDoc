@@ -2,7 +2,6 @@
 KethoDoc = {}
 local eb = KethoEditBox
 
-
 KethoDoc.branch = "live"
 --KethoDoc.branch = "ptr"
 --KethoDoc.branch = "beta"
@@ -414,17 +413,12 @@ function KethoDoc:DumpNonBlizzardDocumented()
 		end
 	end
 
-	local systemAPI = {}
-	for _, name in pairs(self:GetApiSystemFuncs()) do
-		if not BAD[name] then
-			tinsert(systemAPI, name)
-		end
-	end
-
 	eb:Show()
 	eb:InsertLine("local NonDocumentedAPI = {")
-	for _, name in pairs(systemAPI) do
-		eb:InsertLine(format('\t"%s",', name))
+	for _, name in pairs(self:GetApiSystemFuncs()) do
+		if not BAD[name] then
+			eb:InsertLine(format('\t"%s",', name))
+		end
 	end
 	eb:InsertLine("}\n\nreturn NonDocumentedAPI")
 end
