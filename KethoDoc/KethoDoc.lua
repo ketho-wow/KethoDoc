@@ -10,23 +10,27 @@ elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 	KethoDoc.branch = "classic"
 end
 
-function KethoDoc:DumpGlobalAPI(includeTables)
-	local frameXML = CopyTable(self.FrameXML[self.branch])
-	self:InsertTable(self.FrameXmlBlacklist, frameXML)
-	self:InsertTable(self.LuaAPI, frameXML)
-	local api = self:GetApiSystemFuncs(includeTables)
-
-	-- filter all functions against FrameXML functions and Lua API
+function KethoDoc:GetAPI()
+	local api = self:GetCNamespaceAPI()
+	local nonApi = {}
+	self:InsertTable(self.FrameXML[self.branch], nonApi)
+	self:InsertTable(self.FrameXmlBlacklist, nonApi)
+	self:InsertTable(self.LuaAPI, nonApi)
+	-- filter all global functions against FrameXML functions and Lua API
 	for funcName in pairs(self:GetGlobalFuncs()) do
-		if not frameXML[funcName] then
-			tinsert(api, funcName)
+		if not nonApi[funcName] then
+			api[funcName] = true
 		end
 	end
-	sort(api)
+	return api
+end
+
+function KethoDoc:DumpGlobalAPI()
+	local api = self:GetAPI()
 
 	eb:Show()
 	eb:InsertLine("local GlobalAPI = {")
-	for _, apiName in pairs(api) do
+	for _, apiName in pairs(self:SortTable(api)) do
 		eb:InsertLine(format('\t"%s",', apiName))
 	end
 	eb:InsertLine("}\n")
@@ -387,8 +391,9 @@ function KethoDoc:DumpFrameXML()
 	eb:InsertLine("}\n\nreturn {FrameXML, LoadOnDemand}")
 end
 
--- api that is in C_ namespaces but not documented
+-- non blizzard documented api
 function KethoDoc:DumpNonBlizzardDocumented()
+	local api = self:GetAPI()
 	local BAD = {}
 	UIParentLoadAddOn("Blizzard_APIDocumentation")
 	for _, apiTable in pairs(APIDocumentation.functions) do
@@ -396,13 +401,17 @@ function KethoDoc:DumpNonBlizzardDocumented()
 			BAD[apiTable.System.Namespace.."."..apiTable.Name] = true
 		end
 	end
+	local nonDoc = {}
+	for name in pairs(api) do
+		if not BAD[name] then
+			nonDoc[name] = true
+		end
+	end
 
 	eb:Show()
 	eb:InsertLine("local NonDocumentedAPI = {")
-	for _, name in pairs(self:GetApiSystemFuncs()) do
-		if not BAD[name] then
-			eb:InsertLine(format('\t"%s",', name))
-		end
+	for _, name in pairs(self:SortTable(nonDoc)) do
+		eb:InsertLine(format('\t"%s",', name))
 	end
 	eb:InsertLine("}\n\nreturn NonDocumentedAPI")
 end

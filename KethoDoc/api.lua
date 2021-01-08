@@ -130,20 +130,17 @@ function KethoDoc:GetGlobalFuncs()
 	return t
 end
 
-function KethoDoc:GetApiSystemFuncs(includeTables)
+function KethoDoc:GetCNamespaceAPI()
 	local t = {}
 	for systemName, v in pairs(_G) do
 		if systemName:find("^C_") and type(v) == "table" then
-			if includeTables then
-				tinsert(t, systemName)
-			end
 			for funcName in pairs(v) do
 				if not blacklist[systemName] or not blacklist[systemName][funcName] then
-					tinsert(t, format("%s.%s", systemName, funcName))
+					local name = format("%s.%s", systemName, funcName)
+					t[name] = true
 				end
 			end
 		end
 	end
-	sort(t)
 	return t
 end
