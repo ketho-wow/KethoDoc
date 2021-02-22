@@ -13,20 +13,6 @@ function KethoDoc.GetUIObject()
 	return (KethoDoc:CompareTable(W.ParentedObject.meta_object(), W.FontInstance.meta_object()))
 end
 
-local function GetMixinFrame(name)
-	local t = {}
-	local frame = CreateFrame(name)
-	for k, v in pairs(frame) do
-		if type(v) == "function" then
-			t[k] = true
-		end
-	end
-	for k in pairs(getmetatable(frame).__index) do
-		t[k] = true
-	end
-	return t
-end
-
 function KethoDoc:SetupWidgets()
 	self.WidgetClasses = {
 		ScriptObject = {
@@ -204,15 +190,7 @@ function KethoDoc:SetupWidgets()
 			unique_methods = function() return self:RemoveTable(W.CheckButton.meta_object, W.Button.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.CheckButton.handlers, W.Button.handlers) end,
 		},
-		ItemButton = { -- ItemButton \ Button
-			inherits = {"Button"},
-			meta_object = not IsClassic and GetMixinFrame("ItemButton"),
-			mixin = "ItemButtonMixin",
-			intrinsic = true,
-			unique_methods = function() return ItemButtonMixin end,
-		},
 		-- UnitButton unavailable
-
 		Checkout = { -- Checkout \ Frame
 			inherits = {"Frame"},
 			object = CreateFrame("Checkout"),
@@ -349,13 +327,6 @@ function KethoDoc:SetupWidgets()
 			unique_methods = function() return self:RemoveTable(W.ScrollFrame.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.ScrollFrame.handlers, W.Frame.handlers) end,
 		},
-		ScrollingMessageFrame = {
-			inherits = {"Frame", "FontInstance"},
-			meta_object = GetMixinFrame("ScrollingMessageFrame"),
-			mixin = "ScrollingMessageFrameMixin",
-			intrinsic = true,
-			unique_methods = function() return ScrollingMessageFrameMixin end,
-		},
 		SimpleHTML = { -- SimpleHTML \ (FontInstance ∧ Frame)
 			inherits = {"Frame", "FontInstance"},
 			object = CreateFrame("SimpleHTML"),
@@ -458,7 +429,7 @@ KethoDoc.WidgetOrder = {
 	-- frame
 	"Frame",
 	"Browser",
-	"Button", "CheckButton", "ItemButton", --"UnitButton",
+	"Button", "CheckButton",
 	"Checkout",
 	"ColorSelect",
 	"Cooldown",
@@ -474,7 +445,6 @@ KethoDoc.WidgetOrder = {
 	"OffScreenFrame",
 	"POIFrame", "ArchaeologyDigSiteFrame", "QuestPOIFrame", "ScenarioPOIFrame",
 	"ScrollFrame",
-	"ScrollingMessageFrame",
 	"SimpleHTML",
 	"Slider",
 	"StatusBar",
@@ -576,7 +546,7 @@ function KethoDoc:WidgetTest()
 	-- combine unique methods plus inherited methods
 	local widgets = {
 		{"ScriptObject",			{}},
-		{"UIObject",					{}},
+		{"UIObject",				{}},
 		{"ParentedObject",			{W.UIObject}},
 		{"Region",					{W.ParentedObject, W.UIObject}},
 		{"LayeredRegion",			{W.Region, W.ParentedObject, W.UIObject}},
@@ -603,8 +573,6 @@ function KethoDoc:WidgetTest()
 		{"Browser",					{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
 		{"Button",					{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
 		{"CheckButton",				{W.Button, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		-- .itemContextChangedCallback is set on ItemButtonMixin:PostOnLoad() so the test fails
-		{"ItemButton",				{W.Button, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
 		{"Checkout",				{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
 		{"ColorSelect",				{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
 		{"Cooldown",				{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
@@ -626,7 +594,6 @@ function KethoDoc:WidgetTest()
 		{"QuestPOIFrame",			{W.POIFrame, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
 		{"ScenarioPOIFrame",		{W.POIFrame, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
 		{"ScrollFrame",				{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"ScrollingMessageFrame",	{W.FontInstance, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
 		{"SimpleHTML",				{W.FontInstance, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
 		{"Slider",					{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
 		{"StatusBar",				{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
@@ -647,11 +614,11 @@ function KethoDoc:WidgetTest()
 			passed_count = passed_count + 1
 		else
 			print("Failed:", v[1], size1, size2)
+			
 		end
 	end
 	print(format("Passed %d of %d tests", passed_count, #widgets))
-	-- Failed: Line 84 95
-	-- Failed: MaskTexture 85 89
-	-- Failed: ItemButton 190 189
-	-- Passed 51 of 54 tests
+	-- Failed: Line 85 99
+	-- Failed: MaskTexture 89 93
+	-- Passed 50 of 52 tests
 end
