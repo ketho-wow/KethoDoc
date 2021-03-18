@@ -134,8 +134,8 @@ end
 function KethoDoc:DumpCVars()
 	local cvarTbl, commandTbl = {}, {}
 	local test_cvarTbl, test_commandTbl = {}, {}
-	local cvarFs = '\t\t["%s"] = {"%s", %s, %s, "%s"},'
-	local commandFs = '\t\t["%s"] = {"%s"},'
+	local cvarFs = '\t\t["%s"] = {"%s", %d, %s, %s, "%s"},'
+	local commandFs = '\t\t["%s"] = {%d, "%s"},'
 
 	for _, v in pairs(C_Console.GetAllCommands()) do
 		if v.commandType == Enum.ConsoleCommandType.Cvar then
@@ -145,12 +145,12 @@ function KethoDoc:DumpCVars()
 				local backupDesc = self.cvar_cache[v.command]
 				local helpString = v.help and #v.help > 0 and v.help:gsub('"', '\\"') or backupDesc or ""
 				local tbl = self.cvar_test[v.command] and test_cvarTbl or cvarTbl
-				tinsert(tbl, cvarFs:format(v.command, defaultValue or "", tostring(server), tostring(character), helpString))
+				tinsert(tbl, cvarFs:format(v.command, defaultValue or "", v.category, tostring(server), tostring(character), helpString))
 			end
 		elseif v.commandType == Enum.ConsoleCommandType.Command then
 			local tbl = self.cvar_test[v.command] and test_commandTbl or commandTbl
 			local helpString = v.help and #v.help > 0 and v.help:gsub('"', '\\"') or ""
-			tinsert(tbl, commandFs:format(v.command, helpString))
+			tinsert(tbl, commandFs:format(v.command, v.category, helpString))
 		end
 	end
 	for _, tbl in pairs({cvarTbl, commandTbl, test_cvarTbl, test_commandTbl}) do
@@ -160,14 +160,14 @@ function KethoDoc:DumpCVars()
 	eb:Show()
 	eb:InsertLine("local CVars = {")
 	eb:InsertLine("\tvar = {")
-	eb:InsertLine("\t\t-- var = default, account, character, help")
+	eb:InsertLine("\t\t-- var = default, category, account, character, help")
 	for _, cvar in pairs(cvarTbl) do
 		eb:InsertLine(cvar)
 	end
 	eb:InsertLine("\t},")
 
 	eb:InsertLine("\tcommand = {")
-	eb:InsertLine("\t\t-- command = help")
+	eb:InsertLine("\t\t-- command = category, help")
 	for _, command in pairs(commandTbl) do
 		eb:InsertLine(command)
 	end
