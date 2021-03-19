@@ -11,11 +11,12 @@ elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 end
 
 function KethoDoc:GetAPI()
-	local api = self:GetCNamespaceAPI()
+	local api = {}
+	self:InsertTable(api, self:GetCNamespaceAPI())
 	local nonApi = {}
-	self:InsertTable(self.FrameXML[self.branch], nonApi)
-	self:InsertTable(self.FrameXmlBlacklist, nonApi)
-	self:InsertTable(self.LuaAPI, nonApi)
+	self:InsertTable(nonApi, self.FrameXML[self.branch])
+	self:InsertTable(nonApi, self.FrameXmlBlacklist)
+	self:InsertTable(nonApi, self.LuaAPI)
 	-- filter all global functions against FrameXML functions and Lua API
 	for funcName in pairs(self:GetGlobalFuncs()) do
 		if not nonApi[funcName] then

@@ -1,7 +1,7 @@
 
-function KethoDoc:InsertTable(src, dest)
-	for k in pairs(src) do
-		dest[k] = true
+function KethoDoc:InsertTable(tbl, add)
+	for k in pairs(add) do
+		tbl[k] = true
 	end
 end
 
