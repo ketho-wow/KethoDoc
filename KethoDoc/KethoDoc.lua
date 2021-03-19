@@ -409,11 +409,11 @@ function KethoDoc:DumpNonBlizzardDocumented()
 	end
 
 	eb:Show()
-	eb:InsertLine("local NonDocumentedAPI = {")
+	eb:InsertLine("local NonBlizzardDocumented = {")
 	for _, name in pairs(self:SortTable(nonDoc)) do
 		eb:InsertLine(format('\t"%s",', name))
 	end
-	eb:InsertLine("}\n\nreturn NonDocumentedAPI")
+	eb:InsertLine("}\n\nreturn NonBlizzardDocumented")
 end
 
 local currentDump = 0
