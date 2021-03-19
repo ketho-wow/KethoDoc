@@ -399,6 +399,8 @@ function KethoDoc:DumpNonBlizzardDocumented()
 	for _, apiTable in pairs(APIDocumentation.functions) do
 		if apiTable.System.Namespace then
 			BAD[apiTable.System.Namespace.."."..apiTable.Name] = true
+		else
+			BAD[apiTable.Name] = true
 		end
 	end
 	local nonDoc = {}
