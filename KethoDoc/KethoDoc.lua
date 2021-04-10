@@ -203,7 +203,7 @@ local EnumTypo = { -- ACCOUNT -> ACCCOUNT; yes they use 3 Cs
 }
 
 -- kind of messy
-function KethoDoc:DumpLuaEnums(isEmmyLua)
+function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
 	-- Enum table
 	eb:Show()
 	eb:InsertLine("Enum = {")
@@ -244,20 +244,22 @@ function KethoDoc:DumpLuaEnums(isEmmyLua)
 	local EnumUngrouped = {}
 	-- LE_* globals
 	for enumType, enumValue in pairs(_G) do
-		if enumType:find("^LE_") and not enumType:find("GAME_ERR") then
-			-- try to group enums together so we can sort by value
-			local found
-			for group in pairs(self.EnumGroups) do
-				local enumType2 = EnumTypo[enumType] or enumType -- hack
-				if enumType2:find("^"..group) then
-					EnumGroup[group] = EnumGroup[group] or {}
-					tinsert(EnumGroup[group], {enumType, enumValue})
-					found = true
-					break
+		if enumType:find("^LE_") then
+			if not (not showGameErr and enumType:find("GAME_ERR")) then -- uhh tried karnaugh map
+				-- try to group enums together so we can sort by value
+				local found
+				for group in pairs(self.EnumGroups) do
+					local enumType2 = EnumTypo[enumType] or enumType -- hack
+					if enumType2:find("^"..group) then
+						EnumGroup[group] = EnumGroup[group] or {}
+						tinsert(EnumGroup[group], {enumType, enumValue})
+						found = true
+						break
+					end
 				end
-			end
-			if not found then
-				tinsert(EnumUngrouped, {enumType, enumValue})
+				if not found then
+					tinsert(EnumUngrouped, {enumType, enumValue})
+				end
 			end
 		end
 	end
