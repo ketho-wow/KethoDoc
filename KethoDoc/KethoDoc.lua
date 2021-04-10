@@ -245,7 +245,7 @@ function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
 	-- LE_* globals
 	for enumType, enumValue in pairs(_G) do
 		if enumType:find("^LE_") then
-			if not (not showGameErr and enumType:find("GAME_ERR")) then -- uhh tried karnaugh map
+			if showGameErr or not enumType:find("GAME_ERR") then -- uhh tried karnaugh map
 				-- try to group enums together so we can sort by value
 				local found
 				for group in pairs(self.EnumGroups) do
