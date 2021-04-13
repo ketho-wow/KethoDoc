@@ -1,4 +1,4 @@
-## Interface: 90002
+## Interface: 90100
 ## Version: 1.3.3
 ## Title: KethoDoc
 
@@ -9,8 +9,8 @@ util.lua
 api.lua
 framexml_live.lua
 framexml_ptr.lua
-framexml_beta.lua
 framexml_classic.lua
+framexml_bc.lua
 widget.lua
 loadondemand.lua
 cvar.lua

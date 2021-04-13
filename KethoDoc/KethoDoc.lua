@@ -5,9 +5,11 @@ local eb = KethoEditBox
 --local tocVersion = select(4, GetBuildInfo())
 
 if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
-	KethoDoc.branch = "live"
+	KethoDoc.branch = IsTestBuild() and "ptr" or "live"
 elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 	KethoDoc.branch = "classic"
+elseif WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
+	KethoDoc.branch = "bc"
 end
 
 function KethoDoc:GetAPI()
