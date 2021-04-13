@@ -1,6 +1,13 @@
 
 local W
-local IsClassic = (KethoDoc.branch == "classic")
+
+local function TryCreateFrame(frameType, ...)
+	local ok, frame = pcall(CreateFrame, frameType, ...)
+
+	if ok then
+		return frame
+	end
+end
 
 -- (AnimationGroup ∩ Frame) \ UIObject
 function KethoDoc.GetScriptObject()
@@ -220,7 +227,7 @@ function KethoDoc:SetupWidgets()
 		},
 		FogOfWarFrame = { -- FogOfWarFrame \ Frame
 			inherits = {"Frame"},
-			object = not IsClassic and CreateFrame("FogOfWarFrame"),
+			object = TryCreateFrame("FogOfWarFrame"),
 			unique_methods = function() return self:RemoveTable(W.FogOfWarFrame.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.FogOfWarFrame.handlers, W.Frame.handlers) end,
 		},
@@ -287,7 +294,7 @@ function KethoDoc:SetupWidgets()
 		},
 		MovieFrame = { -- MovieFrame \ Frame
 			inherits = {"Frame"},
-			object = not IsClassic and CreateFrame("MovieFrame"),
+			object = TryCreateFrame("MovieFrame"),
 			unique_methods = function() return self:RemoveTable(W.MovieFrame.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.MovieFrame.handlers, W.Frame.handlers) end,
 		},
@@ -305,19 +312,19 @@ function KethoDoc:SetupWidgets()
 		},
 		ArchaeologyDigSiteFrame = { -- ArchaeologyDigSiteFrame \ POIFrame
 			inherits = {"POIFrame"},
-			object = not IsClassic and CreateFrame("ArchaeologyDigSiteFrame"),
+			object = TryCreateFrame("ArchaeologyDigSiteFrame"),
 			unique_methods = function() return self:RemoveTable(W.ArchaeologyDigSiteFrame.meta_object, W.POIFrame.meta_object()) end,
 			unique_handlers = function() return self:RemoveTable(W.ArchaeologyDigSiteFrame.handlers, W.Frame.handlers) end,
 		},
 		QuestPOIFrame = { -- QuestPOIFrame \ POIFrame
 			inherits = {"POIFrame"},
-			object = not IsClassic and CreateFrame("QuestPOIFrame"),
+			object = TryCreateFrame("QuestPOIFrame"),
 			unique_methods = function() return self:RemoveTable(W.QuestPOIFrame.meta_object, W.POIFrame.meta_object()) end,
 			unique_handlers = function() return self:RemoveTable(W.QuestPOIFrame.handlers, W.Frame.handlers) end,
 		},
 		ScenarioPOIFrame = { -- ScenarioPOIFrame \ POIFrame
 			inherits = {"POIFrame"},
-			object = not IsClassic and CreateFrame("ScenarioPOIFrame"),
+			object = TryCreateFrame("ScenarioPOIFrame"),
 			unique_methods = function() return self:RemoveTable(W.ScenarioPOIFrame.meta_object, W.POIFrame.meta_object()) end,
 			unique_handlers = function() return self:RemoveTable(W.ScenarioPOIFrame.handlers, W.Frame.handlers) end,
 		},
@@ -614,7 +621,7 @@ function KethoDoc:WidgetTest()
 			passed_count = passed_count + 1
 		else
 			print("Failed:", v[1], size1, size2)
-			
+
 		end
 	end
 	print(format("Passed %d of %d tests", passed_count, #widgets))
