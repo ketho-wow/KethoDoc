@@ -181,7 +181,7 @@ KethoDoc.LoadOnDemand.ptr = {
 	"Blizzard_TutorialTemplates",
 	"Blizzard_VoidStorageUI",
 	"Blizzard_WarfrontsPartyPoseUI",
-	"Blizzard_WeeklyRewards	",
+	"Blizzard_WeeklyRewards",
 }
 
 -- 1.13.7 (38296)
