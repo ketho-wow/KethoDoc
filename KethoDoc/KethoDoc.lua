@@ -369,6 +369,12 @@ function KethoDoc:PreloadFrameXML()
 	for k in pairs(KethoDoc.FrameXML[KethoDoc.branch]) do
 		if type(_G[k]) == "function" then
 			self.funcs[k] = true
+		elseif type(_G[k]) == "table" and string.find(tostring(k), "Util$") then
+			for k2, v2 in pairs(_G[k]) do
+				if type(v2) == "function" then
+					self.funcs[k .. "." .. k2] = true;
+				end
+			end
 		end
 	end
 end
@@ -379,6 +385,12 @@ function KethoDoc:DumpFrameXML()
 	for k in pairs(self.FrameXML[self.branch]) do
 		if not self.funcs[k] and type(_G[k]) == "function" then
 			tinsert(lodfuncs, k)
+		elseif not self.funcs[k] and type(_G[k]) == "table" and string.find(tostring(k), "Util$") then
+			for k2, v2 in pairs(_G[k]) do
+				if type(v2) == "function" then
+					tinsert(lodfuncs, k .. "." .. k2);
+				end
+			end
 		end
 	end
 	local funcs = self:SortTable(self.funcs)
