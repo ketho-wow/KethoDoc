@@ -5,6 +5,7 @@ local eb = KethoEditBox
 --local tocVersion = select(4, GetBuildInfo())
 
 if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+	KethoDoc.isRetail = true
 	KethoDoc.branch = IsTestBuild() and "ptr" or "live"
 elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 	KethoDoc.branch = "classic"
@@ -30,7 +31,6 @@ end
 
 function KethoDoc:DumpGlobalAPI()
 	local api = self:GetAPI()
-
 	eb:Show()
 	eb:InsertLine("local GlobalAPI = {")
 	for _, apiName in pairs(self:SortTable(api)) do
@@ -38,7 +38,6 @@ function KethoDoc:DumpGlobalAPI()
 	end
 	eb:InsertLine("}\n")
 	self:DumpLuaAPI()
-
 	eb:InsertLine("}\n\nreturn {GlobalAPI, LuaAPI}")
 end
 
@@ -47,7 +46,6 @@ function KethoDoc:DumpLuaAPI()
 	for apiName in pairs(self.LuaAPI) do
 		tinsert(api, apiName)
 	end
-
 	for _, tblName in pairs({"bit", "coroutine", "math", "string", "table"}) do
 		for methodName, value in pairs(_G[tblName]) do
 			if type(value) == "function" then -- ignore math.PI, math.huge
@@ -57,13 +55,10 @@ function KethoDoc:DumpLuaAPI()
 	end
 	tDeleteItem(api, "string.rtgsub") -- RestrictedTable_rtgsub()
 	sort(api)
-
-	--eb:Show()
 	eb:InsertLine("local LuaAPI = {")
 	for _, apiName in pairs(api) do
 		eb:InsertLine(format('\t"%s",', apiName))
 	end
-	--eb:InsertLine("}\n\nreturn LuaAPI")
 end
 
 -- wannabe table serializer
@@ -93,7 +88,6 @@ function KethoDoc:DumpWidgetAPI()
 					eb:InsertLine("\t\t},")
 				end
 			end
-
 			if object.unique_methods and not object.mixin then
 				eb:InsertLine("\t\tmethods = {")
 				local methods = self:SortTable(object.unique_methods())
@@ -102,7 +96,6 @@ function KethoDoc:DumpWidgetAPI()
 				end
 				eb:InsertLine("\t\t},")
 			end
-
 			if object.intrinsic then
 				eb:InsertLine(format('\t\tmixin = "%s",', object.mixin))
 				eb:InsertLine("\t\tintrinsic = true,")
@@ -117,11 +110,9 @@ function KethoDoc:DumpEvents()
 	APIDocumentation_LoadUI()
 	eb:Show()
 	eb:InsertLine("local Events = {")
-
 	sort(APIDocumentation.systems, function(a, b)
 		return (a.Namespace or a.Name) < (b.Namespace or b.Name)
 	end)
-
 	for _, system in pairs(APIDocumentation.systems) do
 		if #system.Events > 0 then -- skip systems with no events
 			eb:InsertLine("\t"..(system.Namespace or system.Name).." = {")
@@ -159,7 +150,6 @@ function KethoDoc:DumpCVars()
 	for _, tbl in pairs({cvarTbl, commandTbl, test_cvarTbl, test_commandTbl}) do
 		sort(tbl, self.SortCaseInsensitive)
 	end
-
 	eb:Show()
 	eb:InsertLine("local CVars = {")
 	eb:InsertLine("\tvar = {")
@@ -285,7 +275,6 @@ function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
 			eb:InsertLine(format("%s = %d", tbl.name, tbl.value))
 		end
 	end
-
 	-- print any NUM_LE_* globals not belonging to a group
 	local NumLuaEnum, NumEnumCache = {}, {}
 	for enum, value in pairs(_G) do
@@ -301,7 +290,6 @@ function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
 			eb:InsertLine(format("%s = %d", numEnum, _G[numEnum]))
 		end
 	end
-
 	-- not yet categorized enums
 	if #EnumUngrouped > 0 then
 		eb:InsertLine("\n-- to be categorized")

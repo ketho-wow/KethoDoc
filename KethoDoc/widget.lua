@@ -1,12 +1,9 @@
 
 local W
 
-local IsClassic = (KethoDoc.branch == "classic")
-
 local function TryCreateFrame(frameType, ...)
 	local ok, frame = pcall(CreateFrame, frameType, ...)
-
-	if ok then
+	if ok and frame.GetObjectType then
 		return frame
 	end
 end
@@ -75,7 +72,7 @@ function KethoDoc:SetupWidgets()
 		},
 		FontString = { -- FontString \ (FontInstance ∧ LayeredRegion)
 			inherits = {"LayeredRegion", "FontInstance"},
-			object = CreateFrame("Frame"):CreateFontString(),
+			object = TryCreateFrame("Frame"):CreateFontString(),
 			unique_methods = function()
 				local obj = self:RemoveTable(W.FontString.meta_object, W.FontInstance.meta_object())
 				return self:RemoveTable(obj, W.LayeredRegion.meta_object())
@@ -84,23 +81,23 @@ function KethoDoc:SetupWidgets()
 
 		Texture = { -- Texture \ LayeredRegion
 			inherits = {"LayeredRegion"},
-			object = CreateFrame("Frame"):CreateTexture(),
+			object = TryCreateFrame("Frame"):CreateTexture(),
 			unique_methods = function() return self:RemoveTable(W.Texture.meta_object, W.LayeredRegion.meta_object()) end,
 		},
 		Line = { -- Texture +6 -12
 			inherits = {"Texture"},
-			object = CreateFrame("Frame"):CreateLine(),
+			object = TryCreateFrame("Frame"):CreateLine(),
 			unique_methods = function() return self:RemoveTable(W.Line.meta_object, W.Texture.meta_object) end,
 		},
 		MaskTexture = { -- Texture -4
 			inherits = {"Texture"},
-			object = CreateFrame("Frame"):CreateMaskTexture(),
+			object = TryCreateFrame("Frame"):CreateMaskTexture(),
 			unique_methods = function() return self:RemoveTable(W.MaskTexture.meta_object, W.Texture.meta_object) end,
 		},
 
 		AnimationGroup = { -- AnimationGroup \ (UIObject ∧ ScriptObject)
 			inherits = {"ParentedObject", "ScriptObject"},
-			object = CreateFrame("Frame"):CreateAnimationGroup(),
+			object = TryCreateFrame("Frame"):CreateAnimationGroup(),
 			unique_methods = function()
 				local obj = self:RemoveTable(W.AnimationGroup.meta_object, W.ParentedObject.meta_object())
 				return self:RemoveTable(obj, W.ScriptObject.meta_object())
@@ -109,7 +106,7 @@ function KethoDoc:SetupWidgets()
 		},
 		Animation = { -- Animation \ (UIObject ∧ ScriptObject)
 			inherits = {"ParentedObject", "ScriptObject"},
-			object = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation(),
+			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation(),
 			unique_methods = function()
 				local obj = self:RemoveTable(W.Animation.meta_object, W.ParentedObject.meta_object())
 				return self:RemoveTable(obj, W.ScriptObject.meta_object())
@@ -118,62 +115,62 @@ function KethoDoc:SetupWidgets()
 		},
 		Alpha = { -- Alpha \ Animation
 			inherits = {"Animation"},
-			object = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Alpha"),
+			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Alpha"),
 			unique_methods = function() return self:RemoveTable(W.Alpha.meta_object, W.Animation.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.Alpha.handlers, W.Animation.handlers) end,
 		},
 		LineScale = { -- LineScale \ Animation
 			inherits = {"Animation"},
-			object = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("LineScale"),
+			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("LineScale"),
 			unique_methods = function() return self:RemoveTable(W.LineScale.meta_object, W.Animation.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.LineScale.handlers, W.Animation.handlers) end,
 		},
 		LineTranslation = { -- LineTranslation \ Animation
 			inherits = {"Animation"},
-			object = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("LineTranslation"),
+			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("LineTranslation"),
 			unique_methods = function() return self:RemoveTable(W.LineTranslation.meta_object, W.Animation.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.LineTranslation.handlers, W.Animation.handlers) end,
 		},
 		Path = { -- Path \ Animation
 			inherits = {"Animation"},
-			object = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Path"),
+			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Path"),
 			unique_methods = function() return self:RemoveTable(W.Path.meta_object, W.Animation.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.Path.handlers, W.Animation.handlers) end,
 		},
 		ControlPoint = { -- ControlPoint \ UIObject
 			inherits = {"ParentedObject"},
-			object = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Path"):CreateControlPoint(),
+			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Path"):CreateControlPoint(),
 			unique_methods = function() return self:RemoveTable(W.ControlPoint.meta_object, W.ParentedObject.meta_object()) end,
 		},
 		Rotation = { -- Rotation \ Animation
 			inherits = {"Animation"},
-			object = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Rotation"),
+			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Rotation"),
 			unique_methods = function() return self:RemoveTable(W.Rotation.meta_object, W.Animation.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.Rotation.handlers, W.Animation.handlers) end,
 		},
 		Scale = { -- Scale \ Animation
 			inherits = {"Animation"},
-			object = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Scale"),
+			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Scale"),
 			unique_methods = function() return self:RemoveTable(W.Scale.meta_object, W.Animation.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.Scale.handlers, W.Animation.handlers) end,
 		},
 		TextureCoordTranslation = { -- TextureCoordTranslation \ Animation
 		inherits = {"Animation"},
 			-- cant seem to actually create this in Lua
-			object = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("TextureCoordTranslation"),
+			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("TextureCoordTranslation"),
 			unique_methods = function() return self:RemoveTable(W.TextureCoordTranslation.meta_object, W.Animation.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.TextureCoordTranslation.handlers, W.Animation.handlers) end,
 		},
 		Translation = { -- Translation \ Animation
 			inherits = {"Animation"},
-			object = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Translation"),
+			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Translation"),
 			unique_methods = function() return self:RemoveTable(W.Translation.meta_object, W.Animation.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.Translation.handlers, W.Animation.handlers) end,
 		},
 
 		Frame = { -- Frame \ (Region ∧ ScriptObject)
 			inherits = {"Region", "ScriptObject"},
-			object = CreateFrame("Frame"),
+			object = TryCreateFrame("Frame"),
 			unique_methods = function()
 				local obj = self:RemoveTable(W.Frame.meta_object, W.Region.meta_object())
 				return self:RemoveTable(obj, W.ScriptObject.meta_object())
@@ -182,45 +179,45 @@ function KethoDoc:SetupWidgets()
 		},
 		Browser = { -- Browser \ Frame
 			inherits = {"Frame"},
-			object = CreateFrame("Browser"),
+			object = TryCreateFrame("Browser"),
 			unique_methods = function() return self:RemoveTable(W.Browser.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.Browser.handlers, W.Frame.handlers) end,
 		},
 
 		Button = { -- Button \ Frame
 			inherits = {"Frame"},
-			object = CreateFrame("Button"),
+			object = TryCreateFrame("Button"),
 			unique_methods = function() return self:RemoveTable(W.Button.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.Button.handlers, W.Frame.handlers) end,
 		},
 		CheckButton = { -- CheckButton \ Button
 			inherits = {"Button"},
-			object = CreateFrame("CheckButton"),
+			object = TryCreateFrame("CheckButton"),
 			unique_methods = function() return self:RemoveTable(W.CheckButton.meta_object, W.Button.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.CheckButton.handlers, W.Button.handlers) end,
 		},
 		-- UnitButton unavailable
 		Checkout = { -- Checkout \ Frame
 			inherits = {"Frame"},
-			object = CreateFrame("Checkout"),
+			object = TryCreateFrame("Checkout"),
 			unique_methods = function() return self:RemoveTable(W.Checkout.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.Checkout.handlers, W.Frame.handlers) end,
 		},
 		ColorSelect = { -- ColorSelect \ Frame
 			inherits = {"Frame"},
-			object = CreateFrame("ColorSelect"),
+			object = TryCreateFrame("ColorSelect"),
 			unique_methods = function() return self:RemoveTable(W.ColorSelect.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.ColorSelect.handlers, W.Frame.handlers) end,
 		},
 		Cooldown = { -- Cooldown \ Frame
 			inherits = {"Frame"},
-			object = CreateFrame("Cooldown"),
+			object = TryCreateFrame("Cooldown"),
 			unique_methods = function() return self:RemoveTable(W.Cooldown.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.Cooldown.handlers, W.Frame.handlers) end,
 		},
 		EditBox = { -- EditBox \ (FontInstance ∧ Frame)
 			inherits = {"Frame", "FontInstance"},
-			object = CreateFrame("EditBox"),
+			object = TryCreateFrame("EditBox"),
 			unique_methods = function()
 				local obj = self:RemoveTable(W.EditBox.meta_object, W.FontInstance.meta_object())
 				return self:RemoveTable(obj, W.Frame.meta_object)
@@ -229,20 +226,20 @@ function KethoDoc:SetupWidgets()
 		},
 		FogOfWarFrame = { -- FogOfWarFrame \ Frame
 			inherits = {"Frame"},
-			-- does not error and returns an empty frame in classic
-			object = not IsClassic and CreateFrame("FogOfWarFrame"),
+			-- does not error and returns an empty frame in classic/bc
+			object = TryCreateFrame("FogOfWarFrame"),
 			unique_methods = function() return self:RemoveTable(W.FogOfWarFrame.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.FogOfWarFrame.handlers, W.Frame.handlers) end,
 		},
 		GameTooltip = { -- GameTooltip \ Frame
 			inherits = {"Frame"},
-			object = CreateFrame("GameTooltip"),
+			object = TryCreateFrame("GameTooltip"),
 			unique_methods = function() return self:RemoveTable(W.GameTooltip.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.GameTooltip.handlers, W.Frame.handlers) end,
 		},
 		MessageFrame = { -- MessageFrame \ (FontInstance ∧ Frame)
 			inherits = {"Frame", "FontInstance"},
-			object = CreateFrame("MessageFrame"),
+			object = TryCreateFrame("MessageFrame"),
 			unique_methods = function()
 				local obj = self:RemoveTable(W.MessageFrame.meta_object, W.FontInstance.meta_object())
 				return self:RemoveTable(obj, W.Frame.meta_object)
@@ -258,32 +255,32 @@ function KethoDoc:SetupWidgets()
 
 		Model = { -- Model \ Frame
 			inherits = {"Frame"},
-			object = CreateFrame("Model"),
+			object = TryCreateFrame("Model"),
 			unique_methods = function() return self:RemoveTable(W.Model.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.Model.handlers, W.Frame.handlers) end,
 		},
 		PlayerModel = { -- PlayerModel \ Model
 			inherits = {"Model"},
-			object = CreateFrame("PlayerModel"),
+			object = TryCreateFrame("PlayerModel"),
 			unique_methods = function() return self:RemoveTable(W.PlayerModel.meta_object, W.Model.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.PlayerModel.handlers, W.Model.handlers) end,
 		},
 		CinematicModel = { -- CinematicModel \ Model
 			inherits = {"PlayerModel"},
-			object = CreateFrame("CinematicModel"),
+			object = TryCreateFrame("CinematicModel"),
 			unique_methods = function() return self:RemoveTable(W.CinematicModel.meta_object, W.PlayerModel.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.CinematicModel.handlers, W.PlayerModel.handlers) end,
 		},
 		DressUpModel = { -- DressUpModel \ Model
 			inherits = {"PlayerModel"},
-			object = CreateFrame("DressUpModel"),
+			object = TryCreateFrame("DressUpModel"),
 			unique_methods = function() return self:RemoveTable(W.DressUpModel.meta_object, W.PlayerModel.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.DressUpModel.handlers, W.PlayerModel.handlers) end,
 		},
 		-- ModelFFX unavailable
 		TabardModel = { -- TabardModel \ Model
 			inherits = {"PlayerModel"},
-			object = CreateFrame("TabardModel"),
+			object = TryCreateFrame("TabardModel"),
 			unique_methods = function() return self:RemoveTable(W.TabardModel.meta_object, W.PlayerModel.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.TabardModel.handlers, W.PlayerModel.handlers) end,
 		},
@@ -291,25 +288,25 @@ function KethoDoc:SetupWidgets()
 
 		ModelScene = { -- ModelScene \ Frame
 			inherits = {"Frame"},
-			object = CreateFrame("ModelScene"),
+			object = TryCreateFrame("ModelScene"),
 			unique_methods = function() return self:RemoveTable(W.ModelScene.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.ModelScene.handlers, W.Frame.handlers) end,
 		},
 		MovieFrame = { -- MovieFrame \ Frame
 			inherits = {"Frame"},
-			object = CreateFrame("MovieFrame"),
+			object = TryCreateFrame("MovieFrame"),
 			unique_methods = function() return self:RemoveTable(W.MovieFrame.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.MovieFrame.handlers, W.Frame.handlers) end,
 		},
 		OffScreenFrame = { -- OffScreenFrame \ Frame
 			inherits = {"Frame"},
-			object = CreateFrame("OffScreenFrame"),
+			object = TryCreateFrame("OffScreenFrame"),
 			unique_methods = function() return self:RemoveTable(W.OffScreenFrame.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.OffScreenFrame.handlers, W.Frame.handlers) end,
 		},
 		POIFrame = {
 			inherits = {"Frame"}, -- ArchaeologyDigSiteFrame ∩ QuestPOIFrame
-			meta_object = not IsClassic and function() return self:CompareTable(W.ArchaeologyDigSiteFrame.meta_object, W.QuestPOIFrame.meta_object) end,
+			meta_object = self.isRetail and function() return self:CompareTable(W.ArchaeologyDigSiteFrame.meta_object, W.QuestPOIFrame.meta_object) end,
 			-- (ArchaeologyDigSiteFrame ∩ QuestPOIFrame) \ Frame
 			unique_methods = function() return self:RemoveTable(W.POIFrame.meta_object(), W.Frame.meta_object) end,
 		},
@@ -333,13 +330,13 @@ function KethoDoc:SetupWidgets()
 		},
 		ScrollFrame = { -- ScrollFrame \ Frame
 			inherits = {"Frame"},
-			object = CreateFrame("ScrollFrame"),
+			object = TryCreateFrame("ScrollFrame"),
 			unique_methods = function() return self:RemoveTable(W.ScrollFrame.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.ScrollFrame.handlers, W.Frame.handlers) end,
 		},
 		SimpleHTML = { -- SimpleHTML \ (FontInstance ∧ Frame)
 			inherits = {"Frame", "FontInstance"},
-			object = CreateFrame("SimpleHTML"),
+			object = TryCreateFrame("SimpleHTML"),
 			unique_methods = function()
 				local obj = self:RemoveTable(W.SimpleHTML.meta_object, W.FontInstance.meta_object())
 				return self:RemoveTable(obj, W.Frame.meta_object)
@@ -348,20 +345,20 @@ function KethoDoc:SetupWidgets()
 		},
 		Slider = { -- Slider \ Frame
 			inherits = {"Frame"},
-			object = CreateFrame("Slider"),
+			object = TryCreateFrame("Slider"),
 			unique_methods = function() return self:RemoveTable(W.Slider.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.Slider.handlers, W.Frame.handlers) end,
 		},
 		StatusBar = { -- StatusBar \ Frame
 			inherits = {"Frame"},
-			object = CreateFrame("StatusBar"),
+			object = TryCreateFrame("StatusBar"),
 			unique_methods = function() return self:RemoveTable(W.StatusBar.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.StatusBar.handlers, W.Frame.handlers) end,
 		},
 		-- TaxiRouteFrame unavailable
 		UnitPositionFrame = { -- UnitPositionFrame \ Frame
 			inherits = {"Frame"},
-			object = CreateFrame("UnitPositionFrame"),
+			object = TryCreateFrame("UnitPositionFrame"),
 			unique_methods = function() return self:RemoveTable(W.UnitPositionFrame.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.UnitPositionFrame.handlers, W.Frame.handlers) end,
 		},
@@ -373,7 +370,7 @@ function KethoDoc:SetupWidgets()
 		},
 		ModelSceneActor = {
 			inherits = {"ParentedObject"},
-			object = CreateFrame("ModelScene"):CreateActor(),
+			object = TryCreateFrame("ModelScene"):CreateActor(),
 			unique_methods = function() return self:RemoveTable(W.ModelSceneActor.meta_object, W.ParentedObject.meta_object()) end,
 			unique_handlers = function()
 				return { -- can only set these from XML
