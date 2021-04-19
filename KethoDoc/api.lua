@@ -8,6 +8,11 @@ local augments = {
 
 local deprecated = {
 	C_Timer = augments.C_Timer,
+	C_DateAndTime = { -- classicbc
+		GetDateFromEpoch = true,
+		GetTodaysDate = true,
+		GetYesterdaysDate = true,
+	}
 }
 
 local IsClassic = (KethoDoc.branch == "classic")
