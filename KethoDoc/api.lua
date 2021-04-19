@@ -1,25 +1,33 @@
--- deprecated / script wrapper API
-local augments = {
-	C_Timer = {
+local deprecated = {
+	C_Timer = { -- augments
 		NewTicker = true,
 		NewTimer = true,
-	}
-}
-
-local deprecated = {
-	C_Timer = augments.C_Timer,
-	C_DateAndTime = { -- 2.5.1
-		GetDateFromEpoch = true,
-		GetTodaysDate = true,
-		GetYesterdaysDate = true,
 	},
 	C_Soulbinds = { -- 9.0.5
 		GetConduitItemLevel = true,
 	},
 }
 
-local IsClassic = (KethoDoc.branch == "classic")
-local blacklist = IsClassic and augments or deprecated
+if KethoDoc.branch == "bc" then -- 2.5.1
+	deprecated.C_DateAndTime = {
+		GetDateFromEpoch = true,
+		GetTodaysDate = true,
+		GetYesterdaysDate = true,
+	}
+elseif KethoDoc.tocVersion >= 90100 then -- 9.1.0
+	deprecated.C_TransmogCollection = {
+		GetIllusionSourceInfo = true,
+		GetIllusionFallbackWeaponSource = true,
+	}
+	deprecated.C_PlayerChoice = {
+		GetPlayerChoiceInfo = true,
+		GetPlayerChoiceOptionInfo = true,
+		GetPlayerChoiceRewardInfo = true,
+	}
+	deprecated.C_LegendaryCrafting = {
+		GetRuneforgePowersByClassAndSpec = true,
+	}
+end
 
 KethoDoc.FrameXmlBlacklist = {
 	-- these globals are set through _G instead
@@ -143,7 +151,8 @@ function KethoDoc:GetCNamespaceAPI()
 	for systemName, v in pairs(_G) do
 		if systemName:find("^C_") and type(v) == "table" then
 			for funcName in pairs(v) do
-				if not blacklist[systemName] or not blacklist[systemName][funcName] then
+				local depr = deprecated[systemName]
+				if not depr or not depr[funcName] then
 					local name = format("%s.%s", systemName, funcName)
 					t[name] = true
 				end

@@ -2,7 +2,7 @@
 KethoDoc = {}
 local eb = KethoEditBox
 
---local tocVersion = select(4, GetBuildInfo())
+KethoDoc.tocVersion = select(4, GetBuildInfo())
 
 if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
 	KethoDoc.isRetail = true
@@ -232,6 +232,12 @@ function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
 	end
 	eb:InsertLine("}")
 
+	-- check if a NUM_LE still exists
+	for _, NUM_LE in pairs(self.EnumGroups) do
+		if type(NUM_LE) == "string" and not _G[NUM_LE] then
+			print("Removed: ", NUM_LE)
+		end
+	end
 	local EnumGroup, EnumGroupSorted = {}, {}
 	local EnumUngrouped = {}
 	-- LE_* globals
@@ -240,7 +246,7 @@ function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
 			if showGameErr or not enumType:find("GAME_ERR") then
 				-- group enums together
 				local found
-				for group in pairs(self.EnumGroups) do
+				for group, NUM_LE in pairs(self.EnumGroups) do
 					local enumType2 = EnumTypo[enumType] or enumType -- hack
 					if enumType2:find("^"..group) then
 						EnumGroup[group] = EnumGroup[group] or {}
@@ -268,8 +274,9 @@ function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
 	for _, group in pairs(EnumGroupSorted) do
 		eb:InsertLine("")
 		local numEnum = self.EnumGroups[group]
-		if type(numEnum) == "string" then
-			eb:InsertLine(format("%s = %d", numEnum, _G[numEnum]))
+		local groupEnum = _G[numEnum]
+		if groupEnum then
+			eb:InsertLine(format("%s = %d", numEnum, groupEnum))
 		end
 		for _, tbl in pairs(EnumGroup[group]) do
 			eb:InsertLine(format("%s = %d", tbl.name, tbl.value))
