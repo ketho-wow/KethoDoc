@@ -3,15 +3,16 @@
 ## Title: KethoDoc
 
 editbox.lua
-
 KethoDoc.lua
+
+framexml/live.lua
+framexml/ptr.lua
+framexml/classic.lua
+framexml/bc.lua
+
 util.lua
 api.lua
-framexml_live.lua
-framexml_ptr.lua
-framexml_classic.lua
-framexml_bc.lua
 widget.lua
-loadondemand.lua
 cvar.lua
 lua_enum.lua
+loadondemand.lua
