@@ -248,7 +248,7 @@ function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
 	for enumType, enumValue in pairs(_G) do
 		if enumType:find("^LE_") then
 			if showGameErr or not enumType:find("GAME_ERR") then
-				-- try to group enums together so we can sort by value
+				-- group enums together
 				local found
 				for group in pairs(self.EnumGroups) do
 					local enumType2 = EnumTypo[enumType] or enumType -- hack
@@ -302,100 +302,75 @@ function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
 		end
 	end
 
-	-- print not yet grouped enums
+	-- not yet categorized enums
 	if #EnumUngrouped > 0 then
 		eb:InsertLine("\n-- to be categorized")
-		sort(EnumUngrouped, function(a, b)
-			return a[1] < b[1]
-		end)
+		sort(EnumUngrouped, SortEnum)
 		for _, enum in pairs(EnumUngrouped) do
-			eb:InsertLine(format("%s = %d", enum[1], enum[2]))
+			eb:InsertLine(format("%s = %d", enum.name, enum.value))
 		end
 	end
 end
 
-function KethoDoc:PreloadFrames()
-	self.frames = {}
+function KethoDoc:GetFrames()
+	local t = {}
 	for _, v in pairs(_G) do
 		-- cant interact with forbidden frames; only check for named frames
 		if type(v) == "table" and v.IsForbidden and not v:IsForbidden() and v:GetName() then
 			local parent = v:GetParent()
+			local name = v:GetDebugName()
 			if not parent or (parent == UIParent) or (parent == WorldFrame) then
-				self.frames[v:GetDebugName()] = true
+				t[name] = true
 			end
 		end
 	end
+	return t
+end
+
+function KethoDoc:GetFrameXML()
+	local t = {}
+	for k in pairs(self.FrameXML[self.branch]) do
+		if type(_G[k]) == "function" then
+			t[k] = true
+		elseif type(_G[k]) == "table" and strfind(k, "Util$") then
+			for k2, v2 in pairs(_G[k]) do
+				if type(v2) == "function" then
+					t[k.."."..k2] = true;
+				end
+			end
+		end
+	end
+	return t
 end
 
 function KethoDoc:DumpFrames()
-	self:LoadLodAddons()
-	local lodframes = {}
-	for _, v in pairs(_G) do
-		if type(v) == "table" and v.IsForbidden and not v:IsForbidden() and v:GetName() then
-			local parent = v:GetParent()
-			local name = v:GetDebugName()
-			if not self.frames[name] and (not parent or (parent == UIParent) or (parent == WorldFrame)) then
-				tinsert(lodframes, name)
-			end
-		end
-	end
-	local frames = self:SortTable(self.frames)
-	sort(lodframes)
-
-	eb:Show()
-	eb:InsertLine("local Frames = {")
-	for _, name in pairs(frames) do
-		eb:InsertLine(format('\t"%s",', name))
-	end
-	eb:InsertLine("}\n\nlocal LoadOnDemand = {")
-	for _, name in pairs(lodframes) do
-		eb:InsertLine(format('\t"%s",', name))
-	end
-	eb:InsertLine("}\n\nreturn {Frames, LoadOnDemand}")
-end
-
-function KethoDoc:PreloadFrameXML()
-	self.funcs = {}
-	for k in pairs(KethoDoc.FrameXML[KethoDoc.branch]) do
-		if type(_G[k]) == "function" then
-			self.funcs[k] = true
-		elseif type(_G[k]) == "table" and string.find(tostring(k), "Util$") then
-			for k2, v2 in pairs(_G[k]) do
-				if type(v2) == "function" then
-					self.funcs[k .. "." .. k2] = true;
-				end
-			end
-		end
-	end
+	self:DumpLodTable("Frames", self.GetFrames, self.initFrames)
 end
 
 function KethoDoc:DumpFrameXML()
+	self:DumpLodTable("FrameXML", self.GetFrameXML, self.initFrameXML)
+end
+
+function KethoDoc:DumpLodTable(label, getFunc, initTbl)
 	self:LoadLodAddons()
-	local lodfuncs = {}
-	for k in pairs(self.FrameXML[self.branch]) do
-		if not self.funcs[k] and type(_G[k]) == "function" then
-			tinsert(lodfuncs, k)
-		elseif not self.funcs[k] and type(_G[k]) == "table" and string.find(tostring(k), "Util$") then
-			for k2, v2 in pairs(_G[k]) do
-				if type(v2) == "function" then
-					tinsert(lodfuncs, k .. "." .. k2);
-				end
-			end
+	local lodTbl = {}
+	for name in pairs(getFunc(self)) do
+		if not initTbl[name] then
+			tinsert(lodTbl, name)
 		end
 	end
-	local funcs = self:SortTable(self.funcs)
-	sort(lodfuncs)
+	sort(lodTbl)
 
 	eb:Show()
-	eb:InsertLine("local FrameXML = {")
-	for _, name in pairs(funcs) do
+	eb:InsertLine(format("local %s = {", label))
+	for _, name in pairs(self:SortTable(initTbl)) do
 		eb:InsertLine(format('\t"%s",', name))
 	end
 	eb:InsertLine("}\n\nlocal LoadOnDemand = {")
-	for _, name in pairs(lodfuncs) do
+	for _, name in pairs(lodTbl) do
 		eb:InsertLine(format('\t"%s",', name))
 	end
-	eb:InsertLine("}\n\nreturn {FrameXML, LoadOnDemand}")
+	eb:InsertLine(format("}\n\nreturn {%s, LoadOnDemand}", label))
 end
 
 -- non blizzard documented api
