@@ -195,14 +195,17 @@ function KethoDoc:DumpCVars()
 	eb:InsertLine("\nreturn {CVars, PTR}")
 end
 
-local EnumOrder = { -- some special enums share the same value
-	LE_EXPANSION_LEVEL_PREVIOUS = true,
-	LE_EXPANSION_LEVEL_CURRENT = true,
-}
-
-local EnumTypo = { -- ACCOUNT -> ACCCOUNT; yes they use 3 Cs
+local EnumTypo = { -- ACCOUNT -> ACCCOUNT (3 Cs)
 	LE_FRAME_TUTORIAL_ACCOUNT_CLUB_FINDER_NEW_COMMUNITY_JOINED = "LE_FRAME_TUTORIAL_ACCCOUNT_CLUB_FINDER_NEW_COMMUNITY_JOINED",
 }
+
+local function SortEnum(a, b)
+	if a.value == b.value then
+		return a.name < b.name
+	else
+		return a.value < b.value
+	end
+end
 
 -- kind of messy
 function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
@@ -227,15 +230,12 @@ function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
 			local TableEnum = {}
 			eb:InsertLine("\t"..name.." = {")
 			for enumType, enumValue in pairs(Enum[name]) do
-				tinsert(TableEnum, {enumType, enumValue})
+				tinsert(TableEnum, {name = enumType, value = enumValue})
 			end
-			sort(TableEnum, function(a, b)
-				return a[2] < b[2]
-			end)
-			local isBitflag = self.EnumBitGroups[name]
-			local numberFormat = isBitflag and "0x%X" or "%d"
+			sort(TableEnum, SortEnum)
+			local numberFormat = self.EnumBitGroups[name] and "0x%X" or "%d"
 			for _, enum in pairs(TableEnum) do
-				eb:InsertLine(format("\t\t%s = %s,", enum[1], format(numberFormat, enum[2])))
+				eb:InsertLine(format("\t\t%s = %s,", enum.name, format(numberFormat, enum.value)))
 			end
 			eb:InsertLine("\t},")
 		end
@@ -247,20 +247,20 @@ function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
 	-- LE_* globals
 	for enumType, enumValue in pairs(_G) do
 		if enumType:find("^LE_") then
-			if showGameErr or not enumType:find("GAME_ERR") then -- uhh tried karnaugh map
+			if showGameErr or not enumType:find("GAME_ERR") then
 				-- try to group enums together so we can sort by value
 				local found
 				for group in pairs(self.EnumGroups) do
 					local enumType2 = EnumTypo[enumType] or enumType -- hack
 					if enumType2:find("^"..group) then
 						EnumGroup[group] = EnumGroup[group] or {}
-						tinsert(EnumGroup[group], {enumType, enumValue})
+						tinsert(EnumGroup[group], {name = enumType, value = enumValue})
 						found = true
 						break
 					end
 				end
 				if not found then
-					tinsert(EnumUngrouped, {enumType, enumValue})
+					tinsert(EnumUngrouped, {name = enumType, value = enumValue})
 				end
 			end
 		end
@@ -272,17 +272,7 @@ function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
 	sort(EnumGroupSorted)
 	-- sort values in groups
 	for _, group in pairs(EnumGroup) do
-		sort(group, function(a, b)
-			if a[2] == b[2] then -- handle enums with same values
-				if EnumOrder[a[1]] then
-					return false
-				elseif EnumOrder[b[1]] then
-					return true
-				end
-			else
-				return a[2] < b[2]
-			end
-		end)
+		sort(group, SortEnum)
 	end
 	-- print group enums
 	for _, group in pairs(EnumGroupSorted) do
@@ -291,8 +281,8 @@ function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
 		if type(numEnum) == "string" then
 			eb:InsertLine(format("%s = %d", numEnum, _G[numEnum]))
 		end
-		for _, values in pairs(EnumGroup[group]) do
-			eb:InsertLine(format("%s = %d", values[1], values[2]))
+		for _, tbl in pairs(EnumGroup[group]) do
+			eb:InsertLine(format("%s = %d", tbl.name, tbl.value))
 		end
 	end
 
