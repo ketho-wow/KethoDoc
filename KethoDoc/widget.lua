@@ -1,6 +1,8 @@
 
 local W
 
+local IsClassic = (KethoDoc.branch == "classic")
+
 local function TryCreateFrame(frameType, ...)
 	local ok, frame = pcall(CreateFrame, frameType, ...)
 
@@ -227,7 +229,8 @@ function KethoDoc:SetupWidgets()
 		},
 		FogOfWarFrame = { -- FogOfWarFrame \ Frame
 			inherits = {"Frame"},
-			object = TryCreateFrame("FogOfWarFrame"),
+			-- does not error and returns an empty frame in classic
+			object = not IsClassic and CreateFrame("FogOfWarFrame"),
 			unique_methods = function() return self:RemoveTable(W.FogOfWarFrame.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.FogOfWarFrame.handlers, W.Frame.handlers) end,
 		},
@@ -294,7 +297,7 @@ function KethoDoc:SetupWidgets()
 		},
 		MovieFrame = { -- MovieFrame \ Frame
 			inherits = {"Frame"},
-			object = TryCreateFrame("MovieFrame"),
+			object = CreateFrame("MovieFrame"),
 			unique_methods = function() return self:RemoveTable(W.MovieFrame.meta_object, W.Frame.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.MovieFrame.handlers, W.Frame.handlers) end,
 		},
