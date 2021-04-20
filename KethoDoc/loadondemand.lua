@@ -227,7 +227,6 @@ KethoDoc.LoadOnDemand.bc = {
 	"Blizzard_DebugTools",
 	"Blizzard_FlightMap",
 	"Blizzard_GMChatUI",
-	"Blizzard_GMSurveyUI",
 	"Blizzard_InspectUI",
 	"Blizzard_ItemSocketingUI",
 	"Blizzard_Kiosk",
