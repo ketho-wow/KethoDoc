@@ -72,13 +72,6 @@ KethoDoc.EnumGroupsIndexed = {
 	{"LE_WOW_CONNECTION_STATE", "NUM_LE_WOW_CONNECTION_STATES"},
 }
 
--- if not KethoDoc.isRetail then -- classic
--- 	local g = KethoDoc.EnumGroups
--- 	
--- 	g.LE_INVITE_CONFIRMATION_RELATION = "NUM_LE_INVITE_CONFIRMATION_RELATIONS"
--- 	g.LE_DEMON_HUNTER = "NUM_LE_DEMON_HUNTER_CREATION_DISABLED_REASONS"
--- end
-
 KethoDoc.EnumBitGroups = {
 	CalendarEventBits = true,
 	CurrencyFlags = true,
