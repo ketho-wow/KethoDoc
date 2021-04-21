@@ -197,8 +197,12 @@ local function SortEnum(a, b)
 	end
 end
 
--- kind of messy
+-- kind of messy; need to refactor this
 function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
+	self.EnumGroups = {}
+	for _, v in pairs(self.EnumGroupsIndexed) do
+		self.EnumGroups[v[1]] = v[2]
+	end
 	-- Enum table
 	eb:Show()
 	eb:InsertLine("Enum = {")
@@ -233,11 +237,11 @@ function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
 	eb:InsertLine("}")
 
 	-- check if a NUM_LE still exists
-	for _, NUM_LE in pairs(self.EnumGroups) do
-		if type(NUM_LE) == "string" and not _G[NUM_LE] then
-			print("Removed: ", NUM_LE)
-		end
-	end
+	-- for _, NUM_LE in pairs(self.EnumGroups) do
+	-- 	if type(NUM_LE) == "string" and not _G[NUM_LE] then
+	-- 		print("Removed: ", NUM_LE)
+	-- 	end
+	-- end
 	local EnumGroup, EnumGroupSorted = {}, {}
 	local EnumUngrouped = {}
 	-- LE_* globals
@@ -246,11 +250,11 @@ function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
 			if showGameErr or not enumType:find("GAME_ERR") then
 				-- group enums together
 				local found
-				for group, NUM_LE in pairs(self.EnumGroups) do
+				for _, group in pairs(self.EnumGroupsIndexed) do
 					local enumType2 = EnumTypo[enumType] or enumType -- hack
-					if enumType2:find("^"..group) then
-						EnumGroup[group] = EnumGroup[group] or {}
-						tinsert(EnumGroup[group], {name = enumType, value = enumValue})
+					if enumType2:find("^"..group[1]) then
+						EnumGroup[group[1]] = EnumGroup[group[1]] or {}
+						tinsert(EnumGroup[group[1]], {name = enumType, value = enumValue})
 						found = true
 						break
 					end
