@@ -216,6 +216,7 @@ KethoDoc.LoadOnDemand.classic = {
 -- 2.5.1.38285
 KethoDoc.LoadOnDemand.bc = {
 	"Blizzard_APIDocumentation",
+	"Blizzard_ArenaUI",
 	"Blizzard_AuctionUI",
 	"Blizzard_BattlefieldMap",
 	"Blizzard_BindingUI",
@@ -225,6 +226,7 @@ KethoDoc.LoadOnDemand.bc = {
 	"Blizzard_Communities",
 	"Blizzard_CraftUI",
 	"Blizzard_DebugTools",
+	"Blizzard_EventTrace",
 	"Blizzard_FlightMap",
 	"Blizzard_GMChatUI",
 	"Blizzard_InspectUI",
