@@ -213,7 +213,7 @@ KethoDoc.LoadOnDemand.classic = {
 	"Blizzard_TrainerUI",
 }
 
--- 2.5.1.38285
+-- 2.5.1 (38521)
 KethoDoc.LoadOnDemand.bc = {
 	"Blizzard_APIDocumentation",
 	"Blizzard_ArenaUI",

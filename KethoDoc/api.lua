@@ -8,25 +8,44 @@ local deprecated = {
 	},
 }
 
+local function InsertTable(tbl, add)
+	for k, v in pairs(add) do
+		tbl[k] = v
+	end
+end
+
 if KethoDoc.branch == "bc" then -- 2.5.1
-	deprecated.C_DateAndTime = {
-		GetDateFromEpoch = true,
-		GetTodaysDate = true,
-		GetYesterdaysDate = true,
-	}
+	InsertTable(deprecated, {
+		C_DateAndTime = {
+			GetDateFromEpoch = true,
+			GetTodaysDate = true,
+			GetYesterdaysDate = true,
+		},
+	})
 elseif KethoDoc.tocVersion >= 90100 then -- 9.1.0
-	deprecated.C_TransmogCollection = {
-		GetIllusionSourceInfo = true,
-		GetIllusionFallbackWeaponSource = true,
-	}
-	deprecated.C_PlayerChoice = {
-		GetPlayerChoiceInfo = true,
-		GetPlayerChoiceOptionInfo = true,
-		GetPlayerChoiceRewardInfo = true,
-	}
-	deprecated.C_LegendaryCrafting = {
-		GetRuneforgePowersByClassAndSpec = true,
-	}
+	InsertTable(deprecated, {
+		C_Transmog = {
+			GetCost = true,
+		},
+		C_TransmogCollection = {
+			GetIllusionSourceInfo = true,
+			GetIllusionFallbackWeaponSource = true,
+			GetShowMissingSourceInItemTooltips  = true,
+			SetShowMissingSourceInItemTooltips   = true,
+			CanSetFavoriteInCategory    = true,
+		},
+		C_TransmogSets = {
+			GetSetSources  = true,
+		},
+		C_PlayerChoice = {
+			GetPlayerChoiceInfo = true,
+			GetPlayerChoiceOptionInfo = true,
+			GetPlayerChoiceRewardInfo = true,
+		},
+		C_LegendaryCrafting = {
+			GetRuneforgePowersByClassAndSpec = true,
+		},
+	})
 end
 
 KethoDoc.FrameXmlBlacklist = {
