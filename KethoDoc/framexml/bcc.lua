@@ -1,9 +1,9 @@
 
-if KethoDoc.branch ~= "bc" then
+if KethoDoc.branch ~= "bcc" then
 	return
 end
 
-KethoDoc.FrameXML.bc = {
+KethoDoc.FrameXML.bcc = {
 	AbbreviateLargeNumbers = true,
 	AbbreviateNumbers = true,
 	AccessibilityPanelOptions = true,
@@ -3152,7 +3152,6 @@ KethoDoc.FrameXML.bc = {
 	HEARTHSTONE_ITEM_ID = true,
 	HelpFrame_IsGMTicketQueueActive = true,
 	HELPFRAME_KNOWLEDGE_BASE = true,
-	HelpFrame_ShowReportCheatingDialog = true,
 	HELPFRAME_SUBMIT_TICKET = true,
 	HelpFrameMixin = true,
 	HelpOpenWebTicketButton_OnEnter = true,
@@ -4868,6 +4867,7 @@ KethoDoc.FrameXML.bc = {
 	RaidFrame_Update = true,
 	RaidFrameAllAssistCheckButton_UpdateAvailable = true,
 	RaidFrameDropDown_Initialize = true,
+	RaidFrameReadyCheckButton_Update = true,
 	RaidGroup_ResetSlotButtons = true,
 	RaidGroupButton_OnDragStart = true,
 	RaidGroupButton_OnDragStop = true,

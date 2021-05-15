@@ -214,7 +214,7 @@ KethoDoc.LoadOnDemand.classic = {
 }
 
 -- 2.5.1 (38521)
-KethoDoc.LoadOnDemand.bc = {
+KethoDoc.LoadOnDemand.bcc = {
 	"Blizzard_APIDocumentation",
 	"Blizzard_ArenaUI",
 	"Blizzard_AuctionUI",

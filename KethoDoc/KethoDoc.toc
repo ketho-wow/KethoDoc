@@ -8,7 +8,7 @@ KethoDoc.lua
 framexml/live.lua
 framexml/ptr.lua
 framexml/classic.lua
-framexml/bc.lua
+framexml/bcc.lua
 
 util.lua
 api.lua
