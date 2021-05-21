@@ -1,9 +1,9 @@
 
-if KethoDoc.branch ~= "classic" then
+if KethoDoc.branch ~= "classic_era" then
 	return
 end
 
-KethoDoc.FrameXML.classic = {
+KethoDoc.FrameXML.classic_era = {
 	AbbreviateLargeNumbers = true,
 	AbbreviateNumbers = true,
 	AccessibilityPanelOptions = true,
