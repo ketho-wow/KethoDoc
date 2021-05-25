@@ -185,7 +185,7 @@ KethoDoc.LoadOnDemand.ptr = {
 }
 
 -- 1.13.7 (38296)
-KethoDoc.LoadOnDemand.classic = {
+KethoDoc.LoadOnDemand.classic_era = {
 	"Blizzard_APIDocumentation",
 	"Blizzard_AuctionUI",
 	"Blizzard_BattlefieldMap",
