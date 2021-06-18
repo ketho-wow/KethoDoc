@@ -313,15 +313,17 @@ function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
 end
 
 function KethoDoc:DumpConstants()
-	eb:InsertLine("\nConstants = {")
-	for _, t1 in pairs(self:SortTable(Constants, "key")) do
-		eb:InsertLine(format("\t%s = {", t1.key))
-		for _, t2 in pairs(self:SortTable(t1.value, "value")) do
-			eb:InsertLine(format("\t\t%s = %s,", t2.key, t2.value))
+	if Constants then
+		eb:InsertLine("\nConstants = {")
+		for _, t1 in pairs(self:SortTable(Constants, "key")) do
+			eb:InsertLine(format("\t%s = {", t1.key))
+			for _, t2 in pairs(self:SortTable(t1.value, "value")) do
+				eb:InsertLine(format("\t\t%s = %s,", t2.key, t2.value))
+			end
+			eb:InsertLine("\t},")
 		end
-		eb:InsertLine("\t},")
+		eb:InsertLine("}")
 	end
-	eb:InsertLine("}")
 end
 
 function KethoDoc:GetFrames()
