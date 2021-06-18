@@ -33,8 +33,8 @@ function KethoDoc:DumpGlobalAPI()
 	local api = self:GetAPI()
 	eb:Show()
 	eb:InsertLine("local GlobalAPI = {")
-	for _, apiName in pairs(self:SortTable(api)) do
-		eb:InsertLine(format('\t"%s",', apiName))
+	for _, tbl in pairs(self:SortTable(api, "key")) do
+		eb:InsertLine(format('\t"%s",', tbl.key))
 	end
 	eb:InsertLine("}\n")
 	self:DumpLuaAPI()
@@ -79,20 +79,20 @@ function KethoDoc:DumpWidgetAPI()
 			eb:InsertLine(format("\t\tinherits = {%s},", table.concat(inheritsTable, ", ")))
 
 			if object.unique_handlers then
-				local handlers = self:SortTable(object.unique_handlers())
+				local handlers = self:SortTable(object.unique_handlers(), "key")
 				if next(handlers) then
 					eb:InsertLine("\t\thandlers = {")
-					for _, name in pairs(handlers) do
-						eb:InsertLine('\t\t\t"'..name..'",')
+					for _, tbl in pairs(handlers) do
+						eb:InsertLine('\t\t\t"'..tbl.key..'",')
 					end
 					eb:InsertLine("\t\t},")
 				end
 			end
 			if object.unique_methods and not object.mixin then
 				eb:InsertLine("\t\tmethods = {")
-				local methods = self:SortTable(object.unique_methods())
-				for _, name in pairs(methods) do
-					eb:InsertLine('\t\t\t"'..name..'",')
+				local methods = self:SortTable(object.unique_methods(), "key")
+				for _, tbl in pairs(methods) do
+					eb:InsertLine('\t\t\t"'..tbl.key..'",')
 				end
 				eb:InsertLine("\t\t},")
 			end
@@ -235,6 +235,7 @@ function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
 		end
 	end
 	eb:InsertLine("}")
+	self:DumpConstants()
 
 	-- check if a NUM_LE still exists
 	-- for _, NUM_LE in pairs(self.EnumGroups) do
@@ -311,6 +312,18 @@ function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
 	end
 end
 
+function KethoDoc:DumpConstants()
+	eb:InsertLine("\nConstants = {")
+	for _, t1 in pairs(self:SortTable(Constants, "key")) do
+		eb:InsertLine(format("\t%s = {", t1.key))
+		for _, t2 in pairs(self:SortTable(t1.value, "value")) do
+			eb:InsertLine(format("\t\t%s = %s,", t2.key, t2.value))
+		end
+		eb:InsertLine("\t},")
+	end
+	eb:InsertLine("}")
+end
+
 function KethoDoc:GetFrames()
 	local t = {}
 	for _, v in pairs(_G) do
@@ -362,8 +375,8 @@ function KethoDoc:DumpLodTable(label, getFunc, initTbl)
 
 	eb:Show()
 	eb:InsertLine(format("local %s = {", label))
-	for _, name in pairs(self:SortTable(initTbl)) do
-		eb:InsertLine(format('\t"%s",', name))
+	for _, tbl in pairs(self:SortTable(initTbl, "key")) do
+		eb:InsertLine(format('\t"%s",', tbl.key))
 	end
 	eb:InsertLine("}\n\nlocal LoadOnDemand = {")
 	for _, name in pairs(lodTbl) do
@@ -393,8 +406,8 @@ function KethoDoc:DumpNonBlizzardDocumented()
 
 	eb:Show()
 	eb:InsertLine("local NonBlizzardDocumented = {")
-	for _, name in pairs(self:SortTable(nonDoc)) do
-		eb:InsertLine(format('\t"%s",', name))
+	for _, tbl in pairs(self:SortTable(nonDoc, "key")) do
+		eb:InsertLine(format('\t"%s",', tbl.key))
 	end
 	eb:InsertLine("}\n\nreturn NonBlizzardDocumented")
 end

@@ -13,12 +13,17 @@ function KethoDoc:RemoveTable(tbl, rem)
 	return t
 end
 
-function KethoDoc:SortTable(tbl)
+function KethoDoc:SortTable(tbl, sortType)
 	local t = {}
-	for k in pairs(tbl) do
-		tinsert(t, k)
+	for k, v in pairs(tbl) do
+		tinsert(t, {
+			key = k,
+			value = v
+		})
 	end
-	sort(t)
+	sort(t, function(a, b)
+		return a[sortType] < b[sortType]
+	end)
 	return t
 end
 
