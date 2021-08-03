@@ -74,6 +74,11 @@ KethoDoc.EnumGroupsIndexed = {
 }
 
 KethoDoc.EnumBitGroups = {
+	BattlePetAbilityFlag = true,
+	BattlePetAbilityTurnFlag = true,
+	BattlepetDbFlags = true,
+	BattlePetSpeciesFlags = true,
+	BattlePetStateFlag = true,
 	CalendarEventBits = true,
 	CurrencyFlags = true,
 	Damageclass = true,

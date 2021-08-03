@@ -125,6 +125,7 @@ KethoDoc.cvar_cache = {
 	doNotFlashLowHealthWarning = "Do not flash your screen red when you are low on health.",
 	dontShowEquipmentSetsOnItems = "Don't show which equipment sets an item is associated with",
 	doodadLodDist = "Doodad level of detail distance",
+	doodadLodScale = "Doodad level of detail scale",
 	EJDungeonDifficulty = "Stores the last dungeon difficulty viewed in the encounter journal",
 	EJLootClass = "Stores the last class that loot was filtered by in the encounter journal",
 	EJLootSpec = "Stores the last spec that loot was filtered by in the encounter journal",
