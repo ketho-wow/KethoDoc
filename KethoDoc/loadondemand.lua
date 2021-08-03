@@ -11,8 +11,8 @@ function KethoDoc:LoadLodAddons()
 	end
 end
 
--- 9.0.5 (38134)
-KethoDoc.LoadOnDemand.live = {
+-- 9.1.0 (39427)
+KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_AchievementUI",
 	"Blizzard_AdventureMap",
 	"Blizzard_AlliedRacesUI",
@@ -49,6 +49,7 @@ KethoDoc.LoadOnDemand.live = {
 	"Blizzard_DeathRecap",
 	"Blizzard_DebugTools",
 	"Blizzard_EncounterJournal",
+	"Blizzard_EventTrace",
 	"Blizzard_FlightMap",
 	"Blizzard_GarrisonTemplates",
 	"Blizzard_GarrisonUI",
@@ -75,7 +76,7 @@ KethoDoc.LoadOnDemand.live = {
 	"Blizzard_ObliterumUI",
 	"Blizzard_OrderHallUI",
 	"Blizzard_PartyPoseUI",
-	"Blizzard_PlayerChoiceUI",
+	"Blizzard_PlayerChoice",
 	"Blizzard_PVPUI",
 	"Blizzard_RaidUI",
 	"Blizzard_RuneforgeUI",
@@ -185,7 +186,7 @@ KethoDoc.LoadOnDemand.ptr = {
 }
 
 -- 1.13.7 (38296)
-KethoDoc.LoadOnDemand.classic_era = {
+KethoDoc.LoadOnDemand.vanilla = {
 	"Blizzard_APIDocumentation",
 	"Blizzard_AuctionUI",
 	"Blizzard_BattlefieldMap",
@@ -214,7 +215,7 @@ KethoDoc.LoadOnDemand.classic_era = {
 }
 
 -- 2.5.1 (38521)
-KethoDoc.LoadOnDemand.bcc = {
+KethoDoc.LoadOnDemand.tbc = {
 	"Blizzard_APIDocumentation",
 	"Blizzard_ArenaUI",
 	"Blizzard_AuctionUI",

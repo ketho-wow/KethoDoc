@@ -8,11 +8,11 @@ local agentUID = GetCVarDefault("agentUID")
 if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
 	KethoDoc.isRetail = true
 	-- the ptr can also have release candidate builds
-	KethoDoc.branch = (IsTestBuild() or agentUID == "wow_ptr") and "ptr" or "live"
+	KethoDoc.branch = (IsTestBuild() or agentUID == "wow_ptr") and "ptr" or "mainline"
 elseif WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
-	KethoDoc.branch = "bcc"
+	KethoDoc.branch = "tbc"
 elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
-	KethoDoc.branch = "classic_era"
+	KethoDoc.branch = "vanilla"
 end
 
 function KethoDoc:GetAPI()
