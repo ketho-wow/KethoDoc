@@ -8989,6 +8989,7 @@ KethoDoc.FrameXML.mainline = {
 	SCENARIO_TRACKER_MODULE = true,
 	ScenarioAlertFrame_SetUp = true,
 	ScenarioBlobPinMixin = true,
+	ScenarioBlocksFrame_ExtraBlocksSetShown = true,
 	ScenarioBlocksFrame_Hide = true,
 	ScenarioBlocksFrame_OnEvent = true,
 	ScenarioBlocksFrame_OnFinishSlideIn = true,
