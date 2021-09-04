@@ -6,7 +6,7 @@ editbox.lua
 KethoDoc.lua
 
 framexml/mainline.lua
-framexml/ptr.lua
+framexml/mainline_ptr.lua
 framexml/vanilla.lua
 framexml/tbc.lua
 

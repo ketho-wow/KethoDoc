@@ -1,9 +1,9 @@
 
-if KethoDoc.branch ~= "ptr" then
+if KethoDoc.branch ~= "mainline_ptr" then
 	return
 end
 
-KethoDoc.FrameXML.ptr = {
+KethoDoc.FrameXML.mainline_ptr = {
 	AbbreviateLargeNumbers = true,
 	AbbreviateNumbers = true,
 	AccessibilityPanelOptions = true,
