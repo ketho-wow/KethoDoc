@@ -200,7 +200,7 @@ local function SortEnum(a, b)
 end
 
 -- kind of messy; need to refactor this
-function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
+function KethoDoc:DumpLuaEnums(showGameErr)
 	self.EnumGroups = {}
 	for _, v in pairs(self.EnumGroupsIndexed) do
 		self.EnumGroups[v[1]] = v[2]
@@ -210,31 +210,24 @@ function KethoDoc:DumpLuaEnums(isEmmyLua, showGameErr)
 	eb:InsertLine("Enum = {")
 	local enums = {}
 	for name in pairs(Enum) do
-		if not isEmmyLua or not name:find("Meta$") then
+		if not name:find("Meta$") then
 			tinsert(enums, name)
 		end
 	end
 	sort(enums)
 
-	if isEmmyLua then
-		for _, name in pairs(enums) do
-			eb:InsertLine("\t---@type "..name)
-			eb:InsertLine("\t"..name.." = {},")
+	for _, name in pairs(enums) do
+		local TableEnum = {}
+		eb:InsertLine("\t"..name.." = {")
+		for enumType, enumValue in pairs(Enum[name]) do
+			tinsert(TableEnum, {name = enumType, value = enumValue})
 		end
-	else
-		for _, name in pairs(enums) do
-			local TableEnum = {}
-			eb:InsertLine("\t"..name.." = {")
-			for enumType, enumValue in pairs(Enum[name]) do
-				tinsert(TableEnum, {name = enumType, value = enumValue})
-			end
-			sort(TableEnum, SortEnum)
-			local numberFormat = self.EnumBitGroups[name] and "0x%X" or "%d"
-			for _, enum in pairs(TableEnum) do
-				eb:InsertLine(format("\t\t%s = %s,", enum.name, format(numberFormat, enum.value)))
-			end
-			eb:InsertLine("\t},")
+		sort(TableEnum, SortEnum)
+		local numberFormat = self.EnumBitGroups[name] and "0x%X" or "%d"
+		for _, enum in pairs(TableEnum) do
+			eb:InsertLine(format("\t\t%s = %s,", enum.name, format(numberFormat, enum.value)))
 		end
+		eb:InsertLine("\t},")
 	end
 	eb:InsertLine("}")
 	self:DumpConstants()
