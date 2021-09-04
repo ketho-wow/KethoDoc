@@ -5,6 +5,8 @@ local function TryCreateFrame(frameType, ...)
 	local ok, frame = pcall(CreateFrame, frameType, ...)
 	if ok and frame.GetObjectType then
 		return frame
+	-- else
+	-- 	print(ok, frame)
 	end
 end
 

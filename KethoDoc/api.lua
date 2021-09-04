@@ -14,7 +14,7 @@ local function InsertTable(tbl, add)
 	end
 end
 
-if KethoDoc.branch == "bcc" then -- 2.5.1
+if KethoDoc.branch == "tbc" then -- 2.5.1
 	InsertTable(deprecated, {
 		C_DateAndTime = {
 			GetDateFromEpoch = true,
