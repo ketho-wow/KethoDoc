@@ -8,6 +8,7 @@ local deprecated = {
 	},
 }
 
+-- note that it would actually replace any older keys
 local function InsertTable(tbl, add)
 	for k, v in pairs(add) do
 		tbl[k] = v
@@ -22,7 +23,8 @@ if KethoDoc.branch == "tbc" then -- 2.5.1
 			GetYesterdaysDate = true,
 		},
 	})
-elseif KethoDoc.tocVersion >= 90100 then -- 9.1.0
+end
+if KethoDoc.tocVersion >= 90100 then -- 9.1.0
 	InsertTable(deprecated, {
 		C_Transmog = {
 			GetCost = true,
@@ -44,6 +46,13 @@ elseif KethoDoc.tocVersion >= 90100 then -- 9.1.0
 		},
 		C_LegendaryCrafting = {
 			GetRuneforgePowersByClassAndSpec = true,
+		},
+	})
+end
+if KethoDoc.tocVersion >= 90105 then -- 9.1.5
+	InsertTable(deprecated, {
+		C_LFGList = {
+			GetCategoryInfo = true,
 		},
 	})
 end

@@ -1,7 +1,7 @@
-# $UiSourceUrl = "https://github.com/Gethe/wow-ui-source"
-$UiSourceUrl = "https://github.com/BigWigsMods/WoWUI"
+$UiSourceUrl = "https://github.com/Gethe/wow-ui-source"
+# $UiSourceUrl = "https://github.com/BigWigsMods/WoWUI"
 $UiSourceDir = "wow-ui-source"
-# $UiBranches  = @("live", "ptr", "classic", "classic_beta")
+# $UiBranches  = @("live", "ptr", "classic", "classic_beta", "classic_tbc_beta")
 $UiBranches  = @("ptr")
 
 if (-not (Test-Path $UiSourceDir)) {
@@ -20,11 +20,11 @@ foreach ($Branch in $UiBranches) {
 
     Write-Output "Generating globals..."
     Get-ChildItem -Path $UiSourceDir -Recurse -Filter "*.lua" | ForEach-Object {
-        luac -l -p $_ | lua .\FindGlobals\globals.lua $_
+        luac5.1 -l -p $_ | lua5.1 D:\Ready\findglobals\globals.lua $_
     } | Sort-Object -Unique | Out-File -Path ".\API_${Branch}.txt"
 
     Write-Output "Generating LoD addons..."
-    Select-String -Path .\wow-ui-source\AddOns\*\*.toc -Pattern "## LoadOnDemand: 1" | ForEach-Object {
+    Select-String -Path .\wow-ui-source\Interface\AddOns\*\*.toc -Pattern "## LoadOnDemand: 1" | ForEach-Object {
         [IO.Path]::GetFileNameWithoutExtension($_.Filename)
     } | Sort-Object | Out-File -Path ".\LoD_${Branch}.txt"
 }

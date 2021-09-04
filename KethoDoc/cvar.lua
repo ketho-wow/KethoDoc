@@ -636,6 +636,7 @@ KethoDoc.cvar_cache = {
 	terrainAlphaBitDepth = "Terrain alpha map bit depth",
 	terrainHoles = "Terrain holes affect occlusion",
 	terrainLodDist = "Terrain level of detail distance",
+	TerrainLodDiv = "Terrain lod divisor",
 	terrainMipLevel = "Terrain blend map mip level",
 	textLocale = "Set the game locale for text",
 	textureFilteringMode = "Texture filtering mode",

@@ -98,7 +98,7 @@ KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_WeeklyRewards",
 }
 
--- 9.1.0 (38312)
+-- 9.1.5
 KethoDoc.LoadOnDemand.ptr = {
 	"Blizzard_AchievementUI",
 	"Blizzard_AdventureMap",
@@ -143,7 +143,7 @@ KethoDoc.LoadOnDemand.ptr = {
 	"Blizzard_GMChatUI",
 	"Blizzard_GuildBankUI",
 	"Blizzard_GuildControlUI",
-	"Blizzard_GuildRecruitmentUI",
+	--"Blizzard_GuildRecruitmentUI",
 	"Blizzard_GuildUI",
 	"Blizzard_HybridMinimap",
 	"Blizzard_InspectUI",
@@ -154,7 +154,7 @@ KethoDoc.LoadOnDemand.ptr = {
 	"Blizzard_ItemUpgradeUI",
 	"Blizzard_Kiosk",
 	"Blizzard_LandingSoulbinds",
-	"Blizzard_LookingForGuildUI",
+	--"Blizzard_LookingForGuildUI",
 	"Blizzard_MacroUI",
 	"Blizzard_MapCanvas",
 	"Blizzard_MovePad",
@@ -185,36 +185,7 @@ KethoDoc.LoadOnDemand.ptr = {
 	"Blizzard_WeeklyRewards",
 }
 
--- 1.13.7 (38296)
-KethoDoc.LoadOnDemand.vanilla = {
-	"Blizzard_APIDocumentation",
-	"Blizzard_AuctionUI",
-	"Blizzard_BattlefieldMap",
-	"Blizzard_BindingUI",
-	"Blizzard_CombatLog",
-	"Blizzard_CombatText",
-	"Blizzard_Commentator",
-	"Blizzard_Communities",
-	"Blizzard_CraftUI",
-	"Blizzard_DebugTools",
-	--"Blizzard_FlightMap",
-	"Blizzard_GMChatUI",
-	"Blizzard_GMSurveyUI",
-	"Blizzard_InspectUI",
-	"Blizzard_Kiosk",
-	"Blizzard_MacroUI",
-	"Blizzard_MapCanvas",
-	"Blizzard_MovePad",
-	"Blizzard_RaidUI",
-	"Blizzard_SharedMapDataProviders",
-	"Blizzard_SocialUI",
-	"Blizzard_TalentUI",
-	"Blizzard_TimeManager",
-	"Blizzard_TradeSkillUI",
-	"Blizzard_TrainerUI",
-}
-
--- 2.5.1 (38521)
+-- 2.5.2
 KethoDoc.LoadOnDemand.tbc = {
 	"Blizzard_APIDocumentation",
 	"Blizzard_ArenaUI",
@@ -244,3 +215,6 @@ KethoDoc.LoadOnDemand.tbc = {
 	"Blizzard_TradeSkillUI",
 	"Blizzard_TrainerUI",
 }
+
+-- 1.14.0
+KethoDoc.LoadOnDemand.vanilla = KethoDoc.LoadOnDemand.tbc
