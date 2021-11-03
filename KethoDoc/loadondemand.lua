@@ -11,7 +11,7 @@ function KethoDoc:LoadLodAddons()
 	end
 end
 
--- 9.1.0 (39427)
+-- 9.1.5 (40871)
 KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_AchievementUI",
 	"Blizzard_AdventureMap",
@@ -28,6 +28,7 @@ KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_AzeriteUI",
 	"Blizzard_BarberShopUI",
 	"Blizzard_BattlefieldMap",
+	"Blizzard_BehavioralMessaging",
 	"Blizzard_BindingUI",
 	"Blizzard_BlackMarketUI",
 	"Blizzard_BoostTutorial",
@@ -56,7 +57,6 @@ KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_GMChatUI",
 	"Blizzard_GuildBankUI",
 	"Blizzard_GuildControlUI",
-	"Blizzard_GuildRecruitmentUI",
 	"Blizzard_GuildUI",
 	"Blizzard_HybridMinimap",
 	"Blizzard_InspectUI",
@@ -67,7 +67,6 @@ KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_ItemUpgradeUI",
 	"Blizzard_Kiosk",
 	"Blizzard_LandingSoulbinds",
-	"Blizzard_LookingForGuildUI",
 	"Blizzard_MacroUI",
 	"Blizzard_MapCanvas",
 	"Blizzard_MovePad",
