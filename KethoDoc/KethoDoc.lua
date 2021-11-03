@@ -10,7 +10,7 @@ if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
 	-- the ptr can also have release candidate builds
 	KethoDoc.branch = (IsTestBuild() or agentUID == "wow_ptr") and "mainline_ptr" or "mainline"
 elseif WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
-	KethoDoc.branch = "bcc"
+	KethoDoc.branch = "tbc"
 elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 	KethoDoc.branch = "vanilla"
 end

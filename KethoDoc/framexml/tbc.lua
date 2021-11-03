@@ -1,9 +1,9 @@
 
-if KethoDoc.branch ~= "bcc" then
+if KethoDoc.branch ~= "tbc" then
 	return
 end
 
-KethoDoc.FrameXML.bcc = {
+KethoDoc.FrameXML.tbc = {
 	["AbbreviateLargeNumbers"] = true,
 	["AbbreviateNumbers"] = true,
 	["AccessibilityPanelOptions"] = true,

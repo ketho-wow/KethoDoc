@@ -186,7 +186,7 @@ KethoDoc.LoadOnDemand.ptr = {
 }
 
 -- 2.5.2
-KethoDoc.LoadOnDemand.bcc = {
+KethoDoc.LoadOnDemand.tbc = {
 	"Blizzard_APIDocumentation",
 	"Blizzard_ArenaUI",
 	"Blizzard_AuctionUI",
