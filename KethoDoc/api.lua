@@ -12,35 +12,35 @@ local patches = {
 		},
 	},
 	[90100] = { -- 9.1.0
-		C_Transmog = {
-			GetCost = true,
-		},
-		C_TransmogCollection = {
-			GetIllusionSourceInfo = true,
-			GetIllusionFallbackWeaponSource = true,
-			GetShowMissingSourceInItemTooltips  = true,
-			SetShowMissingSourceInItemTooltips   = true,
-			CanSetFavoriteInCategory    = true,
-		},
-		C_TransmogSets = {
-			GetSetSources  = true,
+		C_LegendaryCrafting = {
+			GetRuneforgePowersByClassAndSpec = true,
 		},
 		C_PlayerChoice = {
 			GetPlayerChoiceInfo = true,
 			GetPlayerChoiceOptionInfo = true,
 			GetPlayerChoiceRewardInfo = true,
 		},
-		C_LegendaryCrafting = {
-			GetRuneforgePowersByClassAndSpec = true,
+		C_Transmog = {
+			GetCost = true,
+		},
+		C_TransmogCollection = {
+			CanSetFavoriteInCategory    = true,
+			GetIllusionFallbackWeaponSource = true,
+			GetIllusionSourceInfo = true,
+			GetShowMissingSourceInItemTooltips  = true,
+			SetShowMissingSourceInItemTooltips   = true,
+		},
+		C_TransmogSets = {
+			GetSetSources  = true,
 		},
 	},
 	[90105] = { -- 9.1.5
-		C_LFGList = {
-			GetCategoryInfo = true,
-			GetActivityInfo = true,
-		},
 		C_ItemUpgrade = {
 			GetItemLevelIncrement = true,
+		},
+		C_LFGList = {
+			GetActivityInfo = true,
+			GetCategoryInfo = true,
 		},
 	},
 }
