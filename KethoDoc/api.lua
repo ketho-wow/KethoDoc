@@ -3,29 +3,15 @@ local deprecated = {
 		NewTicker = true,
 		NewTimer = true,
 	},
-	C_Soulbinds = { -- 9.0.5
-		GetConduitItemLevel = true,
-	},
 }
 
--- note that it would actually replace any older keys
-local function InsertTable(tbl, add)
-	for k, v in pairs(add) do
-		tbl[k] = v
-	end
-end
-
-if KethoDoc.branch == "bcc" or KethoDoc.branch == "vanilla" then -- 2.5.1
-	InsertTable(deprecated, {
-		C_DateAndTime = {
-			GetDateFromEpoch = true,
-			GetTodaysDate = true,
-			GetYesterdaysDate = true,
+local patches = {
+	[90005] = { -- 9.0.5
+		C_Soulbinds = {
+			GetConduitItemLevel = true,
 		},
-	})
-end
-if KethoDoc.tocVersion >= 90100 then -- 9.1.0
-	InsertTable(deprecated, {
+	},
+	[90100] = { -- 9.1.0
 		C_Transmog = {
 			GetCost = true,
 		},
@@ -47,12 +33,37 @@ if KethoDoc.tocVersion >= 90100 then -- 9.1.0
 		C_LegendaryCrafting = {
 			GetRuneforgePowersByClassAndSpec = true,
 		},
-	})
-end
-if KethoDoc.tocVersion >= 90105 then -- 9.1.5
-	InsertTable(deprecated, {
+	},
+	[90105] = { -- 9.1.5
 		C_LFGList = {
 			GetCategoryInfo = true,
+			GetActivityInfo = true,
+		},
+		C_ItemUpgrade = {
+			GetItemLevelIncrement = true,
+		},
+	},
+}
+
+-- note that it would actually replace any older keys
+local function InsertTable(tbl, add)
+	for k, v in pairs(add) do
+		tbl[k] = v
+	end
+end
+
+if KethoDoc.branch == "mainline" then
+	for version, tbl in pairs(patches) do
+		if KethoDoc.tocVersion >= version then
+			InsertTable(deprecated, tbl)
+		end
+	end
+elseif KethoDoc.branch == "tbc" or KethoDoc.branch == "vanilla" then -- 2.5.1
+	InsertTable(deprecated, {
+		C_DateAndTime = {
+			GetDateFromEpoch = true,
+			GetTodaysDate = true,
+			GetYesterdaysDate = true,
 		},
 	})
 end
