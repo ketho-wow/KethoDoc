@@ -82,6 +82,7 @@ KethoDoc.EnumBitGroups = {
 	CalendarEventBits = true,
 	CurrencyFlags = true,
 	Damageclass = true,
+	Itemclassfilterflags = true,
 	UIMapFlag = true,
 }
 
