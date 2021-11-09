@@ -160,6 +160,7 @@ KethoDoc.LuaAPI = { -- see compat.lua
 	strrep = true, -- string.rep
 	strrev = true, -- string.reverse
 	strsplit = true, -- string.split; wow lua
+	strsplittable = true, -- wow lua
 	strsub = true, -- string.sub
 	strtrim = true, -- string.trim; wow lua
 	strupper = true, -- string.upper
