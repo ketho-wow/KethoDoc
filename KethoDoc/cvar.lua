@@ -650,7 +650,7 @@ KethoDoc.cvar_cache = {
 		["KioskLobbyKickSeconds"] = {"", 5, false, false, ""},
 		["lastAddonVersion"] = {"0", 5, false, false, "Addon interface version number from previous build"},
 		["lastCharacterGuid"] = {"0", 4, false, false, "Last character selected's guid"},
-		["lastCharacterIndex"] = {"0", 5, false, false, "Last character selected"},
+		["lastCharacterIndex"] = {"0", 4, false, false, "Last character selected"},
 		["lastGarrisonMissionTutorial"] = {"0", 4, false, true, "Stores the last garrison mission tutorial the player has accepted"},
 		["lastRenownForCovenant1"] = {"0", 4, false, true, "Stores the Kyrian renown when Renown UI is closed"},
 		["lastRenownForCovenant2"] = {"0", 4, false, true, "Stores the Venthyr renown when Renown UI is closed"},
@@ -1196,7 +1196,7 @@ KethoDoc.cvar_cache = {
 		["videoOptionsVersion"] = {"0", 5, false, false, "Video options version"},
 		["videoOptionsVersionDefault"] = {"0", 1, false, false, ""},
 		["violenceLevel"] = {"2", 4, true, false, "Sets the violence level of the game"},
-		["VoiceChatMasterVolumeScale"] = {"1", 5, false, false, "Voice Chat audio ducking, applied as a scale to the game's master volume when somebody is speaking in voice chat"},
+		["VoiceChatMasterVolumeScale"] = {"1", 7, false, false, "Voice Chat audio ducking, applied as a scale to the game's master volume when somebody is speaking in voice chat"},
 		["VoiceCommunicationMode"] = {"0", 7, true, false, "Which communication mode to use for voice chat: push-to-talk, open mic, etc..."},
 		["VoiceEnableWhenGameIsInBG"] = {"1", 7, false, false, "Enable Voice Chat when game is in background"},
 		["VoiceInputDevice"] = {"", 7, false, false, "Which deviceID you would like to use to pick up the sound of your wonderful voice, usually a microphone of some kind, empty string is system default"},
@@ -1334,6 +1334,13 @@ KethoDoc.cvar_cache = {
 		["whois"] = {0, "Ask the server to do an account/real name lookup on a character name"},
 	},
 }
+
+-- old/classic cvars
+local var = KethoDoc.cvar_cache.var
+var["graphicsSunshafts"] = {"3", 5, false, false, "UI value of the graphics setting"}
+var["groundEffectAnimation"] = {"0", 5, false, false, "Ground effect animation"}
+var["raidGraphicsSunshafts"] = {"1", 5, false, false, "UI value of the raidGraphics setting"}
+var["RAIDgroundEffectAnimation"] = {"0", 5, false, false, "Raid Ground effect animation"}
 
 KethoDoc.cvar_test = {
 	-- cvars
