@@ -138,8 +138,19 @@ function KethoDoc:DumpCVars()
 			if not v.command:find("^CACHE") then -- these just keep switching between false/nil
 				local _, defaultValue, server, character = GetCVarInfo(v.command)
 				-- every time they change the category they seem to lose the help text
-				local backupDesc = self.cvar_cache[v.command]
-				local helpString = v.help and #v.help > 0 and v.help:gsub('"', '\\"') or backupDesc or ""
+				local cvarCache = self.cvar_cache.var[v.command]
+				if cvarCache then
+					-- the category resets back to 5 seemingly randomly
+					if v.category == 5 then
+						v.category = cvarCache[2]
+					end
+				end
+				local helpString = ""
+				if v.help and #v.help > 0 then
+					helpString = v.help:gsub('"', '\\"')
+				elseif cvarCache and cvarCache[5] then
+					helpString = cvarCache[5]
+				end
 				local tbl = self.cvar_test[v.command] and test_cvarTbl or cvarTbl
 				tinsert(tbl, cvarFs:format(v.command, defaultValue or "", v.category, tostring(server), tostring(character), helpString))
 			end
