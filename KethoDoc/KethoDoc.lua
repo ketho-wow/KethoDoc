@@ -253,22 +253,20 @@ function KethoDoc:DumpLuaEnums(showGameErr)
 	local EnumUngrouped = {}
 	-- LE_* globals
 	for enumType, enumValue in pairs(_G) do
-		if enumType:find("^LE_") then
-			if showGameErr or not enumType:find("GAME_ERR") then
-				-- group enums together
-				local found
-				for _, group in pairs(self.EnumGroupsIndexed) do
-					local enumType2 = EnumTypo[enumType] or enumType -- hack
-					if enumType2:find("^"..group[1]) then
-						EnumGroup[group[1]] = EnumGroup[group[1]] or {}
-						tinsert(EnumGroup[group[1]], {name = enumType, value = enumValue})
-						found = true
-						break
-					end
+		if enumType:find("^LE_") and (showGameErr or not enumType:find("GAME_ERR")) then
+			-- group enums together
+			local found
+			for _, group in pairs(self.EnumGroupsIndexed) do
+				local enumType2 = EnumTypo[enumType] or enumType -- hack
+				if enumType2:find("^"..group[1]) then
+					EnumGroup[group[1]] = EnumGroup[group[1]] or {}
+					tinsert(EnumGroup[group[1]], {name = enumType, value = enumValue})
+					found = true
+					break
 				end
-				if not found then
-					tinsert(EnumUngrouped, {name = enumType, value = enumValue})
-				end
+			end
+			if not found then
+				tinsert(EnumUngrouped, {name = enumType, value = enumValue})
 			end
 		end
 	end
