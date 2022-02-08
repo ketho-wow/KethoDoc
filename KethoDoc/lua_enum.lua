@@ -202,3 +202,6 @@ if KethoDoc.tocVersion >= 90100 then
 	LE_TRANSMOG_SEARCH_TYPE_BASE_SETS = nil
 	LE_TRANSMOG_SEARCH_TYPE_USABLE_SETS = nil
 end
+
+-- 9.2.0, 1.14.2, 2.5.3
+Enum.Unitsex = nil
