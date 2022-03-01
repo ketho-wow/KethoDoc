@@ -39,6 +39,7 @@ KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_CharacterCustomize",
 	"Blizzard_ChromieTimeUI",
 	"Blizzard_ClassTrial",
+	"Blizzard_ClickBindingUI",
 	"Blizzard_Collections",
 	"Blizzard_CombatLog",
 	"Blizzard_CombatText",

@@ -1,4 +1,3 @@
-KethoDoc.FrameXML = {}
 
 if KethoDoc.branch ~= "mainline_ptr" then
 	return

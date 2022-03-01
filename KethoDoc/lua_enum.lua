@@ -205,3 +205,4 @@ end
 
 -- 9.2.0, 1.14.2, 2.5.3
 Enum.Unitsex = nil
+Enum.PetBattleState = nil
