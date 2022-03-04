@@ -1,6 +1,6 @@
--- every time they change the category they seem to lose the help text
--- keep our own local copy as a backup
-KethoDoc.cvar_cache = {
+local m = KethoDoc
+-- every time they change something, the help text and/or category seemingly gets lost
+m.cvar_cache = {
 	var = {
 		-- var = default, category, account, character, help
 		["ActionButtonUseKeyDown"] = {"1", 4, true, false, "Activate the action button on a keydown"},
@@ -1336,13 +1336,13 @@ KethoDoc.cvar_cache = {
 }
 
 -- old/classic cvars
-local var = KethoDoc.cvar_cache.var
+local var = m.cvar_cache.var
 var["graphicsSunshafts"] = {"3", 5, false, false, "UI value of the graphics setting"}
 var["groundEffectAnimation"] = {"0", 5, false, false, "Ground effect animation"}
 var["raidGraphicsSunshafts"] = {"1", 5, false, false, "UI value of the raidGraphics setting"}
 var["RAIDgroundEffectAnimation"] = {"0", 5, false, false, "Raid Ground effect animation"}
 
-KethoDoc.cvar_test = {
+m.cvar_test = {
 	-- cvars
 	agentLogLevel = true,
 	debugAllocSingleBlade = true,
