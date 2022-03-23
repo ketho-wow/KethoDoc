@@ -203,11 +203,28 @@ local EnumTypo = { -- ACCOUNT -> ACCCOUNT (3 Cs)
 }
 
 local function SortEnum(a, b)
-	if a.value == b.value then
-		return a.name < b.name
-	else
+	if a.value ~= b.value then
 		return a.value < b.value
+	else
+		return a.name < b.name
 	end
+end
+
+-- pretty dumb way without even using bitwise op
+local function IsBitEnum(tbl, name)
+	local t = tInvert(tbl)
+	if name == "Damageclass" then
+		return true
+	end
+	for i = 1, 3 do
+		if not t[2^i] then
+			return false
+		end
+	end
+	if t[3] or t[5] or t[7] then
+		return false
+	end
+	return true
 end
 
 -- kind of messy; need to refactor this
@@ -234,7 +251,7 @@ function KethoDoc:DumpLuaEnums(showGameErr)
 			tinsert(TableEnum, {name = enumType, value = enumValue})
 		end
 		sort(TableEnum, SortEnum)
-		local numberFormat = self.EnumBitGroups[name] and "0x%X" or "%d"
+		local numberFormat = IsBitEnum(Enum[name], name) and "0x%X" or "%d"
 		for _, enum in pairs(TableEnum) do
 			eb:InsertLine(format("\t\t%s = %s,", enum.name, format(numberFormat, enum.value)))
 		end

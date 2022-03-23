@@ -73,19 +73,6 @@ KethoDoc.EnumGroupsIndexed = {
 	{"LE_WOW_CONNECTION_STATE", "NUM_LE_WOW_CONNECTION_STATES"},
 }
 
-KethoDoc.EnumBitGroups = {
-	BattlePetAbilityFlag = true,
-	BattlePetAbilityTurnFlag = true,
-	BattlepetDbFlags = true,
-	BattlePetSpeciesFlags = true,
-	BattlePetStateFlag = true,
-	CalendarEventBits = true,
-	CurrencyFlags = true,
-	Damageclass = true,
-	Itemclassfilterflags = true,
-	UIMapFlag = true,
-}
-
 -- these dont exist anymore except the NUM_LE enum
 NUM_LE_TOKEN_REDEEM_TYPES = nil
 --LE_TOKEN_REDEEM_TYPE_GAME_TIME = 1
