@@ -206,3 +206,10 @@ end
 -- 9.2.0, 1.14.2, 2.5.3
 Enum.Unitsex = nil
 Enum.PetBattleState = nil
+
+if KethoDoc.tocVersion >= 90205 then
+	Enum.CurrencySource.LfgReward = nil
+	Enum.LfgEntryPlaystyle = nil
+	Enum.LfgListDisplayType = nil
+	Enum.BrawlType.Lfg = nil
+end
