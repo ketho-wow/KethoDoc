@@ -52,7 +52,7 @@ local function InsertTable(tbl, add)
 	end
 end
 
-if KethoDoc.branch == "mainline" then
+if KethoDoc.branch:find("mainline") then
 	for version, tbl in pairs(patches) do
 		if KethoDoc.tocVersion >= version then
 			InsertTable(deprecated, tbl)
