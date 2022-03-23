@@ -99,6 +99,7 @@ KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_WarfrontsPartyPoseUI",
 	"Blizzard_WeeklyRewards",
 }
+KethoDoc.LoadOnDemand.mainline_ptr = KethoDoc.LoadOnDemand.mainline
 
 -- 2.5.2; need to load addons without client suffix
 KethoDoc.LoadOnDemand.tbc = {
