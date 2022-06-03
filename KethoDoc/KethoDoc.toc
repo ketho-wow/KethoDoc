@@ -11,6 +11,7 @@ framexml/vanilla.lua
 framexml/tbc.lua
 
 util.lua
+deprecated.lua
 api.lua
 widget.lua
 cvar.lua

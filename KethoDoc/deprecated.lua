@@ -1,0 +1,168 @@
+KethoDoc.api_patches = {
+	[90005] = { -- 9.0.5
+		C_Soulbinds = {
+			GetConduitItemLevel = true,
+		},
+	},
+	[90100] = { -- 9.1.0
+		C_LegendaryCrafting = {
+			GetRuneforgePowersByClassAndSpec = true,
+		},
+		C_PlayerChoice = {
+			GetPlayerChoiceInfo = true,
+			GetPlayerChoiceOptionInfo = true,
+			GetPlayerChoiceRewardInfo = true,
+		},
+		C_Transmog = {
+			GetCost = true,
+		},
+		C_TransmogCollection = {
+			CanSetFavoriteInCategory    = true,
+			GetIllusionFallbackWeaponSource = true,
+			GetIllusionSourceInfo = true,
+			GetShowMissingSourceInItemTooltips  = true,
+			SetShowMissingSourceInItemTooltips   = true,
+		},
+		C_TransmogSets = {
+			GetSetSources  = true,
+		},
+	},
+	[90105] = { -- 9.1.5
+		C_ItemUpgrade = {
+			GetItemLevelIncrement = true,
+		},
+		C_LFGList = {
+			GetActivityInfo = true,
+			GetCategoryInfo = true,
+		},
+	},
+}
+
+-- deprecated in 9.1.0 / 2.5.2
+LE_ITEM_CLASS_CONSUMABLE = nil
+LE_ITEM_CLASS_CONTAINER = nil
+LE_ITEM_CLASS_WEAPON = nil
+LE_ITEM_CLASS_GEM = nil
+LE_ITEM_CLASS_ARMOR = nil
+LE_ITEM_CLASS_REAGENT = nil
+LE_ITEM_CLASS_PROJECTILE = nil
+LE_ITEM_CLASS_TRADEGOODS = nil
+LE_ITEM_CLASS_ITEM_ENHANCEMENT = nil
+LE_ITEM_CLASS_RECIPE = nil
+LE_ITEM_CLASS_QUIVER = nil
+LE_ITEM_CLASS_QUESTITEM = nil
+LE_ITEM_CLASS_KEY = nil
+LE_ITEM_CLASS_MISCELLANEOUS = nil
+LE_ITEM_CLASS_GLYPH = nil
+LE_ITEM_CLASS_BATTLEPET = nil
+LE_ITEM_CLASS_WOW_TOKEN = nil
+
+LE_ITEM_WEAPON_AXE1H = nil
+LE_ITEM_WEAPON_AXE2H = nil
+LE_ITEM_WEAPON_BOWS = nil
+LE_ITEM_WEAPON_GUNS = nil
+LE_ITEM_WEAPON_MACE1H = nil
+LE_ITEM_WEAPON_MACE2H = nil
+LE_ITEM_WEAPON_POLEARM = nil
+LE_ITEM_WEAPON_SWORD1H = nil
+LE_ITEM_WEAPON_SWORD2H = nil
+LE_ITEM_WEAPON_WARGLAIVE = nil
+LE_ITEM_WEAPON_STAFF = nil
+LE_ITEM_WEAPON_BEARCLAW = nil
+LE_ITEM_WEAPON_CATCLAW = nil
+LE_ITEM_WEAPON_UNARMED = nil
+LE_ITEM_WEAPON_GENERIC = nil
+LE_ITEM_WEAPON_DAGGER = nil
+LE_ITEM_WEAPON_THROWN = nil
+LE_ITEM_WEAPON_OBSOLETE3 = nil
+LE_ITEM_WEAPON_CROSSBOW = nil
+LE_ITEM_WEAPON_WAND = nil
+LE_ITEM_WEAPON_FISHINGPOLE = nil
+
+LE_ITEM_ARMOR_GENERIC = nil
+LE_ITEM_ARMOR_CLOTH = nil
+LE_ITEM_ARMOR_LEATHER = nil
+LE_ITEM_ARMOR_MAIL = nil
+LE_ITEM_ARMOR_PLATE = nil
+LE_ITEM_ARMOR_COSMETIC = nil
+LE_ITEM_ARMOR_SHIELD = nil
+LE_ITEM_ARMOR_LIBRAM = nil
+LE_ITEM_ARMOR_IDOL = nil
+LE_ITEM_ARMOR_TOTEM = nil
+LE_ITEM_ARMOR_SIGIL = nil
+LE_ITEM_ARMOR_RELIC = nil
+
+LE_ITEM_GEM_INTELLECT = nil
+LE_ITEM_GEM_AGILITY = nil
+LE_ITEM_GEM_STRENGTH = nil
+LE_ITEM_GEM_STAMINA = nil
+LE_ITEM_GEM_SPIRIT = nil
+LE_ITEM_GEM_CRITICALSTRIKE = nil
+LE_ITEM_GEM_MASTERY = nil
+LE_ITEM_GEM_HASTE = nil
+LE_ITEM_GEM_VERSATILITY = nil
+LE_ITEM_GEM_MULTIPLESTATS = nil
+LE_ITEM_GEM_ARTIFACTRELIC = nil
+
+LE_ITEM_RECIPE_BOOK = nil
+LE_ITEM_RECIPE_LEATHERWORKING = nil
+LE_ITEM_RECIPE_TAILORING = nil
+LE_ITEM_RECIPE_ENGINEERING = nil
+LE_ITEM_RECIPE_BLACKSMITHING = nil
+LE_ITEM_RECIPE_COOKING = nil
+LE_ITEM_RECIPE_ALCHEMY = nil
+LE_ITEM_RECIPE_FIRST_AID = nil
+LE_ITEM_RECIPE_ENCHANTING = nil
+LE_ITEM_RECIPE_FISHING = nil
+LE_ITEM_RECIPE_JEWELCRAFTING = nil
+LE_ITEM_RECIPE_INSCRIPTION = nil
+
+LE_ITEM_MISCELLANEOUS_JUNK = nil
+LE_ITEM_MISCELLANEOUS_REAGENT = nil
+LE_ITEM_MISCELLANEOUS_COMPANION_PET = nil
+LE_ITEM_MISCELLANEOUS_HOLIDAY = nil
+LE_ITEM_MISCELLANEOUS_OTHER = nil
+LE_ITEM_MISCELLANEOUS_MOUNT = nil
+LE_ITEM_MISCELLANEOUS_MOUNT_EQUIPMENT = nil
+
+-- deprecated in 9.1.0
+if KethoDoc.tocVersion >= 90100 then
+	LE_BATTLE_PET_WEATHER = nil
+	LE_BATTLE_PET_ALLY = nil
+	LE_BATTLE_PET_ENEMY = nil
+
+	LE_BATTLE_PET_ACTION_NONE = nil
+	LE_BATTLE_PET_ACTION_ABILITY = nil
+	LE_BATTLE_PET_ACTION_SWITCH_PET = nil
+	LE_BATTLE_PET_ACTION_TRAP = nil
+	LE_BATTLE_PET_ACTION_SKIP = nil
+
+	LE_PET_BATTLE_STATE_CREATED = nil
+	LE_PET_BATTLE_STATE_WAITING_PRE_BATTLE = nil
+	LE_PET_BATTLE_STATE_ROUND_IN_PROGRESS = nil
+	LE_PET_BATTLE_STATE_WAITING_FOR_FRONT_PETS = nil
+	LE_PET_BATTLE_STATE_CREATED_FAILED = nil
+	LE_PET_BATTLE_STATE_FINAL_ROUND = nil
+	LE_PET_BATTLE_STATE_FINISHED = nil
+
+	LE_TRANSMOG_SEARCH_TYPE_ITEMS = nil
+	LE_TRANSMOG_SEARCH_TYPE_BASE_SETS = nil
+	LE_TRANSMOG_SEARCH_TYPE_USABLE_SETS = nil
+end
+
+-- 9.2.0, 1.14.2, 2.5.3
+Enum.Unitsex = nil
+Enum.PetBattleState = nil
+
+if KethoDoc.tocVersion >= 90205 then
+	-- probably supposed to be LE_LFG_LIST_FILTER_RECOMMENDED
+	--LFG_LIST_FILTER_RECOMMENDED = Enum.LFGListFilter.Recommended
+	--LFG_LIST_FILTER_NOT_RECOMMENDED = Enum.LFGListFilter.NotRecommended
+	--LFG_LIST_FILTER_PVE = Enum.LFGListFilter.PvE
+	--LFG_LIST_FILTER_PVP = Enum.LFGListFilter.PvP
+
+	Enum.CurrencySource.LfgReward = nil
+	Enum.LfgEntryPlaystyle = nil
+	Enum.LfgListDisplayType = nil
+	Enum.BrawlType.Lfg = nil
+end

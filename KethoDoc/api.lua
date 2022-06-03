@@ -1,47 +1,7 @@
 local deprecated = {
-	C_Timer = { -- augments
+	C_Timer = { -- timer augments
 		NewTicker = true,
 		NewTimer = true,
-	},
-}
-
-local patches = {
-	[90005] = { -- 9.0.5
-		C_Soulbinds = {
-			GetConduitItemLevel = true,
-		},
-	},
-	[90100] = { -- 9.1.0
-		C_LegendaryCrafting = {
-			GetRuneforgePowersByClassAndSpec = true,
-		},
-		C_PlayerChoice = {
-			GetPlayerChoiceInfo = true,
-			GetPlayerChoiceOptionInfo = true,
-			GetPlayerChoiceRewardInfo = true,
-		},
-		C_Transmog = {
-			GetCost = true,
-		},
-		C_TransmogCollection = {
-			CanSetFavoriteInCategory    = true,
-			GetIllusionFallbackWeaponSource = true,
-			GetIllusionSourceInfo = true,
-			GetShowMissingSourceInItemTooltips  = true,
-			SetShowMissingSourceInItemTooltips   = true,
-		},
-		C_TransmogSets = {
-			GetSetSources  = true,
-		},
-	},
-	[90105] = { -- 9.1.5
-		C_ItemUpgrade = {
-			GetItemLevelIncrement = true,
-		},
-		C_LFGList = {
-			GetActivityInfo = true,
-			GetCategoryInfo = true,
-		},
 	},
 }
 
@@ -53,7 +13,7 @@ local function InsertTable(tbl, add)
 end
 
 if KethoDoc.branch:find("mainline") then
-	for version, tbl in pairs(patches) do
+	for version, tbl in pairs(KethoDoc.api_patches) do
 		if KethoDoc.tocVersion >= version then
 			InsertTable(deprecated, tbl)
 		end
