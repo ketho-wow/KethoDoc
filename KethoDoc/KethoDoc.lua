@@ -2,22 +2,24 @@
 KethoDoc = {}
 local eb = KethoEditBox
 
-if IsAddOnLoaded("Blizzard_Deprecated") then
-	print("|cff71d5ffKethoDoc:|r Please click |cFFFFFF00|Hgarrmission:KethoDoc|h[Reload]|h|r to disable the Blizzard_Deprecated addon and avoid dumping deprecated API."
-		.." You will have to re-enable it manually.")
-	hooksecurefunc("SetItemRef", function(link)
-		local linkType, addon = strsplit(":", link)
-		if linkType == "garrmission" and addon == "KethoDoc" then
-			DisableAddOn("Blizzard_Deprecated")
-			-- use a custom cvar instead of savedvariables
-			C_CVar.RegisterCVar("KethoDoc")
-			C_CVar.SetCVar("KethoDoc", 1)
-			C_UI.Reload()
-		end
-	end)
-elseif C_CVar.GetCVarBool("KethoDoc") then
-	print("|cff71d5ffKethoDoc:|r Disabled Blizzard_Deprecated.")
-	C_CVar.SetCVar("KethoDoc", 0)
+if IsPublicBuild() then
+	if IsAddOnLoaded("Blizzard_Deprecated") then
+		print("|cff71d5ffKethoDoc:|r Please click |cFFFFFF00|Hgarrmission:KethoDoc|h[Reload]|h|r to disable the Blizzard_Deprecated addon and avoid dumping deprecated API."
+			.." You will have to re-enable it manually.")
+		hooksecurefunc("SetItemRef", function(link)
+			local linkType, addon = strsplit(":", link)
+			if linkType == "garrmission" and addon == "KethoDoc" then
+				DisableAddOn("Blizzard_Deprecated")
+				-- use a custom cvar instead of savedvariables
+				C_CVar.RegisterCVar("KethoDoc")
+				C_CVar.SetCVar("KethoDoc", 1)
+				C_UI.Reload()
+			end
+		end)
+	elseif C_CVar.GetCVarBool("KethoDoc") then
+		print("|cff71d5ffKethoDoc:|r Disabled Blizzard_Deprecated.")
+		C_CVar.SetCVar("KethoDoc", 0)
+	end
 end
 
 KethoDoc.tocVersion = select(4, GetBuildInfo())
