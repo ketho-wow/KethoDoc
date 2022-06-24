@@ -16,19 +16,9 @@ elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 end
 
 function KethoDoc:GetAPI()
-	local api = {}
-	self:InsertTable(api, self:GetCNamespaceAPI())
-	local nonApi = {}
-	self:InsertTable(nonApi, self.FrameXML[self.branch])
-	self:InsertTable(nonApi, self.FrameXmlBlacklist)
-	self:InsertTable(nonApi, self.LuaAPI)
-	-- filter all global functions against FrameXML functions and Lua API
-	for funcName in pairs(self:GetGlobalFuncs()) do
-		if not nonApi[funcName] then
-			api[funcName] = true
-		end
-	end
-	return api
+	local api_func, framexml_func = self:GetGlobalFuncs()
+	self:InsertTable(api_func, self:GetCNamespaceAPI())
+	return api_func, framexml_func
 end
 
 function KethoDoc:DumpGlobalAPI()
@@ -363,11 +353,9 @@ function KethoDoc:GetFrames()
 end
 
 function KethoDoc:GetFrameXML()
-	local t = {}
-	for k in pairs(self.FrameXML[self.branch]) do
-		if type(_G[k]) == "function" then
-			t[k] = true
-		elseif type(_G[k]) == "table" and strfind(k, "Util$") then
+	local _, t = self:GetAPI()
+	for k in pairs(_G) do
+		if type(_G[k]) == "table" and strfind(k, "Util$") then
 			for k2, v2 in pairs(_G[k]) do
 				if type(v2) == "function" then
 					t[k.."."..k2] = true;

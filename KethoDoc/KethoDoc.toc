@@ -5,11 +5,6 @@
 editbox.lua
 KethoDoc.lua
 
-framexml/mainline.lua
-framexml/mainline_ptr.lua
-framexml/vanilla.lua
-framexml/tbc.lua
-
 util.lua
 deprecated.lua
 api.lua

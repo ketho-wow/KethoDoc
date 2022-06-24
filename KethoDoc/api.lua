@@ -28,29 +28,6 @@ elseif KethoDoc.branch == "tbc" or KethoDoc.branch == "vanilla" then -- 2.5.1
 	})
 end
 
-KethoDoc.FrameXmlBlacklist = {
-	-- these globals are set through _G instead
-	Blizzard_CombatLog_Update_QuickButtons = true,
-	CombatLog_Color_ColorArrayByEventType = true,
-	CombatLog_Color_ColorArrayBySchool = true,
-	CombatLog_Color_ColorArrayByUnitType = true,
-	CombatLog_Color_ColorStringByEventType = true,
-	CombatLog_Color_ColorStringBySchool = true,
-	CombatLog_Color_ColorStringByUnitType = true,
-	CombatLog_Color_FloatToText = true,
-	CombatLog_Color_HighlightColorArray = true,
-	CombatLog_OnEvent = true,
-	CombatLog_String_DamageResultString = true,
-	CombatLog_String_GetIcon = true,
-	CombatLog_String_PowerType = true,
-	CombatLog_String_SchoolString = true,
-	COMBAT_TEXT_SCROLL_FUNCTION = true, -- set within a function
-
-	-- DressUpFrames.xml
-	OnMaximize = true,
-	OnMinimize = true,
-}
-
 KethoDoc.LuaAPI = { -- see compat.lua
 	--bit = true,
 	--coroutine = true,
@@ -136,14 +113,25 @@ KethoDoc.LuaAPI = { -- see compat.lua
 	xpcall = true,
 }
 
+local function isLuaFunction(func)
+	return pcall(function() coroutine.create(func) end)
+end
+
 function KethoDoc:GetGlobalFuncs()
-	local t = {}
+	local api_func, lua_func = {}, {}
 	for k, v in pairs(_G) do
 		if type(v) == "function" then
-			t[k] = true
+			if isLuaFunction(v) then
+				lua_func[k] = true
+			else
+				api_func[k] = true
+			end
 		end
 	end
-	return t
+	for k in pairs(self.LuaAPI) do
+		api_func[k] = nil
+	end
+	return api_func, lua_func
 end
 
 function KethoDoc:GetCNamespaceAPI()
