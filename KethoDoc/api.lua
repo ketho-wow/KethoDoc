@@ -1,25 +1,14 @@
-local deprecated = {
+local framexml = {
 	C_Timer = { -- timer augments
 		NewTicker = true,
 		NewTimer = true,
 	},
 }
 
--- note that it would actually replace any older keys
-local function InsertTable(tbl, add)
-	for k, v in pairs(add) do
-		tbl[k] = v
-	end
-end
-
 if KethoDoc.branch:find("mainline") then
-	for version, tbl in pairs(KethoDoc.api_patches) do
-		if KethoDoc.tocVersion >= version then
-			InsertTable(deprecated, tbl)
-		end
-	end
+	KethoDoc:InsertTable(framexml, KethoDoc.deprecated.namespace)
 elseif KethoDoc.branch == "tbc" or KethoDoc.branch == "vanilla" then -- 2.5.1
-	InsertTable(deprecated, {
+	KethoDoc:InsertTable(framexml, {
 		C_DateAndTime = {
 			GetDateFromEpoch = true,
 			GetTodaysDate = true,
@@ -113,16 +102,31 @@ KethoDoc.LuaAPI = { -- see compat.lua
 	xpcall = true,
 }
 
-local function isLuaFunction(func)
-	return pcall(function() coroutine.create(func) end)
+KethoDoc.LuaFrameXml = {
+	acos = true,
+	asin = true,
+	atan = true,
+	atan2 = true,
+	cos = true,
+	sin = true,
+	tan = true,
+}
+
+-- /me headpats meorawr and ferronn
+local function isFramexml(func, name)
+	if KethoDoc.deprecated.api[name] then
+		return true
+	else
+		return pcall(function() coroutine.create(func) end)
+	end
 end
 
-function KethoDoc:GetGlobalFuncs()
-	local api_func, lua_func = {}, {}
+function KethoDoc:GetGlobalAPI()
+	local api_func, framexml_func = {}, {}
 	for k, v in pairs(_G) do
 		if type(v) == "function" then
-			if isLuaFunction(v) then
-				lua_func[k] = true
+			if isFramexml(v, k) then
+				framexml_func[k] = true
 			else
 				api_func[k] = true
 			end
@@ -131,15 +135,18 @@ function KethoDoc:GetGlobalFuncs()
 	for k in pairs(self.LuaAPI) do
 		api_func[k] = nil
 	end
-	return api_func, lua_func
+	for k in pairs(self.LuaFrameXml) do
+		framexml_func[k] = nil
+	end
+	return api_func, framexml_func
 end
 
-function KethoDoc:GetCNamespaceAPI()
+function KethoDoc:GetNamespaceAPI()
 	local t = {}
 	for systemName, v in pairs(_G) do
 		if systemName:find("^C_") and type(v) == "table" then
 			for funcName in pairs(v) do
-				local depr = deprecated[systemName]
+				local depr = framexml[systemName]
 				if not depr or not depr[funcName] then
 					local name = format("%s.%s", systemName, funcName)
 					t[name] = true

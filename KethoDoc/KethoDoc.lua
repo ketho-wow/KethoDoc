@@ -16,8 +16,8 @@ elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 end
 
 function KethoDoc:GetAPI()
-	local api_func, framexml_func = self:GetGlobalFuncs()
-	self:InsertTable(api_func, self:GetCNamespaceAPI())
+	local api_func, framexml_func = self:GetGlobalAPI()
+	self:InsertTable(api_func, self:GetNamespaceAPI())
 	return api_func, framexml_func
 end
 

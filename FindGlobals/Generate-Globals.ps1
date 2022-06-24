@@ -1,3 +1,8 @@
+# requires powershell 7.x
+
+# we longer require generating framexml globals
+# still used to check for LoadOnDemand blizzard addons
+
 $UiSourceUrl = "https://github.com/Gethe/wow-ui-source"
 # $UiSourceUrl = "https://github.com/BigWigsMods/WoWUI"
 $UiSourceDir = "wow-ui-source"

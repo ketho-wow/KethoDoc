@@ -1,10 +1,10 @@
-KethoDoc.api_patches = {
-	[90005] = { -- 9.0.5
+KethoDoc.deprecated = {
+	namespace = {
+		-- 9.0.5
 		C_Soulbinds = {
 			GetConduitItemLevel = true,
 		},
-	},
-	[90100] = { -- 9.1.0
+		-- 9.1.0
 		C_LegendaryCrafting = {
 			GetRuneforgePowersByClassAndSpec = true,
 		},
@@ -17,17 +17,16 @@ KethoDoc.api_patches = {
 			GetCost = true,
 		},
 		C_TransmogCollection = {
-			CanSetFavoriteInCategory    = true,
+			CanSetFavoriteInCategory = true,
 			GetIllusionFallbackWeaponSource = true,
 			GetIllusionSourceInfo = true,
-			GetShowMissingSourceInItemTooltips  = true,
-			SetShowMissingSourceInItemTooltips   = true,
+			GetShowMissingSourceInItemTooltips = true,
+			SetShowMissingSourceInItemTooltips = true,
 		},
 		C_TransmogSets = {
-			GetSetSources  = true,
+			GetSetSources = true,
 		},
-	},
-	[90105] = { -- 9.1.5
+		-- 9.1.5
 		C_ItemUpgrade = {
 			GetItemLevelIncrement = true,
 		},
@@ -36,9 +35,18 @@ KethoDoc.api_patches = {
 			GetCategoryInfo = true,
 		},
 	},
+	api = {
+		-- 9.0.5
+		QueryGuildMembersForRecipe = true,
+		-- 9.1.0
+		GetQuestLogPortraitGiver = true,
+		HasAlternateForm = true,
+		IsDressableItem = true,
+		SendPlayerChoiceResponse = true,
+	},
 }
 
--- deprecated in 9.1.0 / 2.5.2
+-- 9.1.0 / 2.5.2
 LE_ITEM_CLASS_CONSUMABLE = nil
 LE_ITEM_CLASS_CONTAINER = nil
 LE_ITEM_CLASS_WEAPON = nil
@@ -125,30 +133,28 @@ LE_ITEM_MISCELLANEOUS_OTHER = nil
 LE_ITEM_MISCELLANEOUS_MOUNT = nil
 LE_ITEM_MISCELLANEOUS_MOUNT_EQUIPMENT = nil
 
--- deprecated in 9.1.0
-if KethoDoc.tocVersion >= 90100 then
-	LE_BATTLE_PET_WEATHER = nil
-	LE_BATTLE_PET_ALLY = nil
-	LE_BATTLE_PET_ENEMY = nil
+-- 9.1.0
+LE_BATTLE_PET_WEATHER = nil
+LE_BATTLE_PET_ALLY = nil
+LE_BATTLE_PET_ENEMY = nil
 
-	LE_BATTLE_PET_ACTION_NONE = nil
-	LE_BATTLE_PET_ACTION_ABILITY = nil
-	LE_BATTLE_PET_ACTION_SWITCH_PET = nil
-	LE_BATTLE_PET_ACTION_TRAP = nil
-	LE_BATTLE_PET_ACTION_SKIP = nil
+LE_BATTLE_PET_ACTION_NONE = nil
+LE_BATTLE_PET_ACTION_ABILITY = nil
+LE_BATTLE_PET_ACTION_SWITCH_PET = nil
+LE_BATTLE_PET_ACTION_TRAP = nil
+LE_BATTLE_PET_ACTION_SKIP = nil
 
-	LE_PET_BATTLE_STATE_CREATED = nil
-	LE_PET_BATTLE_STATE_WAITING_PRE_BATTLE = nil
-	LE_PET_BATTLE_STATE_ROUND_IN_PROGRESS = nil
-	LE_PET_BATTLE_STATE_WAITING_FOR_FRONT_PETS = nil
-	LE_PET_BATTLE_STATE_CREATED_FAILED = nil
-	LE_PET_BATTLE_STATE_FINAL_ROUND = nil
-	LE_PET_BATTLE_STATE_FINISHED = nil
+LE_PET_BATTLE_STATE_CREATED = nil
+LE_PET_BATTLE_STATE_WAITING_PRE_BATTLE = nil
+LE_PET_BATTLE_STATE_ROUND_IN_PROGRESS = nil
+LE_PET_BATTLE_STATE_WAITING_FOR_FRONT_PETS = nil
+LE_PET_BATTLE_STATE_CREATED_FAILED = nil
+LE_PET_BATTLE_STATE_FINAL_ROUND = nil
+LE_PET_BATTLE_STATE_FINISHED = nil
 
-	LE_TRANSMOG_SEARCH_TYPE_ITEMS = nil
-	LE_TRANSMOG_SEARCH_TYPE_BASE_SETS = nil
-	LE_TRANSMOG_SEARCH_TYPE_USABLE_SETS = nil
-end
+LE_TRANSMOG_SEARCH_TYPE_ITEMS = nil
+LE_TRANSMOG_SEARCH_TYPE_BASE_SETS = nil
+LE_TRANSMOG_SEARCH_TYPE_USABLE_SETS = nil
 
 -- 9.2.0, 1.14.2, 2.5.3
 Enum.Unitsex = nil

@@ -1,5 +1,5 @@
 ### Dumps the WoW API for [BlizzardInterfaceResources](https://github.com/Ketho/BlizzardInterfaceResources)
-Every patch `framexml_<branch>.lua` has to be manually updated by running [FindGlobals](https://www.wowace.com/projects/findglobals) on the [FrameXML](https://wow.gamepedia.com/Viewing_Blizzard%27s_interface_code)
+Every patch [deprecated.lua](https://github.com/ketho-wow/KethoDoc/blob/master/KethoDoc/deprecated.lua) has to be updated with any [Blizzard_Deprecated](https://github.com/Gethe/wow-ui-source/tree/live/Interface/AddOns/Blizzard_Deprecated) additions.
 
 | Function | Description   
 | --- | ---
