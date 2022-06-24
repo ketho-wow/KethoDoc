@@ -11,7 +11,7 @@ if IsAddOnLoaded("Blizzard_Deprecated") then
 			DisableAddOn("Blizzard_Deprecated")
 			-- use a custom cvar instead of savedvariables
 			C_CVar.RegisterCVar("KethoDoc")
-			C_CVar.SetCVar("KethoDoc", nil)
+			C_CVar.SetCVar("KethoDoc", 1)
 			C_UI.Reload()
 		end
 	end)
