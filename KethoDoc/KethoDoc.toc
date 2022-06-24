@@ -1,12 +1,11 @@
 ## Interface: 90205
-## Version: 1.5.0
+## Version: 1.5.1
 ## Title: KethoDoc
 
 editbox.lua
 KethoDoc.lua
 
 util.lua
-deprecated.lua
 api.lua
 widget.lua
 cvar.lua

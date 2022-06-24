@@ -2,12 +2,30 @@
 KethoDoc = {}
 local eb = KethoEditBox
 
+if IsAddOnLoaded("Blizzard_Deprecated") then
+	print("|cff71d5ffKethoDoc:|r Please click |cFFFFFF00|Hgarrmission:KethoDoc|h[Reload]|h|r to disable the Blizzard_Deprecated addon and avoid dumping deprecated API."
+		.." You will have to re-enable it manually.")
+	hooksecurefunc("SetItemRef", function(link)
+		local linkType, addon = strsplit(":", link)
+		if linkType == "garrmission" and addon == "KethoDoc" then
+			DisableAddOn("Blizzard_Deprecated")
+			-- use a custom cvar instead of savedvariables
+			C_CVar.RegisterCVar("KethoDoc")
+			C_CVar.SetCVar("KethoDoc", nil)
+			C_UI.Reload()
+		end
+	end)
+elseif C_CVar.GetCVarBool("KethoDoc") then
+	print("|cff71d5ffKethoDoc:|r Disabled Blizzard_Deprecated.")
+	C_CVar.SetCVar("KethoDoc", 0)
+end
+
 KethoDoc.tocVersion = select(4, GetBuildInfo())
 local agentUID = GetCVarDefault("agentUID")
 
 if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
 	KethoDoc.isRetail = true
-	-- the ptr can also have release candidate builds
+	-- ptr can also have release candidate builds
 	KethoDoc.branch = (IsTestBuild() or agentUID == "wow_ptr") and "mainline_ptr" or "mainline"
 elseif WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
 	KethoDoc.branch = "tbc"
@@ -125,7 +143,8 @@ function KethoDoc:DumpCVars()
 
 	for _, v in pairs(C_Console.GetAllCommands()) do
 		if v.commandType == Enum.ConsoleCommandType.Cvar then
-			if not v.command:find("^CACHE") then -- these just keep switching between false/nil
+			-- these just keep switching between false/nil
+			if not v.command:find("^CACHE") and v.command ~= "KethoDoc" then
 				local _, defaultValue, server, character = GetCVarInfo(v.command)
 				-- every time they change the category they seem to lose the help text
 				local cvarCache = self.cvar_cache.var[v.command]
@@ -354,13 +373,20 @@ end
 
 function KethoDoc:GetFrameXML()
 	local _, t = self:GetAPI()
-	for k in pairs(_G) do
-		if type(_G[k]) == "table" and strfind(k, "Util$") then
-			for k2, v2 in pairs(_G[k]) do
+	for namespace, v in pairs(_G) do
+		if type(v) == "table" and strfind(namespace, "Util$") then
+			for funcname, v2 in pairs(v) do
 				if type(v2) == "function" then
-					t[k.."."..k2] = true;
+					local name = format("%s.%s", namespace, funcname)
+					t[name] = true
 				end
 			end
+		end
+	end
+	for systemName, v in pairs(self.augments) do
+		for funcName in pairs(v) do
+			local name = format("%s.%s", systemName, funcName)
+			t[name] = true
 		end
 	end
 	return t
@@ -403,7 +429,8 @@ function KethoDoc:DumpNonBlizzardDocumented()
 	UIParentLoadAddOn("Blizzard_APIDocumentation")
 	for _, apiTable in pairs(APIDocumentation.functions) do
 		if apiTable.System.Namespace then
-			BAD[apiTable.System.Namespace.."."..apiTable.Name] = true
+			local name = format("%s.%s", apiTable.System.Namespace, apiTable.Name)
+			BAD[name] = true
 		else
 			BAD[apiTable.Name] = true
 		end

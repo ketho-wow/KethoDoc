@@ -1,5 +1,5 @@
 ### Dumps the WoW API for [BlizzardInterfaceResources](https://github.com/Ketho/BlizzardInterfaceResources)
-Every patch [deprecated.lua](https://github.com/ketho-wow/KethoDoc/blob/master/KethoDoc/deprecated.lua) has to be updated with any [Blizzard_Deprecated](https://github.com/Gethe/wow-ui-source/tree/live/Interface/AddOns/Blizzard_Deprecated) additions.
+Requires disabling the [Blizzard_Deprecated](https://github.com/Gethe/wow-ui-source/tree/live/Interface/AddOns/Blizzard_Deprecated) addon, subsequently any deprecated API will not be tracked but omitted altogether. Dumping the FrameXML globals with FindGlobals is no longer needed.
 
 | Function | Description   
 | --- | ---

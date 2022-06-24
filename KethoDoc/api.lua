@@ -1,21 +1,9 @@
-local framexml = {
-	C_Timer = { -- timer augments
+KethoDoc.augments = {
+	C_Timer = {
 		NewTicker = true,
 		NewTimer = true,
 	},
 }
-
-if KethoDoc.branch:find("mainline") then
-	KethoDoc:InsertTable(framexml, KethoDoc.deprecated.namespace)
-elseif KethoDoc.branch == "tbc" or KethoDoc.branch == "vanilla" then -- 2.5.1
-	KethoDoc:InsertTable(framexml, {
-		C_DateAndTime = {
-			GetDateFromEpoch = true,
-			GetTodaysDate = true,
-			GetYesterdaysDate = true,
-		},
-	})
-end
 
 KethoDoc.LuaAPI = { -- see compat.lua
 	--bit = true,
@@ -102,7 +90,7 @@ KethoDoc.LuaAPI = { -- see compat.lua
 	xpcall = true,
 }
 
-KethoDoc.LuaFrameXml = {
+local LuaFrameXml = {
 	acos = true,
 	asin = true,
 	atan = true,
@@ -113,19 +101,16 @@ KethoDoc.LuaFrameXml = {
 }
 
 -- /me headpats meorawr and ferronn
-local function isFramexml(func, name)
-	if KethoDoc.deprecated.api[name] then
-		return true
-	else
-		return pcall(function() coroutine.create(func) end)
-	end
+local function isFramexml(func)
+	---@diagnostic disable-next-line: discard-returns
+	return pcall(function() coroutine.create(func) end)
 end
 
 function KethoDoc:GetGlobalAPI()
 	local api_func, framexml_func = {}, {}
 	for k, v in pairs(_G) do
 		if type(v) == "function" then
-			if isFramexml(v, k) then
+			if isFramexml(v) then
 				framexml_func[k] = true
 			else
 				api_func[k] = true
@@ -135,7 +120,7 @@ function KethoDoc:GetGlobalAPI()
 	for k in pairs(self.LuaAPI) do
 		api_func[k] = nil
 	end
-	for k in pairs(self.LuaFrameXml) do
+	for k in pairs(LuaFrameXml) do
 		framexml_func[k] = nil
 	end
 	return api_func, framexml_func
@@ -146,12 +131,15 @@ function KethoDoc:GetNamespaceAPI()
 	for systemName, v in pairs(_G) do
 		if systemName:find("^C_") and type(v) == "table" then
 			for funcName in pairs(v) do
-				local depr = framexml[systemName]
-				if not depr or not depr[funcName] then
-					local name = format("%s.%s", systemName, funcName)
-					t[name] = true
-				end
+				local name = format("%s.%s", systemName, funcName)
+				t[name] = true
 			end
+		end
+	end
+	for systemName, v in pairs(self.augments) do
+		for funcName in pairs(v) do
+			local name = format("%s.%s", systemName, funcName)
+			t[name] = nil
 		end
 	end
 	return t
