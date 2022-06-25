@@ -2,6 +2,19 @@
 KethoDoc = {}
 local eb = KethoEditBox
 
+if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+	KethoDoc.isMainline = true
+	if IsTestBuild() or GetCVarDefault("agentUID") == "wow_ptr" then -- ptr can also have release candidate builds
+		KethoDoc.branch = "mainline_ptr"
+	else
+		KethoDoc.branch = "mainline"
+	end
+elseif WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
+	KethoDoc.branch = "tbc"
+elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+	KethoDoc.branch = "vanilla"
+end
+
 if IsPublicBuild() then
 	if IsAddOnLoaded("Blizzard_Deprecated") then
 		print("|cff71d5ffKethoDoc:|r Please click |cFFFFFF00|Hgarrmission:KethoDoc|h[Reload]|h|r to disable the Blizzard_Deprecated addon and avoid dumping deprecated API."
@@ -20,19 +33,6 @@ if IsPublicBuild() then
 		print("|cff71d5ffKethoDoc:|r Disabled Blizzard_Deprecated.")
 		C_CVar.SetCVar("KethoDoc", 0)
 	end
-end
-
-KethoDoc.tocVersion = select(4, GetBuildInfo())
-local agentUID = GetCVarDefault("agentUID")
-
-if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
-	KethoDoc.isRetail = true
-	-- ptr can also have release candidate builds
-	KethoDoc.branch = (IsTestBuild() or agentUID == "wow_ptr") and "mainline_ptr" or "mainline"
-elseif WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
-	KethoDoc.branch = "tbc"
-elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
-	KethoDoc.branch = "vanilla"
 end
 
 function KethoDoc:GetAPI()

@@ -308,7 +308,7 @@ function KethoDoc:SetupWidgets()
 		},
 		POIFrame = {
 			inherits = {"Frame"}, -- ArchaeologyDigSiteFrame ∩ QuestPOIFrame
-			meta_object = self.isRetail and function() return self:CompareTable(W.ArchaeologyDigSiteFrame.meta_object, W.QuestPOIFrame.meta_object) end,
+			meta_object = self.isMainline and function() return self:CompareTable(W.ArchaeologyDigSiteFrame.meta_object, W.QuestPOIFrame.meta_object) end,
 			-- (ArchaeologyDigSiteFrame ∩ QuestPOIFrame) \ Frame
 			unique_methods = function() return self:RemoveTable(W.POIFrame.meta_object(), W.Frame.meta_object) end,
 		},
