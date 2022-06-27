@@ -549,25 +549,25 @@ KethoDoc.WidgetHandlers = {
 
 local NonInherited = {
 	MaskTexture = {
-		"AddMaskTexture", -- Texture
-		"GetMaskTexture", -- Texture
+		"AddMaskTexture",     -- Texture
+		"GetMaskTexture",     -- Texture
 		"GetNumMaskTextures", -- Texture
-		"RemoveMaskTexture", -- Texture
+		"RemoveMaskTexture",  -- Texture
 	},
 	Line = {
 		"AdjustPointsOffset", -- Region
-		"ClearPointByName", -- Region
-		"ClearPointsOffset", -- Region
-		"GetNumPoints", -- Region
-		"GetPoint", -- Region
-		"GetPointByName", -- Region
-		"SetAllPoints", -- Region
-		"SetPoint", -- Region
+		"ClearPointByName",   -- Region
+		"ClearPointsOffset",  -- Region
+		"GetNumPoints",       -- Region
+		"GetPoint",           -- Region
+		"GetPointByName",     -- Region
+		"SetAllPoints",       -- Region
+		"SetPoint",           -- Region
 
-		"SetHeight", -- Region
-		"SetSize", -- Region
-		"SetSize", -- Region
-		"SetWidth", -- Region
+		"SetHeight",          -- Region
+		"SetSize",            -- Region
+		"SetSize",            -- Region
+		"SetWidth",           -- Region
 	},
 }
 
@@ -582,62 +582,62 @@ function KethoDoc:WidgetTest()
 	end
 	-- combine unique methods plus inherited methods
 	local widgets = {
-		{"ScriptObject",			{}},
-		{"UIObject",				{}},
-		{"ParentedObject",			{W.UIObject}},
-		{"Region",					{W.ParentedObject, W.UIObject}},
-		{"LayeredRegion",			{W.Region, W.ParentedObject, W.UIObject}},
+		{"ScriptObject",            {}},
+		{"UIObject",                {}},
+		{"ParentedObject",          {W.UIObject}},
+		{"Region",                  {W.ParentedObject, W.UIObject}},
+		{"LayeredRegion",           {W.Region, W.ParentedObject, W.UIObject}},
 
-		{"FontInstance",			{W.UIObject}},
-		{"Font",					{W.FontInstance, W.UIObject}},
-		{"FontString",				{W.LayeredRegion, W.Region, W.ParentedObject, W.UIObject, W.FontInstance}},
-		{"Texture",					{W.LayeredRegion, W.Region, W.ParentedObject, W.UIObject}},
-		{"Line",					{W.Texture, W.LayeredRegion, W.Region, W.ParentedObject, W.UIObject}},
-		{"MaskTexture",				{W.Texture, W.LayeredRegion, W.Region, W.ParentedObject, W.UIObject}},
+		{"FontInstance",            {W.UIObject}},
+		{"Font",                    {W.FontInstance, W.UIObject}},
+		{"FontString",              {W.LayeredRegion, W.Region, W.ParentedObject, W.UIObject, W.FontInstance}},
+		{"Texture",                 {W.LayeredRegion, W.Region, W.ParentedObject, W.UIObject}},
+		{"Line",                    {W.Texture, W.LayeredRegion, W.Region, W.ParentedObject, W.UIObject}},
+		{"MaskTexture",             {W.Texture, W.LayeredRegion, W.Region, W.ParentedObject, W.UIObject}},
 
-		{"AnimationGroup",			{W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Animation",				{W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Alpha",					{W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"LineScale",				{W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Translation",				{W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"LineTranslation",			{W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Path",					{W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"ControlPoint",			{W.ParentedObject, W.UIObject}},
-		{"Rotation",				{W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"TextureCoordTranslation",	{W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"AnimationGroup",          {W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"Animation",               {W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"Alpha",                   {W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"LineScale",               {W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"Translation",             {W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"LineTranslation",         {W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"Path",                    {W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"ControlPoint",            {W.ParentedObject, W.UIObject}},
+		{"Rotation",                {W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"TextureCoordTranslation", {W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
 
-		{"Frame",					{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Browser",					{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Button",					{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"CheckButton",				{W.Button, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Checkout",				{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"ColorSelect",				{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Cooldown",				{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"EditBox",					{W.FontInstance, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"FogOfWarFrame",			{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"GameTooltip",				{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"MessageFrame",			{W.FontInstance, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Minimap",					{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Model",					{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"PlayerModel",				{W.Model, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"CinematicModel",			{W.PlayerModel, W.Model, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"DressUpModel",			{W.PlayerModel, W.Model, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"TabardModel",				{W.PlayerModel, W.Model, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"ModelScene",				{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"MovieFrame",				{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"OffScreenFrame",			{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"POIFrame",				{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"ArchaeologyDigSiteFrame",	{W.POIFrame, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"QuestPOIFrame",			{W.POIFrame, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"ScenarioPOIFrame",		{W.POIFrame, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"ScrollFrame",				{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"SimpleHTML",				{W.FontInstance, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Slider",					{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"StatusBar",				{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"UnitPositionFrame",		{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"WorldFrame",				{W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"Frame",                   {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"Browser",                 {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"Button",                  {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"CheckButton",             {W.Button, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"Checkout",                {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"ColorSelect",             {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"Cooldown",                {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"EditBox",                 {W.FontInstance, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"FogOfWarFrame",           {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"GameTooltip",             {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"MessageFrame",            {W.FontInstance, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"Minimap",                 {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"Model",                   {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"PlayerModel",             {W.Model, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"CinematicModel",          {W.PlayerModel, W.Model, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"DressUpModel",            {W.PlayerModel, W.Model, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"TabardModel",             {W.PlayerModel, W.Model, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"ModelScene",              {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"MovieFrame",              {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"OffScreenFrame",          {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"POIFrame",                {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"ArchaeologyDigSiteFrame", {W.POIFrame, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"QuestPOIFrame",           {W.POIFrame, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"ScenarioPOIFrame",        {W.POIFrame, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"ScrollFrame",             {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"SimpleHTML",              {W.FontInstance, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"Slider",                  {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"StatusBar",               {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"UnitPositionFrame",       {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"WorldFrame",              {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
 
-		{"ModelSceneActor",			{W.ParentedObject, W.UIObject}},
+		{"ModelSceneActor",         {W.ParentedObject, W.UIObject}},
 	}
 
 	local passed_count = 0
