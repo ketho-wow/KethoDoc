@@ -424,7 +424,6 @@ function KethoDoc:DumpLodTable(label, getFunc, initTbl)
 	eb:InsertLine(format("}\n\nreturn {%s, LoadOnDemand}", label))
 end
 
--- non blizzard documented api
 function KethoDoc:DumpNonBlizzardDocumented()
 	local api = self:GetAPI()
 	local BAD = {}
@@ -462,6 +461,7 @@ local api = {
 	"DumpLuaEnums",
 	"DumpFrames",
 	"DumpFrameXML",
+	"WidgetTest",
 }
 
 function KethoDoc:GetBuildInfo()

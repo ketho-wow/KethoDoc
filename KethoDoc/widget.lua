@@ -659,6 +659,6 @@ function KethoDoc:WidgetTest()
 
 		end
 	end
-	print(format("Passed %d of %d tests", passed_count, #widgets))
-	-- Passed 52 of 52 tests in 9.2.5 (44232)
+	print(format("Widgets: Passed %d of %d tests", passed_count, #widgets))
+	-- Widgets: Passed 52 of 52 tests in 9.2.5 (44232)
 end
