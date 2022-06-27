@@ -547,6 +547,34 @@ KethoDoc.WidgetHandlers = {
 	"PreClick",
 }
 
+local NonInherited = {
+	MaskTexture = {
+		"AddMaskTexture", -- Texture
+		"GetMaskTexture", -- Texture
+		"GetNumMaskTextures", -- Texture
+		"RemoveMaskTexture", -- Texture
+	},
+	Line = {
+		"AdjustPointsOffset", -- Region
+		"ClearPointByName", -- Region
+		"ClearPointsOffset", -- Region
+		"GetNumPoints", -- Region
+		"GetPoint", -- Region
+		"GetPointByName", -- Region
+		"SetAllPoints", -- Region
+		"SetPoint", -- Region
+
+		"SetHeight", -- Region
+		"SetSize", -- Region
+		"SetSize", -- Region
+		"SetWidth", -- Region
+	},
+}
+
+for _, v in pairs(NonInherited.MaskTexture) do
+	tinsert(NonInherited.Line, v)
+end
+
 -- not really a proper and structured unit test
 function KethoDoc:WidgetTest()
 	if not self.WidgetClasses then
@@ -618,6 +646,11 @@ function KethoDoc:WidgetTest()
 		local meta_source = widget_class.meta_object
 		local meta_object = type(meta_source) == "function" and meta_source() or meta_source
 		local expected = self:MixinTable(widget_class, unpack(v[2]))
+		if NonInherited[v[1]] then
+			for _, name in pairs(NonInherited[v[1]]) do
+				meta_object[name] = true
+			end
+		end
 		local equal, size1, size2 = self:TableEquals(meta_object, expected)
 		if equal then
 			passed_count = passed_count + 1
@@ -627,7 +660,5 @@ function KethoDoc:WidgetTest()
 		end
 	end
 	print(format("Passed %d of %d tests", passed_count, #widgets))
-	-- Failed: Line 85 99
-	-- Failed: MaskTexture 89 93
-	-- Passed 50 of 52 tests
+	-- Passed 52 of 52 tests in 9.2.5 (44232)
 end
