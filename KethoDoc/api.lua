@@ -123,6 +123,9 @@ function KethoDoc:GetGlobalAPI()
 	for k in pairs(LuaFrameXml) do
 		framexml_func[k] = nil
 	end
+	if IsAddOnLoaded("Blizzard_PTRFeedback") then
+		api_func.SetItemRef = nil -- Blizzard_PTRFeedback securehooks this
+	end
 	return api_func, framexml_func
 end
 
