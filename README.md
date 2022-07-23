@@ -1,5 +1,5 @@
 ### Dumps the WoW API for [BlizzardInterfaceResources](https://github.com/Ketho/BlizzardInterfaceResources)
-Requires disabling the [Blizzard_Deprecated](https://github.com/Gethe/wow-ui-source/tree/live/Interface/AddOns/Blizzard_Deprecated) addon, subsequently any deprecated API will not be tracked but omitted altogether.
+Requires disabling the [Blizzard_Deprecated](https://github.com/Gethe/wow-ui-source/tree/live/Interface/AddOns/Blizzard_Deprecated) addon; any deprecated API will be omitted.
 
 It's no longer needed to dump the FrameXML globals with FindGlobals.
 
