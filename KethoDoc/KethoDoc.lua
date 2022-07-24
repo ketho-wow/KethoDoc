@@ -2,15 +2,21 @@
 KethoDoc = {}
 local eb = KethoEditBox
 
+local toc = select(4, GetBuildInfo())
+
 if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
 	KethoDoc.isMainline = true
-	if IsTestBuild() or GetCVarDefault("agentUID") == "wow_ptr" then -- ptr can also have release candidate builds
+	if IsTestBuild() then
 		KethoDoc.branch = "mainline_ptr"
 	else
 		KethoDoc.branch = "mainline"
 	end
 elseif WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
-	KethoDoc.branch = "tbc"
+	if LE_EXPANSION_LEVEL_CURRENT == LE_EXPANSION_NORTHREND then
+		KethoDoc.branch = "wrath"
+	elseif LE_EXPANSION_LEVEL_CURRENT == LE_EXPANSION_BURNING_CRUSADE then
+		KethoDoc.branch = "tbc"
+	end
 elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 	KethoDoc.branch = "vanilla"
 end
@@ -73,7 +79,6 @@ function KethoDoc:DumpLuaAPI()
 	end
 end
 
--- wannabe table serializer
 function KethoDoc:DumpWidgetAPI()
 	if not self.WidgetClasses then
 		self:SetupWidgets()

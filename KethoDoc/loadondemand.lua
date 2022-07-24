@@ -101,6 +101,43 @@ KethoDoc.LoadOnDemand.mainline = {
 }
 KethoDoc.LoadOnDemand.mainline_ptr = KethoDoc.LoadOnDemand.mainline
 
+-- test 3.4.0 (44729)
+KethoDoc.LoadOnDemand.wrath = {
+	"Blizzard_AchievementUI",
+	"Blizzard_APIDocumentation",
+	"Blizzard_ArenaUI",
+	"Blizzard_AuctionUI",
+	"Blizzard_BarberShopUI",
+	"Blizzard_BattlefieldMap",
+	"Blizzard_BehavioralMessaging",
+	"Blizzard_BindingUI",
+	"Blizzard_Calendar",
+	"Blizzard_CombatLog",
+	"Blizzard_CombatText",
+	"Blizzard_Commentator",
+	"Blizzard_Communities",
+	"Blizzard_CraftUI",
+	"Blizzard_DebugTools",
+	"Blizzard_EventTrace",
+	"Blizzard_GlyphUI",
+	"Blizzard_GMChatUI",
+	"Blizzard_GuildBankUI",
+	"Blizzard_InspectUI",
+	"Blizzard_ItemSocketingUI",
+	"Blizzard_Kiosk",
+	"Blizzard_LookingForGroupUI",
+	"Blizzard_MacroUI",
+	"Blizzard_MapCanvas",
+	"Blizzard_MovePad",
+	"Blizzard_RaidUI",
+	"Blizzard_SharedMapDataProviders",
+	"Blizzard_SocialUI",
+	"Blizzard_TalentUI",
+	"Blizzard_TimeManager",
+	"Blizzard_TradeSkillUI",
+	"Blizzard_TrainerUI",
+}
+
 -- 2.5.2; need to load addons without client suffix
 KethoDoc.LoadOnDemand.tbc = {
 	"Blizzard_APIDocumentation",

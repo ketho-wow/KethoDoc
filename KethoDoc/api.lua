@@ -124,7 +124,10 @@ function KethoDoc:GetGlobalAPI()
 		framexml_func[k] = nil
 	end
 	if IsAddOnLoaded("Blizzard_PTRFeedback") then
-		api_func.SetItemRef = nil -- Blizzard_PTRFeedback securehooks this
+		-- Blizzard_PTRFeedback securehooks this
+		api_func.SetItemRef = nil
+		api_func.QuestLog_Update = nil -- classic
+		api_func.FauxScrollFrame_Update = nil -- classic
 	end
 	return api_func, framexml_func
 end
