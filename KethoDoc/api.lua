@@ -126,6 +126,7 @@ function KethoDoc:GetGlobalAPI()
 	if IsAddOnLoaded("Blizzard_PTRFeedback") then
 		-- Blizzard_PTRFeedback securehooks this
 		api_func.SetItemRef = nil
+		api_func.QuestMapLogTitleButton_OnEnter = nil -- mainline
 		api_func.QuestLog_Update = nil -- classic
 		api_func.FauxScrollFrame_Update = nil -- classic
 	end
