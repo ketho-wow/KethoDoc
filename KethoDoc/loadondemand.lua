@@ -20,6 +20,7 @@ KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_AlliedRacesUI",
 	"Blizzard_AnimaDiversionUI",
 	"Blizzard_APIDocumentation",
+	"Blizzard_APIDocumentationGenerated",
 	"Blizzard_ArchaeologyUI",
 	"Blizzard_ArdenwealdGardening",
 	"Blizzard_ArenaUI",
