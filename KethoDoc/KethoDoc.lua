@@ -163,10 +163,11 @@ function KethoDoc:DumpCVars()
 				end
 				local helpString = ""
 				if v.help and #v.help > 0 then
-					helpString = v.help:gsub('"', '\\"')
+					helpString = v.help
 				elseif cvarCache and cvarCache[5] then
 					helpString = cvarCache[5]
 				end
+				helpString = helpString:gsub('"', '\\"')
 				local tbl = self.cvar_test[v.command] and test_cvarTbl or cvarTbl
 				tinsert(tbl, cvarFs:format(v.command, defaultValue or "", v.category, tostring(server), tostring(character), helpString))
 			end
