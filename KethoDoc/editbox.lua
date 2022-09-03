@@ -44,7 +44,7 @@ function KethoEditBox:Create()
 
 	-- Resizable
 	f:SetResizable(true)
-	f:SetMinResize(150, 100)
+	--f:SetMinResize(150, 100)
 	local rb = CreateFrame("Button", nil, f)
 	rb:SetPoint("BOTTOMRIGHT", -6, 7)
 	rb:SetSize(16, 16)

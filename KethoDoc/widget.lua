@@ -42,11 +42,16 @@ function KethoDoc:SetupWidgets()
 			unique_methods = function() return self:RemoveTable(W.ParentedObject.meta_object(), W.UIObject.meta_object()) end,
 		},
 		Region = {
-			inherits = {"ParentedObject"},
+			inherits = {"ParentedObject", "ScriptObject"},
 			-- Frame ∩ LayeredRegion
 			meta_object = function() return (self:CompareTable(W.Frame.meta_object, W.LayeredRegion.meta_object())) end,
 			-- Region \ UIObject
 			unique_methods = function() return self:RemoveTable(W.Region.meta_object(), W.ParentedObject.meta_object()) end,
+			-- Texture ∩ FontString
+			unique_handlers = function()
+				local union = self:CompareTable(W.Texture.handlers, W.FontString.handlers)
+				return self:RemoveTable(union, W.ScriptObject.unique_handlers())
+			end,
 		},
 		LayeredRegion = {
 			inherits = {"Region"},
@@ -169,9 +174,15 @@ function KethoDoc:SetupWidgets()
 			unique_methods = function() return self:RemoveTable(W.Translation.meta_object, W.Animation.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.Translation.handlers, W.Animation.handlers) end,
 		},
+		FlipBook = { -- FlipBook \ Animation
+			inherits = {"Animation"},
+			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("FlipBook"),
+			unique_methods = function() return self:RemoveTable(W.FlipBook.meta_object, W.Animation.meta_object) end,
+			unique_handlers = function() return self:RemoveTable(W.FlipBook.handlers, W.Animation.handlers) end,
+		},
 
 		Frame = { -- Frame \ (Region ∧ ScriptObject)
-			inherits = {"Region", "ScriptObject"},
+			inherits = {"Region"},
 			object = TryCreateFrame("Frame"),
 			unique_methods = function()
 				local obj = self:RemoveTable(W.Frame.meta_object, W.Region.meta_object())
@@ -376,6 +387,7 @@ function KethoDoc:SetupWidgets()
 			unique_methods = function() return self:RemoveTable(W.ModelSceneActor.meta_object, W.ParentedObject.meta_object()) end,
 			unique_handlers = function()
 				return { -- can only set these from XML
+					OnModelCleared = true,
 					OnModelLoading = true,
 					OnModelLoaded = true,
 					OnAnimFinished = true,
@@ -434,6 +446,7 @@ KethoDoc.WidgetOrder = {
 	"Path", "ControlPoint",
 	"Rotation",
 	"TextureCoordTranslation",
+	"FlipBook",
 
 	-- frame
 	"Frame",
@@ -507,6 +520,7 @@ KethoDoc.WidgetHandlers = {
 	"OnLoop",
 	"OnMessageScrollChanged",
 	"OnMinMaxChanged",
+	"OnModelCleared", -- added in 10.0.0
 	"OnModelLoaded",
 	"OnModelLoading",
 	"OnMouseDown",
@@ -556,7 +570,7 @@ local NonInherited = {
 	},
 	Line = {
 		"AdjustPointsOffset", -- Region
-		"ClearPointByName",   -- Region
+		--"ClearPointByName", -- Region; added in 10.0.0
 		"ClearPointsOffset",  -- Region
 		"GetNumPoints",       -- Region
 		"GetPoint",           -- Region
@@ -581,17 +595,19 @@ function KethoDoc:WidgetTest()
 		self:SetupWidgets()
 	end
 	-- combine unique methods plus inherited methods
+	-- widget scripts are not really being tested
+	-- this test is wrong, ScriptObject on FontString and Texture does not appear to be tested
 	local widgets = {
 		{"ScriptObject",            {}},
 		{"UIObject",                {}},
 		{"ParentedObject",          {W.UIObject}},
-		{"Region",                  {W.ParentedObject, W.UIObject}},
-		{"LayeredRegion",           {W.Region, W.ParentedObject, W.UIObject}},
+		{"Region",                  {W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"LayeredRegion",           {W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
 
 		{"FontInstance",            {W.UIObject}},
 		{"Font",                    {W.FontInstance, W.UIObject}},
-		{"FontString",              {W.LayeredRegion, W.Region, W.ParentedObject, W.UIObject, W.FontInstance}},
-		{"Texture",                 {W.LayeredRegion, W.Region, W.ParentedObject, W.UIObject}},
+		{"FontString",              {W.LayeredRegion, W.Region, W.ParentedObject, W.UIObject, W.FontInstance, W.ScriptObject}},
+		{"Texture",                 {W.LayeredRegion, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
 		{"Line",                    {W.Texture, W.LayeredRegion, W.Region, W.ParentedObject, W.UIObject}},
 		{"MaskTexture",             {W.Texture, W.LayeredRegion, W.Region, W.ParentedObject, W.UIObject}},
 
@@ -605,6 +621,7 @@ function KethoDoc:WidgetTest()
 		{"ControlPoint",            {W.ParentedObject, W.UIObject}},
 		{"Rotation",                {W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
 		{"TextureCoordTranslation", {W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"FlipBook",                {W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
 
 		{"Frame",                   {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
 		{"Browser",                 {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
