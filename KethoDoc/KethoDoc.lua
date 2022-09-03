@@ -11,12 +11,8 @@ if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
 	else
 		KethoDoc.branch = "mainline"
 	end
-elseif WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
-	if LE_EXPANSION_LEVEL_CURRENT == LE_EXPANSION_NORTHREND then
+elseif WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC then
 		KethoDoc.branch = "wrath"
-	elseif LE_EXPANSION_LEVEL_CURRENT == LE_EXPANSION_BURNING_CRUSADE then
-		KethoDoc.branch = "tbc"
-	end
 elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 	KethoDoc.branch = "vanilla"
 end
