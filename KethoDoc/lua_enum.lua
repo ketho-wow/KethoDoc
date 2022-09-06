@@ -79,5 +79,7 @@ NUM_LE_TOKEN_REDEEM_TYPES = nil
 --LE_TOKEN_REDEEM_TYPE_BALANCE = 2
 
 -- 10.0.0 / 3.4.0: fix CharacterCustomizationSharedDocumentation.lua
-CHAR_CUSTOMIZE_CUSTOM_DISPLAY_OPTION_FIRST = Enum.CharCustomizationType.CustomOptionTattoo
-CHAR_CUSTOMIZE_CUSTOM_DISPLAY_OPTION_LAST = Enum.CharCustomizationType.CustomOptionTattooColor
+if Enum.CharCustomizationType then
+	CHAR_CUSTOMIZE_CUSTOM_DISPLAY_OPTION_FIRST = Enum.CharCustomizationType.CustomOptionTattoo
+	CHAR_CUSTOMIZE_CUSTOM_DISPLAY_OPTION_LAST = Enum.CharCustomizationType.CustomOptionTattooColor
+end
