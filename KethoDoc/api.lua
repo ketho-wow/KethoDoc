@@ -1,10 +1,3 @@
-KethoDoc.augments = {
-	C_Timer = {
-		NewTicker = true,
-		NewTimer = true,
-	},
-}
-
 KethoDoc.LuaAPI = { -- see compat.lua
 	--bit = true,
 	--coroutine = true,
@@ -141,12 +134,6 @@ function KethoDoc:GetNamespaceAPI()
 				local name = format("%s.%s", systemName, funcName)
 				t[name] = true
 			end
-		end
-	end
-	for systemName, v in pairs(self.augments) do
-		for funcName in pairs(v) do
-			local name = format("%s.%s", systemName, funcName)
-			t[name] = nil
 		end
 	end
 	return t

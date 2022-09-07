@@ -388,12 +388,6 @@ function KethoDoc:GetFrameXML()
 			end
 		end
 	end
-	for systemName, v in pairs(self.augments) do
-		for funcName in pairs(v) do
-			local name = format("%s.%s", systemName, funcName)
-			t[name] = true
-		end
-	end
 	return t
 end
 
