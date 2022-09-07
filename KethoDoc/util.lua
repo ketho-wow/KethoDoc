@@ -67,6 +67,7 @@ function KethoDoc:TableEquals(actual, expected)
 		size1 = size1 + 1
 		if not expected[k] then
 			isEquals = false
+			print("a", k)
 		end
 	end
 
@@ -74,6 +75,7 @@ function KethoDoc:TableEquals(actual, expected)
 		size2 = size2 + 1
 		if not actual[k] then
 			isEquals = false
+			print("b", k)
 		end
 	end
 

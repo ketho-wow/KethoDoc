@@ -10,44 +10,47 @@ local function TryCreateFrame(frameType, ...)
 	end
 end
 
--- (AnimationGroup ∩ Frame) \ UIObject
-function KethoDoc.GetScriptObject()
-	local intersect = KethoDoc:CompareTable(W.AnimationGroup.meta_object, W.Frame.meta_object)
-	return KethoDoc:RemoveTable(intersect, W.ParentedObject.meta_object())
-end
+local ScriptObject = {
+	GetScript = true,
+	HasScript = true,
+	HookScript = true,
+	SetScript = true,
+}
 
--- UIObject ∩ FontInstance
-function KethoDoc.GetUIObject()
-	return (KethoDoc:CompareTable(W.ParentedObject.meta_object(), W.FontInstance.meta_object()))
-end
+local UIObject = {
+	GetDebugName = true,
+	GetName = true,
+	GetObjectType = true,
+	GetParent = true,
+	IsForbidden = true,
+	IsObjectType = true,
+	SetForbidden = true,
+	SetParent = true,
+}
 
 function KethoDoc:SetupWidgets()
 	self.WidgetClasses = {
 		ScriptObject = {
 			inherits = {},
-			meta_object = self.GetScriptObject,
-			unique_methods = self.GetScriptObject,
+			meta_object = function() return ScriptObject end,
+			unique_methods = function() return ScriptObject end,
 			unique_handlers = function() return self:CompareTable(W.AnimationGroup.handlers, W.Frame.handlers) end,
 		},
 		UIObject = {
 			inherits = {},
-			meta_object = self.GetUIObject,
-			unique_methods = self.GetUIObject,
-		},
-		ParentedObject = {
-			inherits = {"UIObject"},
-			-- AnimationGroup ∩ ControlPoint
-			meta_object = function() return (self:CompareTable(W.AnimationGroup.meta_object, W.ControlPoint.meta_object)) end,
-			-- UIObject \ Object
-			unique_methods = function() return self:RemoveTable(W.ParentedObject.meta_object(), W.UIObject.meta_object()) end,
+			meta_object = function() return UIObject end,
+			unique_methods = function() return UIObject end,
 		},
 		Region = {
-			inherits = {"ParentedObject", "ScriptObject"},
+			inherits = {"UIObject", "ScriptObject"},
 			-- Frame ∩ LayeredRegion
 			meta_object = function() return (self:CompareTable(W.Frame.meta_object, W.LayeredRegion.meta_object())) end,
-			-- Region \ UIObject
-			unique_methods = function() return self:RemoveTable(W.Region.meta_object(), W.ParentedObject.meta_object()) end,
-			-- Texture ∩ FontString
+			-- Region \ UIObject \ ScriptObject
+			unique_methods = function()
+				local t = self:RemoveTable(W.Region.meta_object(), W.UIObject.meta_object())
+				return self:RemoveTable(t, W.ScriptObject.meta_object())
+			end,
+			-- Texture ∩ FontString \ ScriptObject
 			unique_handlers = function()
 				local union = self:CompareTable(W.Texture.handlers, W.FontString.handlers)
 				return self:RemoveTable(union, W.ScriptObject.unique_handlers())
@@ -103,19 +106,19 @@ function KethoDoc:SetupWidgets()
 		},
 
 		AnimationGroup = { -- AnimationGroup \ (UIObject ∧ ScriptObject)
-			inherits = {"ParentedObject", "ScriptObject"},
+			inherits = {"UIObject", "ScriptObject"},
 			object = TryCreateFrame("Frame"):CreateAnimationGroup(),
 			unique_methods = function()
-				local obj = self:RemoveTable(W.AnimationGroup.meta_object, W.ParentedObject.meta_object())
+				local obj = self:RemoveTable(W.AnimationGroup.meta_object, W.UIObject.meta_object())
 				return self:RemoveTable(obj, W.ScriptObject.meta_object())
 			end,
 			unique_handlers = function() return self:RemoveTable(W.AnimationGroup.handlers, W.ScriptObject.unique_handlers()) end,
 		},
 		Animation = { -- Animation \ (UIObject ∧ ScriptObject)
-			inherits = {"ParentedObject", "ScriptObject"},
+			inherits = {"UIObject", "ScriptObject"},
 			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation(),
 			unique_methods = function()
-				local obj = self:RemoveTable(W.Animation.meta_object, W.ParentedObject.meta_object())
+				local obj = self:RemoveTable(W.Animation.meta_object, W.UIObject.meta_object())
 				return self:RemoveTable(obj, W.ScriptObject.meta_object())
 			end,
 			unique_handlers = function() return self:RemoveTable(W.Animation.handlers, W.ScriptObject.unique_handlers()) end,
@@ -145,9 +148,9 @@ function KethoDoc:SetupWidgets()
 			unique_handlers = function() return self:RemoveTable(W.Path.handlers, W.Animation.handlers) end,
 		},
 		ControlPoint = { -- ControlPoint \ UIObject
-			inherits = {"ParentedObject"},
+			inherits = {"UIObject"},
 			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Path"):CreateControlPoint(),
-			unique_methods = function() return self:RemoveTable(W.ControlPoint.meta_object, W.ParentedObject.meta_object()) end,
+			unique_methods = function() return self:RemoveTable(W.ControlPoint.meta_object, W.UIObject.meta_object()) end,
 		},
 		Rotation = { -- Rotation \ Animation
 			inherits = {"Animation"},
@@ -188,7 +191,9 @@ function KethoDoc:SetupWidgets()
 				local obj = self:RemoveTable(W.Frame.meta_object, W.Region.meta_object())
 				return self:RemoveTable(obj, W.ScriptObject.meta_object())
 			end,
-			unique_handlers = function() return self:RemoveTable(W.Frame.handlers, W.ScriptObject.unique_handlers()) end,
+			unique_handlers = function() local t = self:RemoveTable(W.Frame.handlers, W.Region.unique_handlers())
+				return self:RemoveTable(t, W.ScriptObject.unique_handlers())
+			end,
 		},
 		Browser = { -- Browser \ Frame
 			inherits = {"Frame"},
@@ -382,9 +387,9 @@ function KethoDoc:SetupWidgets()
 			unique_handlers = function() return self:RemoveTable(W.WorldFrame.handlers, W.Frame.handlers) end,
 		},
 		ModelSceneActor = {
-			inherits = {"ParentedObject"},
+			inherits = {"UIObject"},
 			object = TryCreateFrame("ModelScene"):CreateActor(),
-			unique_methods = function() return self:RemoveTable(W.ModelSceneActor.meta_object, W.ParentedObject.meta_object()) end,
+			unique_methods = function() return self:RemoveTable(W.ModelSceneActor.meta_object, W.UIObject.meta_object()) end,
 			unique_handlers = function()
 				return { -- can only set these from XML
 					OnModelCleared = true,
@@ -423,7 +428,6 @@ KethoDoc.WidgetOrder = {
 	-- abstract classes
 	"ScriptObject",
 	"UIObject",
-	"ParentedObject",
 	"Region", -- (LayoutFrame)
 	"LayeredRegion",
 	"FontInstance",
@@ -600,61 +604,60 @@ function KethoDoc:WidgetTest()
 	local widgets = {
 		{"ScriptObject",            {}},
 		{"UIObject",                {}},
-		{"ParentedObject",          {W.UIObject}},
-		{"Region",                  {W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"LayeredRegion",           {W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"Region",                  {W.UIObject, W.ScriptObject}},
+		{"LayeredRegion",           {W.Region, W.UIObject, W.ScriptObject}},
 
 		{"FontInstance",            {W.UIObject}},
 		{"Font",                    {W.FontInstance, W.UIObject}},
-		{"FontString",              {W.LayeredRegion, W.Region, W.ParentedObject, W.UIObject, W.FontInstance, W.ScriptObject}},
-		{"Texture",                 {W.LayeredRegion, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Line",                    {W.Texture, W.LayeredRegion, W.Region, W.ParentedObject, W.UIObject}},
-		{"MaskTexture",             {W.Texture, W.LayeredRegion, W.Region, W.ParentedObject, W.UIObject}},
+		{"FontString",              {W.LayeredRegion, W.Region, W.UIObject, W.FontInstance, W.ScriptObject}},
+		{"Texture",                 {W.LayeredRegion, W.Region, W.UIObject, W.ScriptObject}},
+		{"Line",                    {W.Texture, W.LayeredRegion, W.Region, W.UIObject}},
+		{"MaskTexture",             {W.Texture, W.LayeredRegion, W.Region, W.UIObject}},
 
-		{"AnimationGroup",          {W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Animation",               {W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Alpha",                   {W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"LineScale",               {W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Translation",             {W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"LineTranslation",         {W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Path",                    {W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"ControlPoint",            {W.ParentedObject, W.UIObject}},
-		{"Rotation",                {W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"TextureCoordTranslation", {W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"FlipBook",                {W.Animation, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"AnimationGroup",          {W.UIObject, W.ScriptObject}},
+		{"Animation",               {W.UIObject, W.ScriptObject}},
+		{"Alpha",                   {W.Animation, W.UIObject, W.ScriptObject}},
+		{"LineScale",               {W.Animation, W.UIObject, W.ScriptObject}},
+		{"Translation",             {W.Animation, W.UIObject, W.ScriptObject}},
+		{"LineTranslation",         {W.Animation, W.UIObject, W.ScriptObject}},
+		{"Path",                    {W.Animation, W.UIObject, W.ScriptObject}},
+		{"ControlPoint",            {W.UIObject}},
+		{"Rotation",                {W.Animation, W.UIObject, W.ScriptObject}},
+		{"TextureCoordTranslation", {W.Animation, W.UIObject, W.ScriptObject}},
+		{"FlipBook",                {W.Animation, W.UIObject, W.ScriptObject}},
 
-		{"Frame",                   {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Browser",                 {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Button",                  {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"CheckButton",             {W.Button, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Checkout",                {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"ColorSelect",             {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Cooldown",                {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"EditBox",                 {W.FontInstance, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"FogOfWarFrame",           {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"GameTooltip",             {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"MessageFrame",            {W.FontInstance, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Minimap",                 {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Model",                   {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"PlayerModel",             {W.Model, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"CinematicModel",          {W.PlayerModel, W.Model, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"DressUpModel",            {W.PlayerModel, W.Model, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"TabardModel",             {W.PlayerModel, W.Model, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"ModelScene",              {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"MovieFrame",              {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"OffScreenFrame",          {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"POIFrame",                {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"ArchaeologyDigSiteFrame", {W.POIFrame, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"QuestPOIFrame",           {W.POIFrame, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"ScenarioPOIFrame",        {W.POIFrame, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"ScrollFrame",             {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"SimpleHTML",              {W.FontInstance, W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"Slider",                  {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"StatusBar",               {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"UnitPositionFrame",       {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
-		{"WorldFrame",              {W.Frame, W.Region, W.ParentedObject, W.UIObject, W.ScriptObject}},
+		{"Frame",                   {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"Browser",                 {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"Button",                  {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"CheckButton",             {W.Button, W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"Checkout",                {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"ColorSelect",             {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"Cooldown",                {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"EditBox",                 {W.FontInstance, W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"FogOfWarFrame",           {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"GameTooltip",             {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"MessageFrame",            {W.FontInstance, W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"Minimap",                 {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"Model",                   {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"PlayerModel",             {W.Model, W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"CinematicModel",          {W.PlayerModel, W.Model, W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"DressUpModel",            {W.PlayerModel, W.Model, W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"TabardModel",             {W.PlayerModel, W.Model, W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"ModelScene",              {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"MovieFrame",              {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"OffScreenFrame",          {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"POIFrame",                {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"ArchaeologyDigSiteFrame", {W.POIFrame, W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"QuestPOIFrame",           {W.POIFrame, W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"ScenarioPOIFrame",        {W.POIFrame, W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"ScrollFrame",             {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"SimpleHTML",              {W.FontInstance, W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"Slider",                  {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"StatusBar",               {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"UnitPositionFrame",       {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
+		{"WorldFrame",              {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
 
-		{"ModelSceneActor",         {W.ParentedObject, W.UIObject}},
+		{"ModelSceneActor",         {W.UIObject}},
 	}
 
 	local passed_count = 0
