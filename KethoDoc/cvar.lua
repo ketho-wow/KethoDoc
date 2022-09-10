@@ -616,7 +616,7 @@ m.cvar_cache = {
 		["graphicsGroundClutter"] = {"6", 1, false, false, "UI value of the graphics setting"},
 		["graphicsLiquidDetail"] = {"2", 1, false, false, "UI value of the graphics setting"},
 		["graphicsOutlineMode"] = {"2", 1, false, false, "UI value of the graphics setting"},
-		["graphicsParticleDensity"] = {"4", 5, false, false, "UI value of the graphics setting"},
+		["graphicsParticleDensity"] = {"4", 1, false, false, "UI value of the graphics setting"},
 		["graphicsProjectedTextures"] = {"1", 1, false, false, "UI value of the graphics setting"},
 		["graphicsQuality"] = {"6", 5, false, false, "save for Graphics Quality Selection"},
 		["graphicsShadowQuality"] = {"3", 5, false, false, "UI value of the graphics setting"},
@@ -1421,9 +1421,9 @@ m.cvar_cache = {
 
 -- old/classic cvars
 local var = m.cvar_cache.var
-var["graphicsSunshafts"] = {"3", 5, false, false, "UI value of the graphics setting"}
+var["graphicsSunshafts"] = {"3", 1, false, false, "UI value of the graphics setting"}
 var["groundEffectAnimation"] = {"0", 5, false, false, "Ground effect animation"}
-var["raidGraphicsSunshafts"] = {"1", 5, false, false, "UI value of the raidGraphics setting"}
+var["raidGraphicsSunshafts"] = {"1", 1, false, false, "UI value of the raidGraphics setting"}
 var["RAIDgroundEffectAnimation"] = {"0", 5, false, false, "Raid Ground effect animation"}
 
 m.cvar_test = {
