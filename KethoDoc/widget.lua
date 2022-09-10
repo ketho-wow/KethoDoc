@@ -574,7 +574,7 @@ local NonInherited = {
 	},
 	Line = {
 		"AdjustPointsOffset", -- Region
-		--"ClearPointByName", -- Region; added in 10.0.0
+		--"ClearPointByName", -- Region; removed in 10.0.0
 		"ClearPointsOffset",  -- Region
 		"GetNumPoints",       -- Region
 		"GetPoint",           -- Region
@@ -586,6 +586,22 @@ local NonInherited = {
 		"SetSize",            -- Region
 		"SetSize",            -- Region
 		"SetWidth",           -- Region
+	},
+	FontInstance = {
+		"GetDebugName",       -- UIObject
+		"GetParent",          -- UIObject
+		"SetParent",          -- UIObject
+	},
+	Font = {
+		"GetDebugName",       -- UIObject
+		"GetParent",          -- UIObject
+		"SetParent",          -- UIObject
+	},
+	AnimationGroup = {
+		"SetParent",          -- UIObject
+	},
+	ModelSceneActor = {
+		"SetParent",          -- UIObject
 	},
 }
 
@@ -611,8 +627,8 @@ function KethoDoc:WidgetTest()
 		{"Font",                    {W.FontInstance, W.UIObject}},
 		{"FontString",              {W.LayeredRegion, W.Region, W.UIObject, W.FontInstance, W.ScriptObject}},
 		{"Texture",                 {W.LayeredRegion, W.Region, W.UIObject, W.ScriptObject}},
-		{"Line",                    {W.Texture, W.LayeredRegion, W.Region, W.UIObject}},
-		{"MaskTexture",             {W.Texture, W.LayeredRegion, W.Region, W.UIObject}},
+		{"Line",                    {W.Texture, W.LayeredRegion, W.Region, W.UIObject, W.ScriptObject}},
+		{"MaskTexture",             {W.Texture, W.LayeredRegion, W.Region, W.UIObject, W.ScriptObject}},
 
 		{"AnimationGroup",          {W.UIObject, W.ScriptObject}},
 		{"Animation",               {W.UIObject, W.ScriptObject}},
