@@ -168,10 +168,7 @@ function KethoDoc:SetupWidgets()
 		inherits = {"Animation"},
 			-- apparently can only be created in XML
 			--object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("TextureCoordTranslation"),
-			object = (function()
-				local f = CreateFrame("Frame", nil, nil, "PowerDependencyLineTemplate")
-				return f.ScrollAnim:GetAnimations()
-			end)(),
+			object = KethoFrame.animgroup.texcoordtranslation,
 			unique_methods = function() return self:RemoveTable(W.TextureCoordTranslation.meta_object, W.Animation.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.TextureCoordTranslation.handlers, W.Animation.handlers) end,
 		},

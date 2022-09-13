@@ -7,6 +7,7 @@ KethoDoc.lua
 
 util.lua
 api.lua
+widget.xml
 widget.lua
 cvar.lua
 lua_enum.lua
