@@ -50,9 +50,29 @@ local widget_tests = {
 		expected = {"Object", "FrameScriptObject", "AnimationGroup"},
 	},
 	{
+		name = "Animation",
+		actual = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation(),
+		expected = {"Object", "FrameScriptObject", "Animation"},
+	},
+	{
 		name = "Alpha",
 		actual = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Alpha"),
 		expected = {"Object", "FrameScriptObject", "Animation", "Alpha"},
+	},
+	{
+		name = "Texture",
+		actual = CreateFrame("Frame"):CreateTexture(),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Region", "TextureBase", "Texture"},
+	},
+	{
+		name = "Line",
+		actual = CreateFrame("Frame"):CreateLine(),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Region", "TextureBase", "Line"},
+	},
+	{
+		name = "FontString",
+		actual = CreateFrame("Frame"):CreateFontString(),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Region", "FontString"},
 	},
 	{
 		name = "Frame",
@@ -71,12 +91,6 @@ local widget_tests = {
 	},
 }
 
-local function CopyKeys(dest, src)
-	for k in pairs(src) do
-		dest[k] = true
-	end
-end
-
 local function GetTableSize(tbl)
 	local c = 0
 	for _ in pairs(tbl) do
@@ -88,14 +102,16 @@ end
 local function GetExpectedWidget(expected)
 	local t = {}
 	for _, system in pairs(expected) do
-		CopyKeys(t, WidgetDocumentation[system])
+		for k in pairs(WidgetDocumentation[system]) do
+			t[k] = true
+		end
 	end
 	return t
 end
 
-local function TestWidget(unit_test)
-	local actual = getmetatable(unit_test.actual).__index
-	local expected = GetExpectedWidget(unit_test.expected)
+local function TestWidget(test)
+	local actual = getmetatable(test.actual).__index
+	local expected = GetExpectedWidget(test.expected)
 	local equals = true
 	for method in pairs(expected) do
 		if not actual[method] then
@@ -111,10 +127,10 @@ local function TestWidget(unit_test)
 	end
 	local sizeText = format("%d/%d actual/expected", GetTableSize(actual), GetTableSize(expected))
 	local resultText = equals and "|cff00ff00success|r:" or "|cffff0000failed|r:"
-	print(resultText, unit_test.name, sizeText)
+	print(resultText, test.name, sizeText)
 end
 
-function KethoDoc:GetWidgetDocs()
+function KethoDoc:WidgetDocTest()
 	APIDocumentation_LoadUI()
 	WidgetDocumentation = {}
 	for _, system in pairs(APIDocumentation.systems) do
@@ -126,7 +142,7 @@ function KethoDoc:GetWidgetDocs()
 			WidgetDocumentation[widget_systems[system.Name]] = t
 		end
 	end
-	for _, test in pairs(widget_tests) do
-		TestWidget(test)
+	for _, unit_test in pairs(widget_tests) do
+		TestWidget(unit_test)
 	end
 end
