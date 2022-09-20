@@ -373,6 +373,7 @@ function KethoDoc:GetFrames()
 			end
 		end
 	end
+	t.KethoFrame = nil
 	return t
 end
 
