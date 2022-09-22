@@ -41,6 +41,8 @@ local widget_systems = {
 	SimpleStatusBarAPI = "StatusBar",
 	SimpleTextureAPI = "Texture",
 	SimpleTextureBaseAPI = "TextureBase",
+	-- ScriptRegionSharedDocumentation
+	-- SharedScriptObjectModelLightDocumentation
 }
 
 local widget_tests = {
@@ -52,22 +54,22 @@ local widget_tests = {
 	{
 		name = "FontString",
 		actual = CreateFrame("Frame"):CreateFontString(),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Region", "FontString"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Region", "FontString"},
 	},
 	{
 		name = "Texture",
 		actual = CreateFrame("Frame"):CreateTexture(),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Region", "TextureBase", "Texture"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Region", "TextureBase", "Texture"},
 	},
 	{
 		name = "MaskTexture",
 		actual = CreateFrame("Frame"):CreateMaskTexture(),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Region", "TextureBase", "MaskTexture"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Region", "TextureBase", "MaskTexture"},
 	},
 	{
 		name = "Line",
 		actual = CreateFrame("Frame"):CreateLine(),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Region", "TextureBase", "Line"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Region", "TextureBase", "Line"},
 	},
 	{
 		name = "AnimationGroup",
@@ -132,47 +134,47 @@ local widget_tests = {
 	{
 		name = "Frame",
 		actual = CreateFrame("Frame"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame"},
 	},
 	{
 		name = "Button",
 		actual = CreateFrame("Button"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Button"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "Button"},
 	},
 	{
 		name = "CheckButton",
 		actual = CreateFrame("CheckButton"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Button", "CheckButton"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "Button", "CheckButton"},
 	},
 	{
 		name = "Model",
 		actual = CreateFrame("Model"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Model"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "Model"},
 	},
 	{
 		name = "PlayerModel",
 		actual = CreateFrame("PlayerModel"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Model", "PlayerModel"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "Model", "PlayerModel"},
 	},
 	{
 		name = "CinematicModel",
 		actual = CreateFrame("CinematicModel"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Model", "PlayerModel", "CinematicModel"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "Model", "PlayerModel", "CinematicModel"},
 	},
 	{
 		name = "DressUpModel",
 		actual = CreateFrame("DressUpModel"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Model", "PlayerModel", "DressUpModel"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "Model", "PlayerModel", "DressUpModel"},
 	},
 	{
 		name = "TabardModel",
 		actual = CreateFrame("TabardModel"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Model", "PlayerModel", "TabardModel"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "Model", "PlayerModel", "TabardModel"},
 	},
 	{
 		name = "TabardModel",
 		actual = CreateFrame("TabardModel"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Model", "PlayerModel", "TabardModel"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "Model", "PlayerModel", "TabardModel"},
 	},
 	-- ArchaeologyDigSiteFrame
 	-- QuestPOIFrame
@@ -180,65 +182,65 @@ local widget_tests = {
 	{
 		name = "Browser",
 		actual = CreateFrame("Browser"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Browser"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "Browser"},
 	},
 	-- Checkout
 	{
 		name = "ColorSelect",
 		actual = CreateFrame("ColorSelect"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "ColorSelect"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "ColorSelect"},
 	},
 	{
 		name = "Cooldown",
 		actual = CreateFrame("Cooldown"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Cooldown"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "Cooldown"},
 	},
 	{
 		name = "EditBox",
 		actual = CreateFrame("EditBox", "KethoDocEditBox"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "EditBox"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "EditBox"},
 	},
 	-- FogOfWarFrame
 	-- GameTooltip
 	{
 		name = "MessageFrame",
 		actual = CreateFrame("MessageFrame"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "MessageFrame"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "MessageFrame"},
 	},
 	{
 		name = "Minimap",
 		actual = Minimap,
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Minimap"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "Minimap"},
 	},
 	{
 		name = "MovieFrame",
 		actual = CreateFrame("MovieFrame"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "MovieFrame"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "MovieFrame"},
 	},
 	{
 		name = "OffScreenFrame",
 		actual = CreateFrame("OffScreenFrame"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "OffScreenFrame"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "OffScreenFrame"},
 	},
 	{
 		name = "ScrollFrame",
 		actual = CreateFrame("ScrollFrame"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "ScrollFrame"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "ScrollFrame"},
 	},
 	{
 		name = "SimpleHTML",
 		actual = CreateFrame("SimpleHTML"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "SimpleHTML"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "SimpleHTML"},
 	},
 	{
 		name = "Slider",
 		actual = CreateFrame("Slider"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Slider"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "Slider"},
 	},
 	{
 		name = "StatusBar",
 		actual = CreateFrame("StatusBar"),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "StatusBar"},
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "StatusBar"},
 	},
 	-- UnitPositionFrame
 	-- WorldFrame
@@ -365,8 +367,9 @@ local function TestWidget(test)
 		end
 	end
 	local sizeText = format("%d/%d actual/expected", GetTableSize(actual), GetTableSize(expected))
-	local resultText = equals and "|cff00ff00success|r:" or "|cffff0000failed|r:"
+	local resultText = equals and "|cff00ff00pass|r:" or "|cffff0000fail|r:"
 	print(resultText, test.name, sizeText)
+	return equals
 end
 
 function KethoDoc:WidgetDocTest()
@@ -381,7 +384,13 @@ function KethoDoc:WidgetDocTest()
 			WidgetDocumentation[widget_systems[system.Name]] = t
 		end
 	end
-	for _, unit_test in pairs(widget_tests) do
-		TestWidget(unit_test)
+	local num_passed, total = 0, 0
+	for idx, unit_test in pairs(widget_tests) do
+		local res = TestWidget(unit_test)
+		total = idx
+		if res then
+			num_passed = num_passed + 1
+		end
 	end
+	print(format("%d of %d tests passed.", num_passed, total))
 end
