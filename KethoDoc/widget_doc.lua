@@ -176,15 +176,8 @@ local widget_tests = {
 		actual = CreateFrame("TabardModel"),
 		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "Model", "PlayerModel", "TabardModel"},
 	},
-	-- ArchaeologyDigSiteFrame
-	-- QuestPOIFrame
-	-- ScenarioPOIFrame
-	{
-		name = "Browser",
-		actual = CreateFrame("Browser"),
-		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "Browser"},
-	},
-	-- Checkout
+	-- ModelScene
+	-- ModelSceneActor
 	{
 		name = "ColorSelect",
 		actual = CreateFrame("ColorSelect"),
@@ -200,7 +193,6 @@ local widget_tests = {
 		actual = CreateFrame("EditBox", "KethoDocEditBox"),
 		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "EditBox"},
 	},
-	-- FogOfWarFrame
 	-- GameTooltip
 	{
 		name = "MessageFrame",
@@ -216,11 +208,6 @@ local widget_tests = {
 		name = "MovieFrame",
 		actual = CreateFrame("MovieFrame"),
 		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "MovieFrame"},
-	},
-	{
-		name = "OffScreenFrame",
-		actual = CreateFrame("OffScreenFrame"),
-		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "OffScreenFrame"},
 	},
 	{
 		name = "ScrollFrame",
@@ -242,9 +229,23 @@ local widget_tests = {
 		actual = CreateFrame("StatusBar"),
 		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "StatusBar"},
 	},
+	-- ArchaeologyDigSiteFrame
+	-- QuestPOIFrame
+	-- ScenarioPOIFrame
+	-- FogOfWarFrame
 	-- UnitPositionFrame
+	{
+		name = "Browser",
+		actual = CreateFrame("Browser"),
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "Browser"},
+	},
+	-- Checkout
+	{
+		name = "OffScreenFrame",
+		actual = CreateFrame("OffScreenFrame"),
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "OffScreenFrame"},
+	},
 	-- WorldFrame
-	-- ModelSceneActor
 }
 KethoDocEditBox:SetAutoFocus(false)
 
