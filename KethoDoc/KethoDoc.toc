@@ -9,7 +9,7 @@ util.lua
 api.lua
 widget.xml
 lua_enum.lua
-# widget.lua
+widget.lua
 widget_doc.lua
 cvar.lua
 loadondemand.lua

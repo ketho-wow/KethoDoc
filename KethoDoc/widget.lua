@@ -22,10 +22,12 @@ local UIObject = {
 	GetName = true,
 	GetObjectType = true,
 	GetParent = true,
+	GetParentKey = true,
 	IsForbidden = true,
 	IsObjectType = true,
 	SetForbidden = true,
 	SetParent = true,
+	SetParentKey = true,
 }
 
 function KethoDoc:SetupWidgets()
@@ -592,11 +594,15 @@ local NonInherited = {
 		"GetDebugName",       -- UIObject
 		"GetParent",          -- UIObject
 		"SetParent",          -- UIObject
+		"GetParentKey",       -- UIObject
+		"SetParentKey",       -- UIObject
 	},
 	Font = {
 		"GetDebugName",       -- UIObject
 		"GetParent",          -- UIObject
 		"SetParent",          -- UIObject
+		"GetParentKey",       -- UIObject
+		"SetParentKey",       -- UIObject
 	},
 	AnimationGroup = {
 		"SetParent",          -- UIObject
