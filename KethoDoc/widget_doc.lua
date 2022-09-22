@@ -45,6 +45,31 @@ local widget_systems = {
 
 local widget_tests = {
 	{
+		name = "Font",
+		actual = CreateFont(""),
+		expected = {"FrameScriptObject", "Font"},
+	},
+	{
+		name = "FontString",
+		actual = CreateFrame("Frame"):CreateFontString(),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Region", "FontString"},
+	},
+	{
+		name = "Texture",
+		actual = CreateFrame("Frame"):CreateTexture(),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Region", "TextureBase", "Texture"},
+	},
+	{
+		name = "MaskTexture",
+		actual = CreateFrame("Frame"):CreateMaskTexture(),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Region", "TextureBase", "MaskTexture"},
+	},
+	{
+		name = "Line",
+		actual = CreateFrame("Frame"):CreateLine(),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Region", "TextureBase", "Line"},
+	},
+	{
 		name = "AnimationGroup",
 		actual = CreateFrame("Frame"):CreateAnimationGroup(),
 		expected = {"Object", "FrameScriptObject", "AnimationGroup"},
@@ -60,19 +85,49 @@ local widget_tests = {
 		expected = {"Object", "FrameScriptObject", "Animation", "Alpha"},
 	},
 	{
-		name = "Texture",
-		actual = CreateFrame("Frame"):CreateTexture(),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Region", "TextureBase", "Texture"},
+		name = "Rotation",
+		actual = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Rotation"),
+		expected = {"Object", "FrameScriptObject", "Animation", "Rotation"},
 	},
 	{
-		name = "Line",
-		actual = CreateFrame("Frame"):CreateLine(),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Region", "TextureBase", "Line"},
+		name = "Scale",
+		actual = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Scale"),
+		expected = {"Object", "FrameScriptObject", "Animation", "Scale"},
 	},
 	{
-		name = "FontString",
-		actual = CreateFrame("Frame"):CreateFontString(),
-		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Region", "FontString"},
+		name = "LineScale",
+		actual = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("LineScale"),
+		expected = {"Object", "FrameScriptObject", "Animation", "Scale", "LineScale"},
+	},
+	{
+		name = "Translation",
+		actual = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Translation"),
+		expected = {"Object", "FrameScriptObject", "Animation", "Translation"},
+	},
+	{
+		name = "LineTranslation",
+		actual = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("LineTranslation"),
+		expected = {"Object", "FrameScriptObject", "Animation", "Translation", "LineTranslation"},
+	},
+	{
+		name = "TextureCoordTranslation",
+		actual = KethoFrame.animgroup.texcoordtranslation,
+		expected = {"Object", "FrameScriptObject", "Animation", "TextureCoordTranslation"},
+	},
+	{
+		name = "FlipBook",
+		actual = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("FlipBook"),
+		expected = {"Object", "FrameScriptObject", "Animation", "FlipBook"},
+	},
+	{
+		name = "Path",
+		actual = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Path"),
+		expected = {"Object", "FrameScriptObject", "Animation", "Path"},
+	},
+	{
+		name = "ControlPoint",
+		actual = CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Path"):CreateControlPoint(),
+		expected = {"Object", "FrameScriptObject", "ControlPoint"},
 	},
 	{
 		name = "Frame",
@@ -89,6 +144,184 @@ local widget_tests = {
 		actual = CreateFrame("CheckButton"),
 		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Button", "CheckButton"},
 	},
+	{
+		name = "Model",
+		actual = CreateFrame("Model"),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Model"},
+	},
+	{
+		name = "PlayerModel",
+		actual = CreateFrame("PlayerModel"),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Model", "PlayerModel"},
+	},
+	{
+		name = "CinematicModel",
+		actual = CreateFrame("CinematicModel"),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Model", "PlayerModel", "CinematicModel"},
+	},
+	{
+		name = "DressUpModel",
+		actual = CreateFrame("DressUpModel"),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Model", "PlayerModel", "DressUpModel"},
+	},
+	{
+		name = "TabardModel",
+		actual = CreateFrame("TabardModel"),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Model", "PlayerModel", "TabardModel"},
+	},
+	{
+		name = "TabardModel",
+		actual = CreateFrame("TabardModel"),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Model", "PlayerModel", "TabardModel"},
+	},
+	-- ArchaeologyDigSiteFrame
+	-- QuestPOIFrame
+	-- ScenarioPOIFrame
+	{
+		name = "Browser",
+		actual = CreateFrame("Browser"),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Browser"},
+	},
+	-- Checkout
+	{
+		name = "ColorSelect",
+		actual = CreateFrame("ColorSelect"),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "ColorSelect"},
+	},
+	{
+		name = "Cooldown",
+		actual = CreateFrame("Cooldown"),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Cooldown"},
+	},
+	{
+		name = "EditBox",
+		actual = CreateFrame("EditBox", "KethoDocEditBox"),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "EditBox"},
+	},
+	-- FogOfWarFrame
+	-- GameTooltip
+	{
+		name = "MessageFrame",
+		actual = CreateFrame("MessageFrame"),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "MessageFrame"},
+	},
+	{
+		name = "Minimap",
+		actual = Minimap,
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Minimap"},
+	},
+	{
+		name = "MovieFrame",
+		actual = CreateFrame("MovieFrame"),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "MovieFrame"},
+	},
+	{
+		name = "OffScreenFrame",
+		actual = CreateFrame("OffScreenFrame"),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "OffScreenFrame"},
+	},
+	{
+		name = "ScrollFrame",
+		actual = CreateFrame("ScrollFrame"),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "ScrollFrame"},
+	},
+	{
+		name = "SimpleHTML",
+		actual = CreateFrame("SimpleHTML"),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "SimpleHTML"},
+	},
+	{
+		name = "Slider",
+		actual = CreateFrame("Slider"),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "Slider"},
+	},
+	{
+		name = "StatusBar",
+		actual = CreateFrame("StatusBar"),
+		expected = {"Object", "FrameScriptObject", "AnimatableObject", "ScriptRegion", "ScriptRegionResizing", "Frame", "StatusBar"},
+	},
+	-- UnitPositionFrame
+	-- WorldFrame
+	-- ModelSceneActor
+}
+KethoDocEditBox:SetAutoFocus(false)
+
+local undocumented_widgets = {
+	PlayerModel = {
+		"ApplySpellVisualKit",
+		"CanSetUnit",
+		"FreezeAnimation",
+		"GetDisplayInfo",
+		"GetDoBlend",
+		"GetKeepModelOnHide",
+		"HasAnimation",
+		"PlayAnimKit",
+		"RefreshCamera",
+		"RefreshUnit",
+		"SetAnimation",
+		"SetBarberShopAlternateForm",
+		"SetCamDistanceScale",
+		"SetCreature",
+		"SetCustomRace",
+		"SetDisplayInfo",
+		"SetDoBlend",
+		"SetItem",
+		"SetItemAppearance",
+		"SetKeepModelOnHide",
+		"SetPortraitZoom",
+		"SetRotation",
+		"SetUnit",
+		"StopAnimKit",
+		"ZeroCachedCenterXY",
+	},
+	CinematicModel = {
+		"EquipItem",
+		"InitializeCamera",
+		"InitializePanCamera",
+		"SetAnimOffset",
+		"SetCreatureData",
+		"SetFacingLeft",
+		"SetFadeTimes",
+		"SetHeightFactor",
+		"SetJumpInfo",
+		"SetPanDistance",
+		"SetSpellVisualKit",
+		"SetTargetDistance",
+		"StartPan",
+		"StopPan",
+		"UnequipItems",
+	},
+	DressUpModel = {
+		"Dress",
+		"GetAutoDress",
+		"GetItemTransmogInfo",
+		"GetItemTransmogInfoList",
+		"GetObeyHideInTransmogFlag",
+		"GetSheathed",
+		"GetUseTransmogChoices",
+		"GetUseTransmogSkin",
+		"SetAutoDress",
+		"SetItemTransmogInfo",
+		"SetObeyHideInTransmogFlag",
+		"SetSheathed",
+		"SetUseTransmogChoices",
+		"SetUseTransmogSkin",
+		"TryOn",
+		"Undress",
+		"UndressSlot",
+	},
+	TabardModel = {
+		"CanSaveTabardNow",
+		"CycleVariation",
+		"GetLowerBackgroundFileName",
+		"GetLowerEmblemFile",
+		"GetLowerEmblemTexture",
+		"GetUpperBackgroundFileName",
+		"GetUpperEmblemFile",
+		"GetUpperEmblemTexture",
+		"InitializeTabardColors",
+		"Save",
+	},
 }
 
 local function GetTableSize(tbl)
@@ -102,8 +335,14 @@ end
 local function GetExpectedWidget(expected)
 	local t = {}
 	for _, system in pairs(expected) do
-		for k in pairs(WidgetDocumentation[system]) do
-			t[k] = true
+		if WidgetDocumentation[system] then
+			for method in pairs(WidgetDocumentation[system]) do
+				t[method] = true
+			end
+		else
+			for _, method in pairs(undocumented_widgets[system]) do
+				t[method] = true
+			end
 		end
 	end
 	return t
