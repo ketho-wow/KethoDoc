@@ -380,13 +380,12 @@ function KethoDoc:WidgetDocTest()
 			WidgetDocumentation[widget_systems[system.Name]] = t
 		end
 	end
-	local num_passed, total = 0, 0
-	for idx, unit_test in pairs(widget_tests) do
+	local num_passed = 0
+	for _, unit_test in pairs(widget_tests) do
 		local res = TestWidget(unit_test)
-		total = idx
 		if res then
 			num_passed = num_passed + 1
 		end
 	end
-	print(format("%d of %d tests passed.", num_passed, total))
+	print(format("%d of %d tests passed.", num_passed, #widget_tests))
 end
