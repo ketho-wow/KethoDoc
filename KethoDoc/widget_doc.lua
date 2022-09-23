@@ -47,16 +47,6 @@ local widget_systems = {
 
 local widget_tests = {
 	{
-		name = "Font",
-		actual = CreateFont(""),
-		expected = {"FrameScriptObject", "Font"},
-	},
-	{
-		name = "FontString",
-		actual = CreateFrame("Frame"):CreateFontString(),
-		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Region", "FontString"},
-	},
-	{
 		name = "Texture",
 		actual = CreateFrame("Frame"):CreateTexture(),
 		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Region", "TextureBase", "Texture"},
@@ -70,6 +60,16 @@ local widget_tests = {
 		name = "Line",
 		actual = CreateFrame("Frame"):CreateLine(),
 		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Region", "TextureBase", "Line"},
+	},
+	{
+		name = "Font",
+		actual = CreateFont(""),
+		expected = {"FrameScriptObject", "Font"},
+	},
+	{
+		name = "FontString",
+		actual = CreateFrame("Frame"):CreateFontString(),
+		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Region", "FontString"},
 	},
 	{
 		name = "AnimationGroup",
@@ -165,11 +165,6 @@ local widget_tests = {
 		name = "DressUpModel",
 		actual = CreateFrame("DressUpModel"),
 		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "Model", "PlayerModel", "DressUpModel"},
-	},
-	{
-		name = "TabardModel",
-		actual = CreateFrame("TabardModel"),
-		expected = {"Object", "FrameScriptObject", "ScriptRegion", "ScriptRegionResizing", "AnimatableObject", "Frame", "Model", "PlayerModel", "TabardModel"},
 	},
 	{
 		name = "TabardModel",
