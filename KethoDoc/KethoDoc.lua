@@ -374,6 +374,7 @@ function KethoDoc:GetFrames()
 		end
 	end
 	t.KethoFrame = nil
+	t.KethoDocEditBox = nil
 	return t
 end
 
