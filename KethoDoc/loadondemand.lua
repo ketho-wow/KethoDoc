@@ -101,7 +101,7 @@ KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_WeeklyRewards",
 }
 
--- 10.0.0 (45335)
+-- 10.0.2 (45779)
 KethoDoc.LoadOnDemand.mainline_ptr = {
 	"Blizzard_AchievementUI",
 	"Blizzard_AdventureMap",
@@ -111,7 +111,6 @@ KethoDoc.LoadOnDemand.mainline_ptr = {
 	"Blizzard_APIDocumentationGenerated",
 	"Blizzard_ArchaeologyUI",
 	"Blizzard_ArdenwealdGardening",
-	"Blizzard_ArenaUI",
 	"Blizzard_ArtifactUI",
 	"Blizzard_AuctionHouseShared",
 	"Blizzard_AuctionHouseUI",
@@ -186,7 +185,6 @@ KethoDoc.LoadOnDemand.mainline_ptr = {
 	"Blizzard_Soulbinds",
 	"Blizzard_SubscriptionInterstitialUI",
 	"Blizzard_TalentUI",
-	"Blizzard_TalkingHeadUI",
 	"Blizzard_TimeManager",
 	"Blizzard_TorghastLevelPicker",
 	"Blizzard_TrainerUI",
