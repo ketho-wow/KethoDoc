@@ -6,11 +6,12 @@ local toc = select(4, GetBuildInfo())
 
 if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
 	KethoDoc.isMainline = true
-	if IsTestBuild() then
-		KethoDoc.branch = "mainline_ptr"
-	else
-		KethoDoc.branch = "mainline"
-	end
+	KethoDoc.branch = "mainline_ptr"
+	-- if IsTestBuild() then
+	-- 	KethoDoc.branch = "mainline_ptr"
+	-- else
+	-- 	KethoDoc.branch = "mainline"
+	-- end
 elseif WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC then
 		KethoDoc.branch = "wrath"
 elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
