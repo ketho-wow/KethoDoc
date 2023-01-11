@@ -1,6 +1,7 @@
 ## Interface: 100000
 ## Version: 1.5.4
 ## Title: KethoDoc
+## SavedVariables: KethoDocData
 
 editbox.lua
 KethoDoc.lua

@@ -450,6 +450,17 @@ function KethoDoc:DumpNonBlizzardDocumented()
 	eb:InsertLine("}\n\nreturn NonBlizzardDocumented")
 end
 
+-- for auto marking globals in vscode extension
+function KethoDoc:DumpGlobals()
+	self:LoadLodAddons()
+	KethoDocData = {}
+	for k in pairs(_G) do
+		if not k:find("Ketho") and not k:find("table: ") then
+			KethoDocData[k] = true
+		end
+	end
+end
+
 local currentDump = 0
 local api = {
 	"GetBuildInfo",
