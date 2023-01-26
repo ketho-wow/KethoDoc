@@ -82,6 +82,7 @@ KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_ObliterumUI",
 	"Blizzard_OrderHallUI",
 	"Blizzard_PartyPoseUI",
+	"Blizzard_PerksProgram",
 	"Blizzard_PlayerChoice",
 	"Blizzard_Professions",
 	"Blizzard_ProfessionsCustomerOrders",
