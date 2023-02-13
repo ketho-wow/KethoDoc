@@ -264,8 +264,11 @@ function KethoDoc:DumpLuaEnums(showGameErr)
 			tinsert(TableEnum, {name = enumType, value = enumValue})
 		end
 		sort(TableEnum, SortEnum)
-		local numberFormat = IsBitEnum(Enum[name], name) and "0x%X" or "%d"
+		local numberFormat = IsBitEnum(Enum[name], name) and "0x%X" or "%u"
 		for _, enum in pairs(TableEnum) do
+			if enum.value < 0 then
+				numberFormat = "%d"
+			end
 			eb:InsertLine(format("\t\t%s = %s,", enum.name, format(numberFormat, enum.value)))
 		end
 		eb:InsertLine("\t},")
