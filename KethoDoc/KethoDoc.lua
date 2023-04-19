@@ -13,7 +13,16 @@ elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 	KethoDoc.branch = "vanilla"
 end
 
-if IsTestBuild() then
+local ptr_realms = {
+	[909] = "Anasterian",
+	[912] = "Broxigar",
+	[969] = "Nobundo",
+	[3296] = "Benedictus",
+	[3299] = "Lycanthoth",
+}
+local realmId = GetRealmID()
+
+if IsTestBuild() or ptr_realms[realmId] then
 	KethoDoc.branch = KethoDoc.branch.."_ptr"
 end
 
