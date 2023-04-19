@@ -107,7 +107,7 @@ KethoDoc.LoadOnDemand.mainline = {
 
 -- 10.1.0
 KethoDoc.LoadOnDemand.mainline_ptr = {
-	"Blizzard_AccountSaveUI",
+	-- "Blizzard_AccountSaveUI", -- AllowLoad: Glue
 	"Blizzard_AchievementUI",
 	"Blizzard_AdventureMap",
 	"Blizzard_AlliedRacesUI",
