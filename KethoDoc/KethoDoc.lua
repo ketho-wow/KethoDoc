@@ -297,7 +297,7 @@ function KethoDoc:DumpLuaEnums(showGameErr)
 	local EnumUngrouped = {}
 	-- LE_* globals
 	for enumType, enumValue in pairs(_G) do
-		if enumType:find("^LE_") and (showGameErr or not enumType:find("GAME_ERR")) then
+		if type(enumType) == "string" and enumType:find("^LE_") and (showGameErr or not enumType:find("GAME_ERR")) then
 			-- group enums together
 			local found
 			for _, group in pairs(self.EnumGroupsIndexed) do
@@ -338,7 +338,7 @@ function KethoDoc:DumpLuaEnums(showGameErr)
 	-- print any NUM_LE_* globals not belonging to a group
 	local NumLuaEnum, NumEnumCache = {}, {}
 	for enum, value in pairs(_G) do
-		if enum:find("^NUM_LE_") then
+		if type(enum) == "string" and enum:find("^NUM_LE_") then
 			NumLuaEnum[enum] = value
 		end
 	end
@@ -395,7 +395,7 @@ end
 function KethoDoc:GetFrameXML()
 	local _, t = self:GetAPI()
 	for namespace, v in pairs(_G) do
-		if type(v) == "table" and strfind(namespace, "Util$") then
+		if type(namespace) == "string" and type(v) == "table" and namespace:find("Util$") then
 			for funcname, v2 in pairs(v) do
 				if type(v2) == "function" then
 					local name = format("%s.%s", namespace, funcname)
@@ -469,7 +469,7 @@ function KethoDoc:DumpGlobals()
 	self:LoadLodAddons()
 	KethoDocData = {}
 	for k in pairs(_G) do
-		if not k:find("Ketho") and not k:find("table: ") then
+		if type(k) == "string" and not k:find("Ketho") and not k:find("table: ") then
 			KethoDocData[k] = true
 		end
 	end
