@@ -255,6 +255,7 @@ KethoDoc.LoadOnDemand.wrath = {
 	-- "Blizzard_TradeSkillUI_Wrath",
 	"Blizzard_TrainerUI",
 }
+KethoDoc.LoadOnDemand.wrath_ptr = KethoDoc.LoadOnDemand.wrath
 
 -- 1.14.1
 KethoDoc.LoadOnDemand.vanilla = {
