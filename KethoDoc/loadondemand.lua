@@ -15,7 +15,7 @@ end
 
 -- 10.1.5
 KethoDoc.LoadOnDemand.mainline = {
-	"Blizzard_AccountSaveUI",
+	-- "Blizzard_AccountSaveUI",
 	"Blizzard_AchievementUI",
 	"Blizzard_AdventureMap",
 	"Blizzard_AlliedRacesUI",
