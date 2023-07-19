@@ -231,3 +231,5 @@ KethoDoc.LoadOnDemand.vanilla = {
 	-- "Blizzard_TradeSkillUI_Vanilla",
 	"Blizzard_TrainerUI",
 }
+
+KethoDoc.LoadOnDemand.vanilla_ptr = KethoDoc.LoadOnDemand.vanilla
