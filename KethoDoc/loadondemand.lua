@@ -207,16 +207,14 @@ KethoDoc.LoadOnDemand.mainline_ptr = {
 	"Blizzard_WeeklyRewards",
 }
 
--- 3.4.0
+-- 3.4.2
 KethoDoc.LoadOnDemand.wrath = {
+	-- "Blizzard_AccountSaveUI",
 	"Blizzard_AchievementUI",
 	"Blizzard_APIDocumentation",
 	"Blizzard_APIDocumentationGenerated",
 	"Blizzard_ArenaUI",
 	"Blizzard_AuctionUI",
-	-- "Blizzard_AuctionUI_TBC",
-	-- "Blizzard_AuctionUI_Vanilla",
-	-- "Blizzard_AuctionUI_Wrath",
 	"Blizzard_BarberShopUI",
 	"Blizzard_BattlefieldMap",
 	"Blizzard_BehavioralMessaging",
@@ -246,13 +244,15 @@ KethoDoc.LoadOnDemand.wrath = {
 	"Blizzard_Kiosk",
 	"Blizzard_LookingForGroupUI",
 	"Blizzard_MacroUI",
+	-- "Blizzard_MacroUI_TBC",
+	-- "Blizzard_MacroUI_Vanilla",
+	-- "Blizzard_MacroUI_Wrath",
 	"Blizzard_MapCanvas",
 	"Blizzard_MovePad",
 	"Blizzard_RaidUI",
 	-- "Blizzard_RaidUI_Wrath",
 	"Blizzard_SharedMapDataProviders",
 	-- "Blizzard_SharedMapDataProviders_Wrath",
-	"Blizzard_SocialUI",
 	"Blizzard_TalentUI",
 	-- "Blizzard_TalentUI_TBC",
 	-- "Blizzard_TalentUI_Vanilla",
