@@ -150,14 +150,14 @@ end
 function KethoDoc:DumpCVars()
 	local cvarTbl, commandTbl = {}, {}
 	local test_cvarTbl, test_commandTbl = {}, {}
-	local cvarFs = '\t\t["%s"] = {"%s", %d, %s, %s, "%s"},'
+	local cvarFs = '\t\t["%s"] = {"%s", %d, %s, %s, %s, "%s"},'
 	local commandFs = '\t\t["%s"] = {%d, "%s"},'
 
 	for _, v in pairs(C_Console.GetAllCommands()) do
 		if v.commandType == Enum.ConsoleCommandType.Cvar then
 			-- these just keep switching between false/nil
 			if not v.command:find("^CACHE") and v.command ~= "KethoDoc" then
-				local _, defaultValue, server, character = GetCVarInfo(v.command)
+				local _, defaultValue, server, character, _, secure = GetCVarInfo(v.command)
 				-- every time they change the category they seem to lose the help text
 				local cvarCache = self.cvar_cache.var[v.command]
 				if cvarCache then
@@ -174,7 +174,7 @@ function KethoDoc:DumpCVars()
 				end
 				helpString = helpString:gsub('"', '\\"')
 				local tbl = self.cvar_test[v.command] and test_cvarTbl or cvarTbl
-				tinsert(tbl, cvarFs:format(v.command, defaultValue or "", v.category, tostring(server), tostring(character), helpString))
+				tinsert(tbl, cvarFs:format(v.command, defaultValue or "", v.category, tostring(server), tostring(character), tostring(secure), helpString))
 			end
 		elseif v.commandType == Enum.ConsoleCommandType.Command then
 			local tbl = self.cvar_test[v.command] and test_commandTbl or commandTbl
@@ -188,7 +188,7 @@ function KethoDoc:DumpCVars()
 	eb:Show()
 	eb:InsertLine("local CVars = {")
 	eb:InsertLine("\tvar = {")
-	eb:InsertLine("\t\t-- var = default, category, account, character, help")
+	eb:InsertLine("\t\t-- var = default, category, account, character, secure, help")
 	for _, cvar in pairs(cvarTbl) do
 		eb:InsertLine(cvar)
 	end
