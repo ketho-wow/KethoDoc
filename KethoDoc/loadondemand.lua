@@ -56,7 +56,6 @@ KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_DebugTools",
 	"Blizzard_EncounterJournal",
 	"Blizzard_EventTrace",
-	"Blizzard_ExpansionLandingPage",
 	"Blizzard_ExpansionTrial",
 	"Blizzard_FlightMap",
 	"Blizzard_GarrisonTemplates",

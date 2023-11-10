@@ -27,13 +27,13 @@ if IsTestBuild() or ptr_realms[realmId] then
 end
 
 if IsPublicBuild() then
-	if IsAddOnLoaded("Blizzard_Deprecated") then
+	if C_AddOns.IsAddOnLoaded("Blizzard_Deprecated") then
 		print("|cff71d5ffKethoDoc:|r Please click |cFFFFFF00|Hgarrmission:KethoDoc|h[Reload]|h|r to disable the Blizzard_Deprecated addon and avoid dumping deprecated API."
 			.." You will have to re-enable it manually.")
 		hooksecurefunc("SetItemRef", function(link)
 			local linkType, addon = strsplit(":", link)
 			if linkType == "garrmission" and addon == "KethoDoc" then
-				DisableAddOn("Blizzard_Deprecated")
+				C_AddOns.DisableAddOn("Blizzard_Deprecated")
 				-- use a custom cvar instead of savedvariables
 				C_CVar.RegisterCVar("KethoDoc")
 				C_CVar.SetCVar("KethoDoc", 1)
@@ -153,11 +153,11 @@ function KethoDoc:DumpCVars()
 	local cvarFs = '\t\t["%s"] = {"%s", %d, %s, %s, %s, "%s"},'
 	local commandFs = '\t\t["%s"] = {%d, "%s"},'
 
-	for _, v in pairs(C_Console.GetAllCommands()) do
+	for _, v in pairs(ConsoleGetAllCommands()) do
 		if v.commandType == Enum.ConsoleCommandType.Cvar then
 			-- these just keep switching between false/nil
 			if not v.command:find("^CACHE") and v.command ~= "KethoDoc" then
-				local _, defaultValue, server, character, _, secure = GetCVarInfo(v.command)
+				local _, defaultValue, server, character, _, secure = C_CVar.GetCVarInfo(v.command)
 				-- every time they change the category they seem to lose the help text
 				local cvarCache = self.cvar_cache.var[v.command]
 				if cvarCache then
