@@ -13,6 +13,22 @@ function KethoDoc:LoadLodAddons()
 	end
 end
 
+local function FilterFlavor(t, flavor)
+	for k, v in pairs(t) do
+		if v:find(flavor.."$") then
+			t[k] = nil
+		end
+	end
+end
+
+local function TrimFlavor(t, flavor)
+	for k, v in pairs(t) do
+		if v:find(flavor.."$") then
+			t[k] = v:gsub(flavor, "")
+		end
+	end
+end
+
 -- 10.1.5
 KethoDoc.LoadOnDemand.mainline = {
 	-- "Blizzard_AccountSaveUI",
@@ -321,4 +337,63 @@ KethoDoc.LoadOnDemand.vanilla = {
 	-- "Blizzard_TradeSkillUI_Wrath",
 	"Blizzard_TrainerUI",
 }
-KethoDoc.LoadOnDemand.vanilla_ptr = KethoDoc.LoadOnDemand.vanilla
+
+-- 1.15.0
+KethoDoc.LoadOnDemand.vanilla_ptr = {
+	-- "Blizzard_AccountSaveUI", -- Unknown load problem
+	"Blizzard_AchievementUI",
+	"Blizzard_APIDocumentation",
+	"Blizzard_APIDocumentationGenerated",
+	"Blizzard_ArenaUI",
+	"Blizzard_AuctionUI",
+	"Blizzard_BarberShopUI",
+	"Blizzard_BattlefieldMap",
+	"Blizzard_BehavioralMessaging",
+	"Blizzard_BindingUI",
+	"Blizzard_Calendar",
+	"Blizzard_Collections",
+	"Blizzard_CombatLog",
+	"Blizzard_CombatLog_Wrath",
+	"Blizzard_CombatText",
+	"Blizzard_Commentator",
+	"Blizzard_Communities",
+	"Blizzard_CraftUI_TBC",
+	"Blizzard_CraftUI_Vanilla",
+	"Blizzard_CraftUI_Wrath",
+	"Blizzard_DebugTools",
+	"Blizzard_EngravingUI",
+	"Blizzard_EventTrace",
+	"Blizzard_GlyphUI",
+	"Blizzard_GMChatUI",
+	"Blizzard_GuildBankUI_TBC",
+	"Blizzard_GuildBankUI_Wrath",
+	"Blizzard_InspectUI_TBC",
+	"Blizzard_InspectUI_Vanilla",
+	"Blizzard_InspectUI_Wrath",
+	"Blizzard_ItemSocketingUI",
+	"Blizzard_Kiosk",
+	"Blizzard_MacroUI",
+	"Blizzard_MacroUI_TBC",
+	"Blizzard_MacroUI_Vanilla",
+	"Blizzard_MacroUI_Wrath",
+	"Blizzard_MapCanvas",
+	"Blizzard_MovePad",
+	"Blizzard_RaidUI",
+	"Blizzard_RaidUI_Wrath",
+	"Blizzard_SharedMapDataProviders",
+	"Blizzard_SharedMapDataProviders_Wrath",
+	"Blizzard_TalentUI_TBC",
+	"Blizzard_TalentUI_Vanilla",
+	"Blizzard_TalentUI_Wrath",
+	"Blizzard_TimeManager",
+	"Blizzard_TradeSkillUI_TBC",
+	"Blizzard_TradeSkillUI_Vanilla",
+	"Blizzard_TradeSkillUI_Wrath",
+	"Blizzard_TrainerUI",
+}
+
+-- I have no idea how the FrameXML loads flavor specific files
+FilterFlavor(KethoDoc.LoadOnDemand.vanilla_ptr, "_TBC")
+FilterFlavor(KethoDoc.LoadOnDemand.vanilla_ptr, "_Wrath")
+TrimFlavor(KethoDoc.LoadOnDemand.vanilla_ptr, "_Vanilla")
+-- /dump UIParentLoadAddOn"Blizzard_TradeSkillUI"

@@ -18,6 +18,7 @@ local ScriptObject = {
 }
 
 local UIObject = {
+	ClearParentKey = true,
 	GetDebugName = true,
 	GetName = true,
 	GetObjectType = true,

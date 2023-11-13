@@ -19,6 +19,8 @@ local ptr_realms = {
 	[969] = "Nobundo",
 	[3296] = "Benedictus",
 	[3299] = "Lycanthoth",
+	-- classic_era
+	[5533] = "Classic Era PTR",
 }
 local realmId = GetRealmID()
 
