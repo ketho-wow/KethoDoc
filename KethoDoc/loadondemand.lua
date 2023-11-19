@@ -165,9 +165,9 @@ KethoDoc.LoadOnDemand.mainline_ptr = {
 	"Blizzard_CovenantSanctum",
 	"Blizzard_DeathRecap",
 	"Blizzard_DebugTools",
+	"Blizzard_Dispatcher",
 	"Blizzard_EncounterJournal",
 	"Blizzard_EventTrace",
-	"Blizzard_ExpansionLandingPage",
 	"Blizzard_ExpansionTrial",
 	"Blizzard_FlightMap",
 	"Blizzard_GarrisonTemplates",
@@ -186,9 +186,9 @@ KethoDoc.LoadOnDemand.mainline_ptr = {
 	"Blizzard_Kiosk",
 	"Blizzard_LandingSoulbinds",
 	"Blizzard_MacroUI",
-	-- "Blizzard_MacroUI_TBC",
-	-- "Blizzard_MacroUI_Vanilla",
-	-- "Blizzard_MacroUI_Wrath",
+	"Blizzard_MacroUI_TBC",
+	"Blizzard_MacroUI_Vanilla",
+	"Blizzard_MacroUI_Wrath",
 	"Blizzard_MajorFactions",
 	"Blizzard_MapCanvas",
 	"Blizzard_MovePad",
@@ -198,13 +198,11 @@ KethoDoc.LoadOnDemand.mainline_ptr = {
 	"Blizzard_OrderHallUI",
 	"Blizzard_PartyPoseUI",
 	"Blizzard_PerksProgram",
-	"Blizzard_PingUI",
 	"Blizzard_PlayerChoice",
 	"Blizzard_Professions",
 	"Blizzard_ProfessionsCustomerOrders",
 	"Blizzard_ProfessionsTemplates",
 	"Blizzard_PVPUI",
-	"Blizzard_RadialWheel",
 	"Blizzard_RaidUI",
 	"Blizzard_RuneforgeUI",
 	"Blizzard_ScrappingMachineUI",
@@ -221,6 +219,10 @@ KethoDoc.LoadOnDemand.mainline_ptr = {
 	"Blizzard_WarfrontsPartyPoseUI",
 	"Blizzard_WeeklyRewards",
 }
+
+FilterFlavor(KethoDoc.LoadOnDemand.mainline_ptr, "_TBC")
+FilterFlavor(KethoDoc.LoadOnDemand.mainline_ptr, "_Wrath")
+FilterFlavor(KethoDoc.LoadOnDemand.mainline_ptr, "_Vanilla")
 
 -- 3.4.2
 KethoDoc.LoadOnDemand.wrath = {

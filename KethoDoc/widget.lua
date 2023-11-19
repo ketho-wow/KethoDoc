@@ -187,6 +187,12 @@ function KethoDoc:SetupWidgets()
 			unique_methods = function() return self:RemoveTable(W.FlipBook.meta_object, W.Animation.meta_object) end,
 			unique_handlers = function() return self:RemoveTable(W.FlipBook.handlers, W.Animation.handlers) end,
 		},
+		VertexColor = { -- VertexColor \ Animation
+			inherits = {"Animation"},
+			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("VertexColor"),
+			unique_methods = function() return self:RemoveTable(W.VertexColor.meta_object, W.Animation.meta_object) end,
+			unique_handlers = function() return self:RemoveTable(W.VertexColor.handlers, W.Animation.handlers) end,
+		},
 
 		Frame = { -- Frame \ (Region ∧ ScriptObject)
 			inherits = {"Region"},
@@ -455,6 +461,7 @@ KethoDoc.WidgetOrder = {
 	"Rotation",
 	"TextureCoordTranslation",
 	"FlipBook",
+	"VertexColor",
 
 	-- frame
 	"Frame",
@@ -592,6 +599,7 @@ local NonInherited = {
 		"SetWidth",           -- Region
 	},
 	FontInstance = {
+		"ClearParentKey",     -- UIObject
 		"GetDebugName",       -- UIObject
 		"GetParent",          -- UIObject
 		"SetParent",          -- UIObject
@@ -599,6 +607,7 @@ local NonInherited = {
 		"SetParentKey",       -- UIObject
 	},
 	Font = {
+		"ClearParentKey",     -- UIObject
 		"GetDebugName",       -- UIObject
 		"GetParent",          -- UIObject
 		"SetParent",          -- UIObject
@@ -649,6 +658,7 @@ function KethoDoc:WidgetTest()
 		{"Rotation",                {W.Animation, W.UIObject, W.ScriptObject}},
 		{"TextureCoordTranslation", {W.Animation, W.UIObject, W.ScriptObject}},
 		{"FlipBook",                {W.Animation, W.UIObject, W.ScriptObject}},
+		{"VertexColor",             {W.Animation, W.UIObject, W.ScriptObject}},
 
 		{"Frame",                   {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
 		{"Browser",                 {W.Frame, W.Region, W.UIObject, W.ScriptObject}},
