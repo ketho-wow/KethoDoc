@@ -27,7 +27,7 @@ local UIObject = {
 	IsForbidden = true,
 	IsObjectType = true,
 	SetForbidden = true,
-	SetParent = true,
+	-- SetParent = true,
 	SetParentKey = true,
 }
 
