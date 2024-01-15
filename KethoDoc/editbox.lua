@@ -69,6 +69,7 @@ function KethoEditBox:Show(text)
 	if not self.EditBox then
 		self:Create()
 	end
+	text = text:gsub("|", "||")
 	self.EditBox:SetText(text or "")
 	self.Frame:Show()
 end
