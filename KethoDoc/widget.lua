@@ -1,7 +1,8 @@
 
 local W
 
-local function TryCreateFrame(frameType, ...)
+-- can still fire LUA_WARNING for e.g. ArchaeologyDigSiteFrame on classic but wont halt execution
+function TryCreateFrame(frameType, ...)
 	local ok, frame = pcall(CreateFrame, frameType, ...)
 	if ok and frame.GetObjectType then
 		return frame
@@ -9,6 +10,46 @@ local function TryCreateFrame(frameType, ...)
 	-- 	print(ok, frame)
 	end
 end
+
+-- A ∪ B
+local function union(a, b)
+	local t = {}
+	for k in pairs(a) do
+		t[k] = true
+	end
+	for k in pairs(b) do
+		t[k] = true
+	end
+	return t
+end
+
+-- A ∩ B
+local function intersect(a, b)
+	local t = {}
+	for k in pairs(a) do
+		if b[k] then
+			t[k] = true
+		end
+	end
+	for k in pairs(b) do
+		if a[k] then
+			t[k] = true
+		end
+	end
+	return t
+end
+
+-- A \ B
+local function set_difference(a, b)
+	local t = {}
+	for k in pairs(a) do
+		if not b[k] then
+			t[k] = true
+		end
+	end
+	return t
+end
+
 
 local FrameScriptObject = {
 	GetName = true,
@@ -19,11 +60,19 @@ local FrameScriptObject = {
 }
 
 local Object = {
-	GetName = true,
-	GetObjectType = true,
-	IsForbidden = true,
+	ClearParentKey = true,
+	GetDebugName = true,
+	GetParent = true,
 	IsObjectType = true,
-	SetForbidden = true,
+	GetParentKey = true,
+	SetParentKey = true,
+}
+
+local ScriptObject = {
+	GetScript = true,
+	HasScript = true,
+	HookScript = true,
+	SetScript = true,
 }
 
 local FontInstance = {
@@ -49,382 +98,344 @@ local FontInstance = {
 
 function KethoDoc:SetupWidgets()
 	self.WidgetClasses = {
-		FrameScriptObject = {
+		FrameScriptObject = { -- abstract
 			inherits = {},
 			meta_object = function() return FrameScriptObject end,
 			unique_methods = function() return FrameScriptObject end,
 		},
-		-- ScriptObject = {
-		-- 	inherits = {},
-		-- 	meta_object = function() return ScriptObject end,
-		-- 	unique_methods = function() return ScriptObject end,
-		-- 	unique_handlers = function() return self:CompareTable(W.AnimationGroup.handlers, W.Frame.handlers) end,
-		-- },
-		Object = {
+		Object = { -- abstract
 			inherits = {"FrameScriptObject"},
-			meta_object = function() return Object end,
+			-- FrameScriptObject ∪ Object
+			meta_object = function() return union(FrameScriptObject, Object) end,
 			unique_methods = function() return Object end,
-			unique_handlers = function() return self:CompareTable(W.AnimationGroup.handlers, W.Frame.handlers) end,
+			unique_handlers = function() return intersect(W.AnimationGroup.handlers, W.Frame.handlers) end,
 		},
-		Region = {
-			inherits = {"Object"},
-			-- Frame ∩ LayeredRegion
-			meta_object = function() return (self:CompareTable(W.Frame.meta_object, W.LayeredRegion.meta_object())) end,
-			-- Region \ UIObject \ ScriptObject
+		ScriptObject = { -- abstract
+			inherits = {},
+			meta_object = function() return ScriptObject end,
+			unique_methods = function() return ScriptObject end,
+		},
+		ScriptRegion = { -- abstract
+			inherits = {"Object", "ScriptObject"},
+			-- Frame ∩ Region
+			meta_object = function() return intersect(W.Frame.meta_object(), W.Region.meta_object()) end,
+			-- ScriptRegion \ (Object ∪ ScriptObject)
 			unique_methods = function()
-				local t = self:RemoveTable(W.Region.meta_object(), W.Object.meta_object())
-				return self:RemoveTable(t, W.Object.meta_object())
+				local u = union(W.Object.meta_object(), W.ScriptObject.meta_object())
+				return set_difference(W.ScriptRegion.meta_object(), u)
 			end,
-			-- Texture ∩ FontString \ ScriptObject
-			unique_handlers = function()
-				local union = self:CompareTable(W.Texture.handlers, W.FontString.handlers)
-				return self:RemoveTable(union, W.Object.unique_handlers())
-			end,
+			-- Frame ∩ Texture
+			handlers = function() return intersect(W.Frame.handlers, W.Texture.handlers) end,
+			-- (Frame ∩ Texture) \ Object
+			unique_handlers = function() return set_difference(W.ScriptRegion.handlers(), W.Object.unique_handlers()) end,
 		},
-		LayeredRegion = {
+		Region = { -- abstract
 			inherits = {"Region"},
 			-- Texture ∩ FontString
-			meta_object = function() return (self:CompareTable(W.Texture.meta_object, W.FontString.meta_object)) end,
-			-- Region \ LayeredRegion
-			unique_methods = function() return self:RemoveTable(W.LayeredRegion.meta_object(), W.Region.meta_object()) end,
+			meta_object = function() return intersect(W.Texture.meta_object(), W.FontString.meta_object()) end,
+			-- Region \ ScriptRegion
+			unique_methods = function() return set_difference(W.Region.meta_object(), W.ScriptRegion.meta_object()) end,
 		},
-		FontInstance = {
+		FontInstance = { -- abstract
 			inherits = {},
-			meta_object = function() -- Font ∩ FontString
-				-- local FontInstance = self:CompareTable(W.Font.meta_object, W.FontString.meta_object)
-				-- Font has its own version and FontString inherits from LayeredRegion
-				-- FontInstance.GetAlpha = nil
-				-- FontInstance.SetAlpha = nil
-				return FontInstance
-			end, -- FontInstance \ Object
-			-- unique_methods = function() return self:RemoveTable(W.FontInstance.meta_object(), W.UIObject.meta_object()) end,
+			meta_object = function() return FontInstance end,
 			unique_methods = function() return FontInstance end,
 		},
-
-		Font = { -- Font \ FontInstance
-			inherits = {"FontInstance"},
+		Font = {
+			inherits = {"FrameScriptObject", "FontInstance"},
 			object = CreateFont(""),
-			unique_methods = function() return self:RemoveTable(W.Font.meta_object, W.FontInstance.meta_object()) end,
+			-- Font \ (FrameScriptObject ∪ FontInstance)
+			unique_methods = function()
+				local u = union(W.FrameScriptObject.meta_object(), W.FontInstance.meta_object())
+				return set_difference(W.Font.meta_object(), u) end,
 		},
-		FontString = { -- FontString \ (FontInstance ∧ LayeredRegion)
-			inherits = {"LayeredRegion", "FontInstance"},
+		FontString = {
+			inherits = {"Region", "FontInstance"},
 			object = TryCreateFrame("Frame"):CreateFontString(),
+			-- FontString \ (Region ∩ FontInstance)
 			unique_methods = function()
-				local obj = self:RemoveTable(W.FontString.meta_object, W.FontInstance.meta_object())
-				return self:RemoveTable(obj, W.LayeredRegion.meta_object())
+				local u = union(W.Region.meta_object(), W.FontInstance.meta_object())
+				return set_difference(W.FontString.meta_object(), u)
 			end,
 		},
-
-		Texture = { -- Texture \ LayeredRegion
-			inherits = {"LayeredRegion"},
+		TextureBase = { -- abstract
+			inherits = {"Region"},
+			meta_object = function()
+				local o = CopyTable(W.Texture.meta_object())
+				o.AddMaskTexture = nil
+				o.GetMaskTexture = nil
+				o.GetNumMaskTextures = nil
+				o.RemoveMaskTexture = nil
+				return o
+			end,
+			-- TextureBase \ Region
+			unique_methods = function() return set_difference(W.TextureBase.meta_object(), W.Region.meta_object()) end,
+		},
+		Texture = {
+			inherits = {"TextureBase"},
 			object = TryCreateFrame("Frame"):CreateTexture(),
-			unique_methods = function() return self:RemoveTable(W.Texture.meta_object, W.LayeredRegion.meta_object()) end,
+			-- Texture \ TextureBase
+			unique_methods = function() return set_difference(W.Texture.meta_object(), W.TextureBase.meta_object()) end,
 		},
-		Line = { -- Texture +6 -12
-			inherits = {"Texture"},
+		MaskTexture = {
+			inherits = {"TextureBase"},
+			object = TryCreateFrame("Frame"):CreateMaskTexture(), -- equivalent to TextureBase
+			unique_methods = function() return set_difference(W.MaskTexture.meta_object(), W.TextureBase.meta_object()) end,
+		},
+		Line = {
+			inherits = {"TextureBase"},
 			object = TryCreateFrame("Frame"):CreateLine(),
-			unique_methods = function() return self:RemoveTable(W.Line.meta_object, W.Texture.meta_object) end,
+			-- Texture \ Region
+			unique_methods = function() return set_difference(W.Line.meta_object(), W.TextureBase.meta_object()) end,
 		},
-		MaskTexture = { -- Texture -4
-			inherits = {"Texture"},
-			object = TryCreateFrame("Frame"):CreateMaskTexture(),
-			unique_methods = function() return self:RemoveTable(W.MaskTexture.meta_object, W.Texture.meta_object) end,
-		},
-
-		AnimationGroup = { -- AnimationGroup \ (UIObject ∧ ScriptObject)
-			inherits = {"Object"},
+		AnimationGroup = {
+			inherits = {"Object", "ScriptObject"},
 			object = TryCreateFrame("Frame"):CreateAnimationGroup(),
+			-- AnimationGroup \ (Object ∪ ScriptObject)
 			unique_methods = function()
-				local obj = self:RemoveTable(W.AnimationGroup.meta_object, W.Object.meta_object())
-				return self:RemoveTable(obj, W.Object.meta_object())
+				local u = union(W.Object.meta_object(), W.ScriptObject.meta_object())
+				return set_difference(W.AnimationGroup.meta_object(), u)
 			end,
-			unique_handlers = function() return self:RemoveTable(W.AnimationGroup.handlers, W.Object.unique_handlers()) end,
+			unique_handlers = function() return set_difference(W.AnimationGroup.handlers, W.Object.unique_handlers()) end,
 		},
-		Animation = { -- Animation \ (UIObject ∧ ScriptObject)
-			inherits = {"Object"},
+		Animation = {
+			inherits = {"Object", "ScriptObject"},
 			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation(),
+			-- Animation \ (Object ∪ ScriptObject)
 			unique_methods = function()
-				local obj = self:RemoveTable(W.Animation.meta_object, W.Object.meta_object())
-				return self:RemoveTable(obj, W.Object.meta_object())
+				local u = union(W.Object.meta_object(), W.ScriptObject.meta_object())
+				return set_difference(W.Animation.meta_object(), u)
 			end,
-			unique_handlers = function() return self:RemoveTable(W.Animation.handlers, W.Object.unique_handlers()) end,
+			unique_handlers = function() return set_difference(W.Animation.handlers, W.Object.unique_handlers()) end,
 		},
-		Alpha = { -- Alpha \ Animation
+		Alpha = {
 			inherits = {"Animation"},
 			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Alpha"),
-			unique_methods = function() return self:RemoveTable(W.Alpha.meta_object, W.Animation.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.Alpha.handlers, W.Animation.handlers) end,
+			-- Alpha \ Animation
+			unique_methods = function() return set_difference(W.Alpha.meta_object(), W.Animation.meta_object()) end,
+			unique_handlers = function() return set_difference(W.Alpha.handlers, W.Animation.handlers) end,
 		},
-		LineScale = { -- LineScale \ Animation
+		LineScale = {
 			inherits = {"Animation"},
 			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("LineScale"),
-			unique_methods = function() return self:RemoveTable(W.LineScale.meta_object, W.Animation.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.LineScale.handlers, W.Animation.handlers) end,
+			-- LineScale \ Animation
+			unique_methods = function() return set_difference(W.LineScale.meta_object(), W.Animation.meta_object()) end,
+			unique_handlers = function() return set_difference(W.LineScale.handlers, W.Animation.handlers) end,
 		},
-		LineTranslation = { -- LineTranslation \ Animation
+		LineTranslation = {
 			inherits = {"Animation"},
 			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("LineTranslation"),
-			unique_methods = function() return self:RemoveTable(W.LineTranslation.meta_object, W.Animation.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.LineTranslation.handlers, W.Animation.handlers) end,
+			-- LineTranslation \ Animation
+			unique_methods = function() return set_difference(W.LineTranslation.meta_object(), W.Animation.meta_object()) end,
+			unique_handlers = function() return set_difference(W.LineTranslation.handlers, W.Animation.handlers) end,
 		},
-		Path = { -- Path \ Animation
+		Path = {
 			inherits = {"Animation"},
 			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Path"),
-			unique_methods = function() return self:RemoveTable(W.Path.meta_object, W.Animation.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.Path.handlers, W.Animation.handlers) end,
+			-- Path \ Animation
+			unique_methods = function() return set_difference(W.Path.meta_object(), W.Animation.meta_object()) end,
+			unique_handlers = function() return set_difference(W.Path.handlers, W.Animation.handlers) end,
 		},
-		ControlPoint = { -- ControlPoint \ UIObject
+		ControlPoint = {
 			inherits = {"Object"},
 			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Path"):CreateControlPoint(),
-			unique_methods = function() return self:RemoveTable(W.ControlPoint.meta_object, W.Object.meta_object()) end,
+			-- ControlPoint \ Object
+			unique_methods = function() return set_difference(W.ControlPoint.meta_object(), W.Object.meta_object()) end,
 		},
-		Rotation = { -- Rotation \ Animation
+		Rotation = {
 			inherits = {"Animation"},
 			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Rotation"),
-			unique_methods = function() return self:RemoveTable(W.Rotation.meta_object, W.Animation.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.Rotation.handlers, W.Animation.handlers) end,
+			-- Rotation \ Animation
+			unique_methods = function() return set_difference(W.Rotation.meta_object(), W.Animation.meta_object()) end,
+			unique_handlers = function() return set_difference(W.Rotation.handlers, W.Animation.handlers) end,
 		},
-		Scale = { -- Scale \ Animation
+		Scale = {
 			inherits = {"Animation"},
 			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Scale"),
-			unique_methods = function() return self:RemoveTable(W.Scale.meta_object, W.Animation.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.Scale.handlers, W.Animation.handlers) end,
+			-- Scale \ Animation
+			unique_methods = function() return set_difference(W.Scale.meta_object(), W.Animation.meta_object()) end,
+			unique_handlers = function() return set_difference(W.Scale.handlers, W.Animation.handlers) end,
 		},
-		TextureCoordTranslation = { -- TextureCoordTranslation \ Animation
-		inherits = {"Animation"},
-			-- apparently can only be created in XML
-			--object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("TextureCoordTranslation"),
-			object = KethoFrame.animgroup.texcoordtranslation,
-			unique_methods = function() return self:RemoveTable(W.TextureCoordTranslation.meta_object, W.Animation.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.TextureCoordTranslation.handlers, W.Animation.handlers) end,
+		TextureCoordTranslation = {
+			inherits = {"Animation"},
+			object = KethoFrame.animgroup.texcoordtranslation, -- can only be created in XML
+			-- TextureCoordTranslation \ Animation
+			unique_methods = function() return set_difference(W.TextureCoordTranslation.meta_object(), W.Animation.meta_object()) end,
+			unique_handlers = function() return set_difference(W.TextureCoordTranslation.handlers, W.Animation.handlers) end,
 		},
-		Translation = { -- Translation \ Animation
+		Translation = {
 			inherits = {"Animation"},
 			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Translation"),
-			unique_methods = function() return self:RemoveTable(W.Translation.meta_object, W.Animation.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.Translation.handlers, W.Animation.handlers) end,
+			-- Translation \ Animation
+			unique_methods = function() return set_difference(W.Translation.meta_object(), W.Animation.meta_object()) end,
+			unique_handlers = function() return set_difference(W.Translation.handlers, W.Animation.handlers) end,
 		},
-		FlipBook = { -- FlipBook \ Animation
+		FlipBook = {
 			inherits = {"Animation"},
 			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("FlipBook"),
-			unique_methods = function() return self:RemoveTable(W.FlipBook.meta_object, W.Animation.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.FlipBook.handlers, W.Animation.handlers) end,
+			-- FlipBook \ Animation
+			unique_methods = function() return set_difference(W.FlipBook.meta_object(), W.Animation.meta_object()) end,
+			unique_handlers = function() return set_difference(W.FlipBook.handlers, W.Animation.handlers) end,
 		},
-		VertexColor = { -- VertexColor \ Animation
+		VertexColor = {
 			inherits = {"Animation"},
 			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("VertexColor"),
-			unique_methods = function() return self:RemoveTable(W.VertexColor.meta_object, W.Animation.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.VertexColor.handlers, W.Animation.handlers) end,
+			-- VertexColor \ Animation
+			unique_methods = function() return set_difference(W.VertexColor.meta_object(), W.Animation.meta_object()) end,
+			unique_handlers = function() return set_difference(W.VertexColor.handlers, W.Animation.handlers) end,
 		},
-
-		Frame = { -- Frame \ (Region ∧ ScriptObject)
-			inherits = {"Region"},
+		Frame = {
+			inherits = {"ScriptRegion"},
 			object = TryCreateFrame("Frame"),
-			unique_methods = function()
-				local obj = self:RemoveTable(W.Frame.meta_object, W.Region.meta_object())
-				return self:RemoveTable(obj, W.Object.meta_object())
-			end,
-			unique_handlers = function() local t = self:RemoveTable(W.Frame.handlers, W.Region.unique_handlers())
-				return self:RemoveTable(t, W.Object.unique_handlers())
-			end,
+			-- Frame \ ScriptRegion
+			unique_methods = function() return set_difference(W.Frame.meta_object(), W.ScriptRegion.meta_object()) end,
+			unique_handlers = function() return set_difference(W.Frame.handlers, W.ScriptRegion.handlers()) end,
 		},
-		Browser = { -- Browser \ Frame
+		Browser = {
 			inherits = {"Frame"},
 			object = TryCreateFrame("Browser"),
-			unique_methods = function() return self:RemoveTable(W.Browser.meta_object, W.Frame.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.Browser.handlers, W.Frame.handlers) end,
+			-- Browser \ Frame
+			unique_methods = function() return set_difference(W.Browser.meta_object(), W.Frame.meta_object()) end,
+			unique_handlers = function() return set_difference(W.Browser.handlers, W.Frame.handlers) end,
 		},
-
-		Button = { -- Button \ Frame
+		Button = {
 			inherits = {"Frame"},
 			object = TryCreateFrame("Button"),
-			unique_methods = function() return self:RemoveTable(W.Button.meta_object, W.Frame.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.Button.handlers, W.Frame.handlers) end,
+			-- Button \ Frame
+			unique_methods = function() return set_difference(W.Button.meta_object(), W.Frame.meta_object()) end,
+			unique_handlers = function() return set_difference(W.Button.handlers, W.Frame.handlers) end,
 		},
-		CheckButton = { -- CheckButton \ Button
+		CheckButton = {
 			inherits = {"Button"},
 			object = TryCreateFrame("CheckButton"),
-			unique_methods = function() return self:RemoveTable(W.CheckButton.meta_object, W.Button.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.CheckButton.handlers, W.Button.handlers) end,
+			-- CheckButton \ Button
+			unique_methods = function() return set_difference(W.CheckButton.meta_object(), W.Button.meta_object()) end,
+			unique_handlers = function() return set_difference(W.CheckButton.handlers, W.Button.handlers) end,
 		},
 		-- UnitButton unavailable
-		Checkout = { -- Checkout \ Frame
+		Checkout = {
 			inherits = {"Frame"},
 			object = TryCreateFrame("Checkout"),
-			unique_methods = function() return self:RemoveTable(W.Checkout.meta_object, W.Frame.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.Checkout.handlers, W.Frame.handlers) end,
+			-- Checkout \ Frame
+			unique_methods = function() return set_difference(W.Checkout.meta_object(), W.Frame.meta_object()) end,
+			unique_handlers = function() return set_difference(W.Checkout.handlers, W.Frame.handlers) end,
 		},
-		ColorSelect = { -- ColorSelect \ Frame
+		ColorSelect = {
 			inherits = {"Frame"},
 			object = TryCreateFrame("ColorSelect"),
-			unique_methods = function() return self:RemoveTable(W.ColorSelect.meta_object, W.Frame.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.ColorSelect.handlers, W.Frame.handlers) end,
+			-- ColorSelect \ Frame
+			unique_methods = function() return set_difference(W.ColorSelect.meta_object(), W.Frame.meta_object()) end,
+			unique_handlers = function() return set_difference(W.ColorSelect.handlers, W.Frame.handlers) end,
 		},
-		Cooldown = { -- Cooldown \ Frame
+		Cooldown = {
 			inherits = {"Frame"},
 			object = TryCreateFrame("Cooldown"),
-			unique_methods = function() return self:RemoveTable(W.Cooldown.meta_object, W.Frame.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.Cooldown.handlers, W.Frame.handlers) end,
+			-- Cooldown \ Frame
+			unique_methods = function() return set_difference(W.Cooldown.meta_object(), W.Frame.meta_object()) end,
+			unique_handlers = function() return set_difference(W.Cooldown.handlers, W.Frame.handlers) end,
 		},
-		EditBox = { -- EditBox \ (FontInstance ∧ Frame)
+		EditBox = {
 			inherits = {"Frame", "FontInstance"},
 			object = TryCreateFrame("EditBox"),
+			-- EditBox \ (Frame ∩ FontInstance)
 			unique_methods = function()
-				local obj = self:RemoveTable(W.EditBox.meta_object, W.FontInstance.meta_object())
-				return self:RemoveTable(obj, W.Frame.meta_object)
+				local u = union(W.Frame.meta_object(), W.FontInstance.meta_object())
+				return set_difference(W.EditBox.meta_object(), u)
 			end,
-			unique_handlers = function() return self:RemoveTable(W.EditBox.handlers, W.Frame.handlers) end,
+			unique_handlers = function() return set_difference(W.EditBox.handlers, W.Frame.handlers) end,
 		},
-		FogOfWarFrame = { -- FogOfWarFrame \ Frame
-			inherits = {"Frame"},
-			-- does not error and returns an empty frame in classic/bc
-			object = TryCreateFrame("FogOfWarFrame"),
-			unique_methods = function() return self:RemoveTable(W.FogOfWarFrame.meta_object, W.Frame.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.FogOfWarFrame.handlers, W.Frame.handlers) end,
-		},
-		GameTooltip = { -- GameTooltip \ Frame
-			inherits = {"Frame"},
-			object = TryCreateFrame("GameTooltip"),
-			unique_methods = function() return self:RemoveTable(W.GameTooltip.meta_object, W.Frame.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.GameTooltip.handlers, W.Frame.handlers) end,
-		},
-		MessageFrame = { -- MessageFrame \ (FontInstance ∧ Frame)
+		MessageFrame = {
 			inherits = {"Frame", "FontInstance"},
 			object = TryCreateFrame("MessageFrame"),
+			-- MessageFrame \ (Frame ∩ FontInstance)
 			unique_methods = function()
-				local obj = self:RemoveTable(W.MessageFrame.meta_object, W.FontInstance.meta_object())
-				return self:RemoveTable(obj, W.Frame.meta_object)
+				local u = union(W.Frame.meta_object(), W.FontInstance.meta_object())
+				return set_difference(W.MessageFrame.meta_object(), u)
 			end,
-			unique_handlers = function() return self:RemoveTable(W.MessageFrame.handlers, W.Frame.handlers) end,
+			unique_handlers = function() return set_difference(W.MessageFrame.handlers, W.Frame.handlers) end,
 		},
-		Minimap = { -- Minimap \ Frame
-			inherits = {"Frame"},
-			object = Minimap, -- unique
-			unique_methods = function() return self:RemoveTable(W.Minimap.meta_object, W.Frame.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.Minimap.handlers, W.Frame.handlers) end,
-		},
-
-		Model = { -- Model \ Frame
-			inherits = {"Frame"},
-			object = TryCreateFrame("Model"),
-			unique_methods = function() return self:RemoveTable(W.Model.meta_object, W.Frame.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.Model.handlers, W.Frame.handlers) end,
-		},
-		PlayerModel = { -- PlayerModel \ Model
-			inherits = {"Model"},
-			object = TryCreateFrame("PlayerModel"),
-			unique_methods = function() return self:RemoveTable(W.PlayerModel.meta_object, W.Model.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.PlayerModel.handlers, W.Model.handlers) end,
-		},
-		CinematicModel = { -- CinematicModel \ Model
-			inherits = {"PlayerModel"},
-			object = TryCreateFrame("CinematicModel"),
-			unique_methods = function() return self:RemoveTable(W.CinematicModel.meta_object, W.PlayerModel.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.CinematicModel.handlers, W.PlayerModel.handlers) end,
-		},
-		DressUpModel = { -- DressUpModel \ Model
-			inherits = {"PlayerModel"},
-			object = TryCreateFrame("DressUpModel"),
-			unique_methods = function() return self:RemoveTable(W.DressUpModel.meta_object, W.PlayerModel.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.DressUpModel.handlers, W.PlayerModel.handlers) end,
-		},
-		-- ModelFFX unavailable
-		TabardModel = { -- TabardModel \ Model
-			inherits = {"PlayerModel"},
-			object = TryCreateFrame("TabardModel"),
-			unique_methods = function() return self:RemoveTable(W.TabardModel.meta_object, W.PlayerModel.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.TabardModel.handlers, W.PlayerModel.handlers) end,
-		},
-		-- UICamera unavailable
-
-		ModelScene = { -- ModelScene \ Frame
-			inherits = {"Frame"},
-			object = TryCreateFrame("ModelScene"),
-			unique_methods = function() return self:RemoveTable(W.ModelScene.meta_object, W.Frame.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.ModelScene.handlers, W.Frame.handlers) end,
-		},
-		MovieFrame = { -- MovieFrame \ Frame
-			inherits = {"Frame"},
-			object = TryCreateFrame("MovieFrame"),
-			unique_methods = function() return self:RemoveTable(W.MovieFrame.meta_object, W.Frame.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.MovieFrame.handlers, W.Frame.handlers) end,
-		},
-		OffScreenFrame = { -- OffScreenFrame \ Frame
-			inherits = {"Frame"},
-			object = TryCreateFrame("OffScreenFrame"),
-			unique_methods = function() return self:RemoveTable(W.OffScreenFrame.meta_object, W.Frame.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.OffScreenFrame.handlers, W.Frame.handlers) end,
-		},
-		POIFrame = {
-			inherits = {"Frame"}, -- ArchaeologyDigSiteFrame ∩ QuestPOIFrame
-			meta_object = self.isMainline and function() return self:CompareTable(W.ArchaeologyDigSiteFrame.meta_object, W.QuestPOIFrame.meta_object) end,
-			-- (ArchaeologyDigSiteFrame ∩ QuestPOIFrame) \ Frame
-			unique_methods = function() return self:RemoveTable(W.POIFrame.meta_object(), W.Frame.meta_object) end,
-		},
-		ArchaeologyDigSiteFrame = { -- ArchaeologyDigSiteFrame \ POIFrame
-			inherits = {"POIFrame"},
-			object = TryCreateFrame("ArchaeologyDigSiteFrame"),
-			unique_methods = function() return self:RemoveTable(W.ArchaeologyDigSiteFrame.meta_object, W.POIFrame.meta_object()) end,
-			unique_handlers = function() return self:RemoveTable(W.ArchaeologyDigSiteFrame.handlers, W.Frame.handlers) end,
-		},
-		QuestPOIFrame = { -- QuestPOIFrame \ POIFrame
-			inherits = {"POIFrame"},
-			object = TryCreateFrame("QuestPOIFrame"),
-			unique_methods = function() return self:RemoveTable(W.QuestPOIFrame.meta_object, W.POIFrame.meta_object()) end,
-			unique_handlers = function() return self:RemoveTable(W.QuestPOIFrame.handlers, W.Frame.handlers) end,
-		},
-		ScenarioPOIFrame = { -- ScenarioPOIFrame \ POIFrame
-			inherits = {"POIFrame"},
-			object = TryCreateFrame("ScenarioPOIFrame"),
-			unique_methods = function() return self:RemoveTable(W.ScenarioPOIFrame.meta_object, W.POIFrame.meta_object()) end,
-			unique_handlers = function() return self:RemoveTable(W.ScenarioPOIFrame.handlers, W.Frame.handlers) end,
-		},
-		ScrollFrame = { -- ScrollFrame \ Frame
-			inherits = {"Frame"},
-			object = TryCreateFrame("ScrollFrame"),
-			unique_methods = function() return self:RemoveTable(W.ScrollFrame.meta_object, W.Frame.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.ScrollFrame.handlers, W.Frame.handlers) end,
-		},
-		SimpleHTML = { -- SimpleHTML \ (FontInstance ∧ Frame)
+		SimpleHTML = {
 			inherits = {"Frame", "FontInstance"},
 			object = TryCreateFrame("SimpleHTML"),
+			-- SimpleHTML \ (Frame ∩ FontInstance)
 			unique_methods = function()
-				local obj = self:RemoveTable(W.SimpleHTML.meta_object, W.FontInstance.meta_object())
-				return self:RemoveTable(obj, W.Frame.meta_object)
+				local u = union(W.Frame.meta_object(), W.FontInstance.meta_object())
+				return set_difference(W.SimpleHTML.meta_object(), u)
 			end,
-			unique_handlers = function() return self:RemoveTable(W.SimpleHTML.handlers, W.Frame.handlers) end,
+			unique_handlers = function() return set_difference(W.SimpleHTML.handlers, W.Frame.handlers) end,
 		},
-		Slider = { -- Slider \ Frame
+		FogOfWarFrame = {
 			inherits = {"Frame"},
-			object = TryCreateFrame("Slider"),
-			unique_methods = function() return self:RemoveTable(W.Slider.meta_object, W.Frame.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.Slider.handlers, W.Frame.handlers) end,
+			object = TryCreateFrame("FogOfWarFrame"), -- does not error and returns an empty frame in classic
+			-- FogOfWarFrame \ Frame
+			unique_methods = function() return set_difference(W.FogOfWarFrame.meta_object(), W.Frame.meta_object()) end,
+			unique_handlers = function() return set_difference(W.FogOfWarFrame.handlers, W.Frame.handlers) end,
 		},
-		StatusBar = { -- StatusBar \ Frame
+		GameTooltip = {
 			inherits = {"Frame"},
-			object = TryCreateFrame("StatusBar"),
-			unique_methods = function() return self:RemoveTable(W.StatusBar.meta_object, W.Frame.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.StatusBar.handlers, W.Frame.handlers) end,
+			object = TryCreateFrame("GameTooltip"),
+			-- GameTooltip \ Frame
+			unique_methods = function() return set_difference(W.GameTooltip.meta_object(), W.Frame.meta_object()) end,
+			unique_handlers = function() return set_difference(W.GameTooltip.handlers, W.Frame.handlers) end,
 		},
-		-- TaxiRouteFrame unavailable
-		UnitPositionFrame = { -- UnitPositionFrame \ Frame
+		Minimap = {
 			inherits = {"Frame"},
-			object = TryCreateFrame("UnitPositionFrame"),
-			unique_methods = function() return self:RemoveTable(W.UnitPositionFrame.meta_object, W.Frame.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.UnitPositionFrame.handlers, W.Frame.handlers) end,
+			object = Minimap, -- unique
+			-- Minimap \ Frame
+			unique_methods = function() return set_difference(W.Minimap.meta_object(), W.Frame.meta_object()) end,
+			unique_handlers = function() return set_difference(W.Minimap.handlers, W.Frame.handlers) end,
 		},
-		WorldFrame = { -- WorldFrame \ Frame
+		Model = {
 			inherits = {"Frame"},
-			object = WorldFrame, -- unique, no extra methods
-			unique_methods = function() return self:RemoveTable(W.WorldFrame.meta_object, W.Frame.meta_object) end,
-			unique_handlers = function() return self:RemoveTable(W.WorldFrame.handlers, W.Frame.handlers) end,
+			object = TryCreateFrame("Model"),
+			-- Model \ Frame
+			unique_methods = function() return set_difference(W.Model.meta_object(), W.Frame.meta_object()) end,
+			unique_handlers = function() return set_difference(W.Model.handlers, W.Frame.handlers) end,
+		},
+		PlayerModel = {
+			inherits = {"Model"},
+			object = TryCreateFrame("PlayerModel"),
+			-- PlayerModel \ Model
+			unique_methods = function() return set_difference(W.PlayerModel.meta_object(), W.Model.meta_object()) end,
+			unique_handlers = function() return set_difference(W.PlayerModel.handlers, W.Model.handlers) end,
+		},
+		CinematicModel = {
+			inherits = {"PlayerModel"},
+			object = TryCreateFrame("CinematicModel"),
+			-- CinematicModel \ Model
+			unique_methods = function() return set_difference(W.CinematicModel.meta_object(), W.PlayerModel.meta_object()) end,
+			unique_handlers = function() return set_difference(W.CinematicModel.handlers, W.PlayerModel.handlers) end,
+		},
+		DressUpModel = {
+			inherits = {"PlayerModel"},
+			object = TryCreateFrame("DressUpModel"),
+			-- DressUpModel \ Model
+			unique_methods = function() return set_difference(W.DressUpModel.meta_object(), W.PlayerModel.meta_object()) end,
+			unique_handlers = function() return set_difference(W.DressUpModel.handlers, W.PlayerModel.handlers) end,
+		},
+		-- ModelFFX unavailable
+		TabardModel = {
+			inherits = {"PlayerModel"},
+			object = TryCreateFrame("TabardModel"),
+			-- TabardModel \ Model
+			unique_methods = function() return set_difference(W.TabardModel.meta_object(), W.PlayerModel.meta_object()) end,
+			unique_handlers = function() return set_difference(W.TabardModel.handlers, W.PlayerModel.handlers) end,
+		},
+		-- UICamera unavailable
+		ModelScene = {
+			inherits = {"Frame"},
+			object = TryCreateFrame("ModelScene"),
+			-- ModelScene \ Frame
+			unique_methods = function() return set_difference(W.ModelScene.meta_object(), W.Frame.meta_object()) end,
+			unique_handlers = function() return set_difference(W.ModelScene.handlers, W.Frame.handlers) end,
 		},
 		ModelSceneActor = {
 			inherits = {"Object"},
 			object = TryCreateFrame("ModelScene"):CreateActor(),
-			unique_methods = function() return self:RemoveTable(W.ModelSceneActor.meta_object, W.Object.meta_object()) end,
+			-- ModelSceneActor \ Object
+			unique_methods = function() return set_difference(W.ModelSceneActor.meta_object(), W.Object.meta_object()) end,
 			unique_handlers = function()
-				return { -- can only set these from XML
+				return { -- can only be set from XML
 					OnModelCleared = true,
 					OnModelLoading = true,
 					OnModelLoaded = true,
@@ -432,12 +443,91 @@ function KethoDoc:SetupWidgets()
 				}
 			end,
 		},
+		MovieFrame = {
+			inherits = {"Frame"},
+			object = TryCreateFrame("MovieFrame"),
+			-- MovieFrame \ Frame
+			unique_methods = function() return set_difference(W.MovieFrame.meta_object(), W.Frame.meta_object()) end,
+			unique_handlers = function() return set_difference(W.MovieFrame.handlers, W.Frame.handlers) end,
+		},
+		OffScreenFrame = {
+			inherits = {"Frame"},
+			object = TryCreateFrame("OffScreenFrame"),
+			-- OffScreenFrame \ Frame
+			unique_methods = function() return set_difference(W.OffScreenFrame.meta_object(), W.Frame.meta_object()) end,
+			unique_handlers = function() return set_difference(W.OffScreenFrame.handlers, W.Frame.handlers) end,
+		},
+		Blob = { -- abstract
+			inherits = {"Frame"},
+			meta_object = function() return W.ArchaeologyDigSiteFrame.meta_object() end, -- equivalent to Blob
+			-- ArchaeologyDigSiteFrame \ Frame
+			unique_methods = function() return set_difference(W.ArchaeologyDigSiteFrame.meta_object(), W.Frame.meta_object()) end,
+		},
+		ArchaeologyDigSiteFrame = {
+			inherits = {"Blob"},
+			object = TryCreateFrame("ArchaeologyDigSiteFrame"),
+			-- ArchaeologyDigSiteFrame \ Blob
+			unique_methods = function() return set_difference(W.ArchaeologyDigSiteFrame.meta_object(), W.Blob.meta_object()) end,
+			unique_handlers = function() return set_difference(W.ArchaeologyDigSiteFrame.handlers, W.Frame.handlers) end,
+		},
+		QuestPOIFrame = {
+			inherits = {"Blob"},
+			object = TryCreateFrame("QuestPOIFrame"),
+			-- QuestPOIFrame \ Blob
+			unique_methods = function() return set_difference(W.QuestPOIFrame.meta_object(), W.Blob.meta_object()) end,
+			unique_handlers = function() return set_difference(W.QuestPOIFrame.handlers, W.Frame.handlers) end,
+		},
+		ScenarioPOIFrame = {
+			inherits = {"Blob"},
+			object = TryCreateFrame("ScenarioPOIFrame"),
+			-- ScenarioPOIFrame \ Blob
+			unique_methods = function() return set_difference(W.ScenarioPOIFrame.meta_object(), W.Blob.meta_object()) end,
+			unique_handlers = function() return set_difference(W.ScenarioPOIFrame.handlers, W.Frame.handlers) end,
+		},
+		ScrollFrame = {
+			inherits = {"Frame"},
+			object = TryCreateFrame("ScrollFrame"),
+			-- ScrollFrame \ Frame
+			unique_methods = function() return set_difference(W.ScrollFrame.meta_object(), W.Frame.meta_object()) end,
+			unique_handlers = function() return set_difference(W.ScrollFrame.handlers, W.Frame.handlers) end,
+		},
+		Slider = {
+			inherits = {"Frame"},
+			object = TryCreateFrame("Slider"),
+			-- Slider \ Frame
+			unique_methods = function() return set_difference(W.Slider.meta_object(), W.Frame.meta_object()) end,
+			unique_handlers = function() return set_difference(W.Slider.handlers, W.Frame.handlers) end,
+		},
+		StatusBar = {
+			inherits = {"Frame"},
+			object = TryCreateFrame("StatusBar"),
+			-- StatusBar \ Frame
+			unique_methods = function() return set_difference(W.StatusBar.meta_object(), W.Frame.meta_object()) end,
+			unique_handlers = function() return set_difference(W.StatusBar.handlers, W.Frame.handlers) end,
+		},
+		-- TaxiRouteFrame unavailable
+		UnitPositionFrame = {
+			inherits = {"Frame"},
+			object = TryCreateFrame("UnitPositionFrame"),
+			-- UnitPositionFrame \ Frame
+			unique_methods = function() return set_difference(W.UnitPositionFrame.meta_object(), W.Frame.meta_object()) end,
+			unique_handlers = function() return set_difference(W.UnitPositionFrame.handlers, W.Frame.handlers) end,
+		},
+		WorldFrame = {
+			inherits = {"Frame"},
+			object = WorldFrame, -- unique, no extra methods
+			-- WorldFrame \ Frame
+			unique_methods = function() return set_difference(W.WorldFrame.meta_object(), W.Frame.meta_object()) end,
+			unique_handlers = function() return set_difference(W.WorldFrame.handlers, W.Frame.handlers) end,
+		},
 	}
 
 	-- set meta objects
 	for _, widget in pairs(self.WidgetClasses) do
 		if widget.object then
-			widget.meta_object = getmetatable(widget.object).__index
+			widget.meta_object = function()
+				return getmetatable(widget.object).__index
+			end
 		end
 	end
 
@@ -461,8 +551,9 @@ KethoDoc.WidgetOrder = {
 	-- abstract classes
 	"FrameScriptObject",
 	"Object",
-	"Region", -- (LayoutFrame)
-	"LayeredRegion",
+	"ScriptObject",
+	"ScriptRegion",
+	"Region",
 	"FontInstance",
 
 	-- fontinstance
@@ -470,7 +561,10 @@ KethoDoc.WidgetOrder = {
 	"FontString",
 
 	-- texture
-	"Texture", "Line", "MaskTexture",
+	"TextureBase",
+	"Texture",
+	"MaskTexture",
+	"Line",
 
 	-- animation
 	"AnimationGroup",
@@ -488,30 +582,33 @@ KethoDoc.WidgetOrder = {
 
 	-- frame
 	"Frame",
-	"Browser",
 	"Button", "CheckButton",
-	"Checkout",
-	"ColorSelect",
-	"Cooldown",
+	"Model",
+	"PlayerModel",
+	"CinematicModel", "DressUpModel", "TabardModel",
+	"ModelScene", "ModelSceneActor",
 	"EditBox",
-	"FogOfWarFrame",
-	"GameTooltip",
 	"MessageFrame",
-	"Minimap", -- unique
-	"Model", "PlayerModel",
-		"CinematicModel", "DressUpModel", "TabardModel", --"ModelFFX", "UICamera",
-	"ModelScene",
-	"MovieFrame",
-	"OffScreenFrame",
-	"POIFrame", "ArchaeologyDigSiteFrame", "QuestPOIFrame", "ScenarioPOIFrame",
-	"ScrollFrame",
 	"SimpleHTML",
+	"ColorSelect",
+	"GameTooltip",
+	"Cooldown",
+	"Minimap", -- unique
+	"MovieFrame",
+	"ScrollFrame",
 	"Slider",
 	"StatusBar",
-	--"TaxiRouteFrame",
+	"FogOfWarFrame",
 	"UnitPositionFrame",
+	KethoDoc.isMainline and "Blob" or nil, -- abstract
+	"ArchaeologyDigSiteFrame", "QuestPOIFrame", "ScenarioPOIFrame",
+	"Browser",
+	"Checkout",
+	"OffScreenFrame",
 	"WorldFrame", -- unique
-	"ModelSceneActor",
+	--"ModelFFX",
+	--"UICamera",
+	--"TaxiRouteFrame",
 }
 
 -- https://www.townlong-yak.com/framexml/9.0.1/UI.xsd#286
@@ -606,66 +703,82 @@ function KethoDoc:WidgetTest()
 	end
 	-- combine unique methods plus inherited methods
 	-- widget scripts are not really being tested
-	-- this test is wrong, ScriptObject on FontString and Texture does not appear to be tested
 	local widgets = {
 		{"FrameScriptObject",       {}},
-		{"Object",                  {}},
-		{"Region",                  {W.Object}},
-		{"LayeredRegion",           {W.Region, W.Object, W.FrameScriptObject}},
+		{"Object",                  {W.FrameScriptObject}},
+		{"ScriptObject",            {}},
+		{"ScriptRegion",            {                W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"Region",                  {W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
 
 		{"FontInstance",            {}},
 		{"Font",                    {W.FontInstance, W.FrameScriptObject}},
-		{"FontString",              {W.LayeredRegion, W.Region, W.Object, W.FrameScriptObject, W.FontInstance}},
-		{"Texture",                 {W.LayeredRegion, W.Region, W.Object, W.FrameScriptObject}},
-		{"Line",                    {W.Texture, W.LayeredRegion, W.Region, W.Object, W.FrameScriptObject}},
-		{"MaskTexture",             {W.Texture, W.LayeredRegion, W.Region, W.Object, W.FrameScriptObject}},
+		{"FontString",              {W.FontInstance, W.Region, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
 
-		{"AnimationGroup",          {W.Object, W.FrameScriptObject}},
-		{"Animation",               {W.Object, W.FrameScriptObject}},
-		{"Alpha",                   {W.Animation, W.Object, W.FrameScriptObject}},
-		{"LineScale",               {W.Animation, W.Object, W.FrameScriptObject}},
-		{"Translation",             {W.Animation, W.Object, W.FrameScriptObject}},
-		{"LineTranslation",         {W.Animation, W.Object, W.FrameScriptObject}},
-		{"Path",                    {W.Animation, W.Object, W.FrameScriptObject}},
-		{"ControlPoint",            {W.Object}},
-		{"Rotation",                {W.Animation, W.Object, W.FrameScriptObject}},
-		{"TextureCoordTranslation", {W.Animation, W.Object, W.FrameScriptObject}},
-		{"FlipBook",                {W.Animation, W.Object, W.FrameScriptObject}},
-		{"VertexColor",             {W.Animation, W.Object, W.FrameScriptObject}},
+		{"TextureBase",             {               W.Region, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"Texture",                 {W.TextureBase, W.Region, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"MaskTexture",             {W.TextureBase, W.Region, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"Line",                    {W.TextureBase, W.Region, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
 
-		{"Frame",                   {W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"Browser",                 {W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"Button",                  {W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"CheckButton",             {W.Button, W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"Checkout",                {W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"ColorSelect",             {W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"Cooldown",                {W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"EditBox",                 {W.FontInstance, W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"FogOfWarFrame",           {W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"GameTooltip",             {W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"MessageFrame",            {W.FontInstance, W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"Minimap",                 {W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"Model",                   {W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"PlayerModel",             {W.Model, W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"CinematicModel",          {W.PlayerModel, W.Model, W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"DressUpModel",            {W.PlayerModel, W.Model, W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"TabardModel",             {W.PlayerModel, W.Model, W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"ModelScene",              {W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"MovieFrame",              {W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"OffScreenFrame",          {W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"POIFrame",                {W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"ArchaeologyDigSiteFrame", {W.POIFrame, W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"QuestPOIFrame",           {W.POIFrame, W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"ScenarioPOIFrame",        {W.POIFrame, W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"ScrollFrame",             {W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"SimpleHTML",              {W.FontInstance, W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"Slider",                  {W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"StatusBar",               {W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"UnitPositionFrame",       {W.Frame, W.Region, W.Object, W.FrameScriptObject}},
-		{"WorldFrame",              {W.Frame, W.Region, W.Object, W.FrameScriptObject}},
+		{"AnimationGroup",          {             W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"Animation",               {             W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"Alpha",                   {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"LineScale",               {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"Translation",             {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"LineTranslation",         {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"Path",                    {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"ControlPoint",            {                             W.Object, W.FrameScriptObject}},
+		{"Rotation",                {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"TextureCoordTranslation", {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"FlipBook",                {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"VertexColor",             {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
 
-		{"ModelSceneActor",         {W.Object}},
+		{"Frame",                   {                                 W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"Button",                  {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"CheckButton",             {              W.Button, W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"Model",                   {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"PlayerModel",             {               W.Model, W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"CinematicModel",          {W.PlayerModel, W.Model, W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"DressUpModel",            {W.PlayerModel, W.Model, W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"TabardModel",             {W.PlayerModel, W.Model, W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"ModelScene",              {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"ModelSceneActor",         {                                                                 W.Object, W.FrameScriptObject}},
+		{"EditBox",                 {W.FontInstance,         W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"MessageFrame",            {W.FontInstance,         W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"SimpleHTML",              {W.FontInstance,         W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"ColorSelect",             {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"GameTooltip",             {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"Cooldown",                {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"Minimap",                 {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"MovieFrame",              {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"ScrollFrame",             {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"Slider",                  {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"StatusBar",               {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"FogOfWarFrame",           {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"UnitPositionFrame",       {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"Blob",                    {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"ArchaeologyDigSiteFrame", {W.Blob,                 W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"QuestPOIFrame",           {W.Blob,                 W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"ScenarioPOIFrame",        {W.Blob,                 W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"Browser",                 {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"Checkout",                {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"OffScreenFrame",          {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"WorldFrame",              {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
 	}
+
+	-- skip certain unit tests for classic, bit ugly
+	if not self.isMainline then
+		local onlyMainline = {
+			Blob = true,
+			ArchaeologyDigSiteFrame = true,
+			QuestPOIFrame = true,
+			ScenarioPOIFrame = true,
+		}
+		for i = #widgets, 1, -1 do
+			if onlyMainline[widgets[i][1]] then
+				table.remove(widgets, i)
+			end
+		end
+	end
 
 	local passed_count = 0
 	for _, v in pairs(widgets) do
@@ -677,13 +790,10 @@ function KethoDoc:WidgetTest()
 		if equal then
 			passed_count = passed_count + 1
 		else
-			if not blaat1 then
-				blaat1, blaat2 = meta_object, expected
-			end
 			print("Failed:", v[1], size1, size2)
-
 		end
 	end
 	print(format("Widgets: Passed %d of %d tests", passed_count, #widgets))
-	-- Widgets: Passed 52 of 52 tests in 9.2.5 (44232)
+	-- [Mainline] Widgets: Passed 55 of 55 tests in 10.2.5 (53441)
+	-- [Classic] Widgets: Passed 51 of 51 tests in 1.15.1 (53495)
 end
