@@ -1,5 +1,5 @@
-## Interface: 100200
-## Version: 1.5.6
+## Interface: 100205
+## Version: 1.6.0
 ## Title: KethoDoc
 ## SavedVariables: KethoDocData
 

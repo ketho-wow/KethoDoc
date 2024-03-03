@@ -38,7 +38,7 @@ function KethoEditBox:Create()
 	eb:SetSize(sf:GetSize())
 	eb:SetMultiLine(true)
 	eb:SetAutoFocus(false) -- dont automatically focus
-	eb:SetFontObject("ChatFontNormal")
+	eb:SetFontObject("ChatFontSmall")
 	eb:SetScript("OnEscapePressed", eb.ClearFocus)
 	sf:SetScrollChild(eb)
 
