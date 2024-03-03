@@ -2,7 +2,7 @@
 local W
 
 -- can still fire LUA_WARNING for e.g. ArchaeologyDigSiteFrame on classic but wont halt execution
-function TryCreateFrame(frameType, ...)
+local function TryCreateFrame(frameType, ...)
 	local ok, frame = pcall(CreateFrame, frameType, ...)
 	if ok and frame.GetObjectType then
 		return frame
@@ -734,7 +734,7 @@ function KethoDoc:WidgetTest()
 
 		{"Frame",                   {                                 W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
 		{"Button",                  {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
-		{"CheckButton",             {              W.Button, W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"CheckButton",             {W.Button,               W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
 		{"Model",                   {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
 		{"PlayerModel",             {               W.Model, W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
 		{"CinematicModel",          {W.PlayerModel, W.Model, W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
