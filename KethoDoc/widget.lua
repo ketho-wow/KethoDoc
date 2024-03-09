@@ -108,7 +108,6 @@ function KethoDoc:SetupWidgets()
 			-- FrameScriptObject ∪ Object
 			meta_object = function() return union(FrameScriptObject, Object) end,
 			unique_methods = function() return Object end,
-			unique_handlers = function() return intersect(W.AnimationGroup.handlers, W.Frame.handlers) end,
 		},
 		ScriptObject = { -- abstract
 			inherits = {},
@@ -125,9 +124,7 @@ function KethoDoc:SetupWidgets()
 				return set_difference(W.ScriptRegion.meta_object(), u)
 			end,
 			-- Frame ∩ Texture
-			handlers = function() return intersect(W.Frame.handlers, W.Texture.handlers) end,
-			-- (Frame ∩ Texture) \ Object
-			unique_handlers = function() return set_difference(W.ScriptRegion.handlers(), W.Object.unique_handlers()) end,
+			unique_handlers = function() return intersect(W.Frame.handlers, W.Texture.handlers) end,
 		},
 		Region = { -- abstract
 			inherits = {"Region"},
@@ -196,7 +193,7 @@ function KethoDoc:SetupWidgets()
 				local u = union(W.Object.meta_object(), W.ScriptObject.meta_object())
 				return set_difference(W.AnimationGroup.meta_object(), u)
 			end,
-			unique_handlers = function() return set_difference(W.AnimationGroup.handlers, W.Object.unique_handlers()) end,
+			unique_handlers = function() return W.AnimationGroup.handlers end,
 		},
 		Animation = {
 			inherits = {"Object", "ScriptObject"},
@@ -206,7 +203,7 @@ function KethoDoc:SetupWidgets()
 				local u = union(W.Object.meta_object(), W.ScriptObject.meta_object())
 				return set_difference(W.Animation.meta_object(), u)
 			end,
-			unique_handlers = function() return set_difference(W.Animation.handlers, W.Object.unique_handlers()) end,
+			unique_handlers = function() return W.Animation.handlers end,
 		},
 		Alpha = {
 			inherits = {"Animation"},
@@ -289,7 +286,7 @@ function KethoDoc:SetupWidgets()
 			object = TryCreateFrame("Frame"),
 			-- Frame \ ScriptRegion
 			unique_methods = function() return set_difference(W.Frame.meta_object(), W.ScriptRegion.meta_object()) end,
-			unique_handlers = function() return set_difference(W.Frame.handlers, W.ScriptRegion.handlers()) end,
+			unique_handlers = function() return set_difference(W.Frame.handlers, W.ScriptRegion.unique_handlers()) end,
 		},
 		Browser = {
 			inherits = {"Frame"},
