@@ -28,14 +28,34 @@ if IsTestBuild() or ptr_realms[realmId] then
 	KethoDoc.branch = KethoDoc.branch.."_ptr"
 end
 
+local bliz_deprecated = {
+	"Blizzard_Deprecated",
+	"Blizzard_DeprecatedCurrencyScript",
+	"Blizzard_DeprecatedGuildScript",
+	"Blizzard_DeprecatedItemScript",
+	"Blizzard_DeprecatedPvpScript",
+	"Blizzard_DeprecatedSoundScript",
+	"Blizzard_DeprecatedSpellScript",
+}
+
+local function IsBlizDeprecated()
+	for _, v in pairs(bliz_deprecated) do
+		if C_AddOns.IsAddOnLoaded(v) then
+			return true
+		end
+	end
+end
+
 if IsPublicBuild() then
-	if C_AddOns.IsAddOnLoaded("Blizzard_Deprecated") then
-		print("|cff71d5ffKethoDoc:|r Please click |cFFFFFF00|Hgarrmission:KethoDoc|h[Reload]|h|r to disable the Blizzard_Deprecated addon and avoid dumping deprecated API."
-			.." You will have to re-enable it manually.")
+	if IsBlizDeprecated() then
+		print("|cff71d5ffKethoDoc:|r Please click |cFFFFFF00|Hgarrmission:KethoDoc|h[Reload]|h|r to disable all Blizzard_Deprecated addons and avoid dumping deprecated API."
+			.." You will have to re-enable them manually.")
 		hooksecurefunc("SetItemRef", function(link)
 			local linkType, addon = strsplit(":", link)
 			if linkType == "garrmission" and addon == "KethoDoc" then
-				C_AddOns.DisableAddOn("Blizzard_Deprecated")
+				for _, v in pairs(bliz_deprecated) do
+					C_AddOns.DisableAddOn(v)
+				end
 				-- use a custom cvar instead of savedvariables
 				C_CVar.RegisterCVar("KethoDoc")
 				C_CVar.SetCVar("KethoDoc", 1)
@@ -43,7 +63,7 @@ if IsPublicBuild() then
 			end
 		end)
 	elseif C_CVar.GetCVarBool("KethoDoc") then
-		print("|cff71d5ffKethoDoc:|r Disabled Blizzard_Deprecated.")
+		print("|cff71d5ffKethoDoc:|r Disabled all Blizzard_Deprecated addons.")
 		C_CVar.SetCVar("KethoDoc", 0)
 	end
 end
