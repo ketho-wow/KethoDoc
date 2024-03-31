@@ -46,6 +46,12 @@ local function IsBlizDeprecated()
 	end
 end
 
+function KethoDoc:EnableBlizzDeprecated()
+	for _, v in pairs(bliz_deprecated) do
+		C_AddOns.EnableAddOn(v)
+	end
+end
+
 if IsPublicBuild() then
 	if IsBlizDeprecated() then
 		print("|cff71d5ffKethoDoc:|r Please click |cFFFFFF00|Hgarrmission:KethoDoc|h[Reload]|h|r to disable all Blizzard_Deprecated addons and avoid dumping deprecated API."
