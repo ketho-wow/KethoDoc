@@ -248,10 +248,6 @@ function KethoDoc:DumpCVars()
 	eb:InsertLine("\nreturn {CVars, PTR}")
 end
 
-local EnumTypo = { -- ACCOUNT -> ACCCOUNT (3 Cs)
-	LE_FRAME_TUTORIAL_ACCOUNT_CLUB_FINDER_NEW_COMMUNITY_JOINED = "LE_FRAME_TUTORIAL_ACCCOUNT_CLUB_FINDER_NEW_COMMUNITY_JOINED",
-}
-
 local function SortEnum(a, b)
 	if a.value ~= b.value then
 		return a.value < b.value
@@ -329,8 +325,7 @@ function KethoDoc:DumpLuaEnums(showGameErr)
 			-- group enums together
 			local found
 			for _, group in pairs(self.EnumGroupsIndexed) do
-				local enumType2 = EnumTypo[enumType] or enumType -- hack
-				if enumType2:find("^"..group[1]) then
+				if enumType:find("^"..group[1]) then
 					EnumGroup[group[1]] = EnumGroup[group[1]] or {}
 					tinsert(EnumGroup[group[1]], {name = enumType, value = enumValue})
 					found = true
