@@ -7,10 +7,12 @@ local toc = select(4, GetBuildInfo())
 if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
 	KethoDoc.isMainline = true
 	KethoDoc.branch = "mainline"
-elseif WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC then
-		KethoDoc.branch = "wrath"
 elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 	KethoDoc.branch = "vanilla"
+elseif WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC then
+	KethoDoc.branch = "wrath"
+elseif WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC then
+	KethoDoc.branch = "cata"
 end
 
 local ptr_realms = {
@@ -40,7 +42,7 @@ local bliz_deprecated = {
 
 local function IsBlizDeprecated()
 	for _, v in pairs(bliz_deprecated) do
-		if C_AddOns.IsAddOnLoaded(v) then
+		if (IsAddOnLoaded or C_AddOns.IsAddOnLoaded)(v) then
 			return true
 		end
 	end
@@ -48,7 +50,7 @@ end
 
 function KethoDoc:EnableBlizzDeprecated()
 	for _, v in pairs(bliz_deprecated) do
-		C_AddOns.EnableAddOn(v)
+		(EnableAddOn or C_AddOns.EnableAddOn)(v)
 	end
 end
 
@@ -60,7 +62,7 @@ if IsPublicBuild() then
 			local linkType, addon = strsplit(":", link)
 			if linkType == "garrmission" and addon == "KethoDoc" then
 				for _, v in pairs(bliz_deprecated) do
-					C_AddOns.DisableAddOn(v)
+					(DisableAddOn or C_AddOns.DisableAddOn)(v)
 				end
 				-- use a custom cvar instead of savedvariables
 				C_CVar.RegisterCVar("KethoDoc")
@@ -120,7 +122,7 @@ function KethoDoc:DumpWidgetAPI()
 	eb:InsertLine("local WidgetAPI = {")
 	for _, objectName in pairs(self.WidgetOrder) do
 		local object = self.WidgetClasses[objectName]
-		if object.meta_object then -- sanity check for Classic
+		if object and object.meta_object then -- sanity check for Classic
 			eb:InsertLine("\t"..objectName.." = {")
 			local inheritsTable = {}
 			for _, v in pairs(object.inherits) do
@@ -181,11 +183,11 @@ function KethoDoc:DumpCVars()
 	local cvarFs = '\t\t["%s"] = {"%s", %d, %s, %s, %s, "%s"},'
 	local commandFs = '\t\t["%s"] = {%d, "%s"},'
 
-	for _, v in pairs(ConsoleGetAllCommands()) do
+	for _, v in pairs((ConsoleGetAllCommands or C_Console.GetAllCommands)()) do
 		if v.commandType == Enum.ConsoleCommandType.Cvar then
 			-- these just keep switching between false/nil
 			if not v.command:find("^CACHE") and v.command ~= "KethoDoc" then
-				local _, defaultValue, server, character, _, secure = C_CVar.GetCVarInfo(v.command)
+				local _, defaultValue, server, character, _, secure = (GetCVarInfo or C_CVar.GetCVarInfo)(v.command)
 				-- every time they change the category they seem to lose the help text
 				local cvarCache = self.cvar_cache.var[v.command]
 				if cvarCache then
