@@ -15,7 +15,7 @@ KethoDoc.EnumGroupsIndexed = {
 	{"LE_FOLLOWER_ABILITY_CAST_RESULT", "NUM_LE_FOLLOWER_ABILITY_CAST_RESULTS"}, -- 9.0.1 Enum.FollowerAbilityCastResult
 	{"LE_FOLLOWER_MISSION_COMPLETE", "NUM_LE_FOLLOWER_MISSION_COMPLETE_STATES"}, -- 9.0.1 Enum.GarrFollowerMissionCompleteState
 	{"LE_FOLLOWER_TYPE", "NUM_LE_FOLLOWER_TYPES"}, -- 9.0.1 Enum.GarrisonFollowerType
-	{"LE_FRAME_TUTORIAL_ACCCOUNT", "NUM_LE_FRAME_TUTORIAL_ACCCOUNTS"}, -- blizzconsistency: they partially fixed the triple C typo
+	{"LE_FRAME_TUTORIAL_ACCOUNT", "NUM_LE_FRAME_TUTORIAL_ACCCOUNTS"}, -- blizzconsistency: they partially fixed the triple C typo
 	{"LE_FRAME_TUTORIAL", "NUM_LE_FRAME_TUTORIALS"}, -- substring
 	{"LE_GAME_ERR", true}, -- no num
 	{"LE_GARRISON_TALENT_AVAILABILITY", "NUM_LE_GARRISON_TALENT_AVAILABILITYS"}, -- 9.0.1 Enum.GarrisonTalentAvailability

@@ -1,20 +1,6 @@
 
 local W
 
-local SupportedBlobs = {
-	wrath = {
-		-- ArchaeologyDigSiteFrame = true,
-		QuestPOIFrame = true,
-		-- ScenarioPOIFrame = true,
-	},
-	cata = {
-		ArchaeologyDigSiteFrame = true,
-		QuestPOIFrame = true,
-		-- ScenarioPOIFrame = true,
-	},
-}
-SupportedBlobs.cata_ptr = SupportedBlobs.cata -- hack
-
 -- can still fire LUA_WARNING for e.g. ArchaeologyDigSiteFrame on classic but wont halt execution
 local function TryCreateFrame(frameType, ...)
 	local ok, frame = pcall(CreateFrame, frameType, ...)
@@ -470,36 +456,31 @@ function KethoDoc:SetupWidgets()
 		},
 		Blob = { -- abstract
 			inherits = {"Frame"},
-			meta_object = function() if W.ArchaeologyDigSiteFrame then
-					return W.ArchaeologyDigSiteFrame.meta_object() -- equivalent to Blob
-				else
-					return {}
-				end
-			end,
+			meta_object = function() return W.ArchaeologyDigSiteFrame.meta_object() end, -- equivalent to Blob
 			-- ArchaeologyDigSiteFrame \ Frame
 			unique_methods = function() return set_difference(W.ArchaeologyDigSiteFrame.meta_object(), W.Frame.meta_object()) end,
 		},
-		ArchaeologyDigSiteFrame = SupportedBlobs[self.branch]["ArchaeologyDigSiteFrame"] and {
+		ArchaeologyDigSiteFrame = {
 			inherits = {"Blob"},
 			object = TryCreateFrame("ArchaeologyDigSiteFrame"),
 			-- ArchaeologyDigSiteFrame \ Blob
 			unique_methods = function() return set_difference(W.ArchaeologyDigSiteFrame.meta_object(), W.Blob.meta_object()) end,
 			unique_handlers = function() return set_difference(W.ArchaeologyDigSiteFrame.handlers, W.Frame.handlers) end,
-		} or nil,
-		QuestPOIFrame = SupportedBlobs[self.branch]["QuestPOIFrame"] and {
+		},
+		QuestPOIFrame = {
 			inherits = {"Blob"},
 			object = TryCreateFrame("QuestPOIFrame"),
 			-- QuestPOIFrame \ Blob
 			unique_methods = function() return set_difference(W.QuestPOIFrame.meta_object(), W.Blob.meta_object()) end,
 			unique_handlers = function() return set_difference(W.QuestPOIFrame.handlers, W.Frame.handlers) end,
-		} or nil,
-		ScenarioPOIFrame = SupportedBlobs[self.branch]["ScenarioPOIFrame"] and {
+		},
+		ScenarioPOIFrame = {
 			inherits = {"Blob"},
 			object = TryCreateFrame("ScenarioPOIFrame"),
 			-- ScenarioPOIFrame \ Blob
 			unique_methods = function() return set_difference(W.ScenarioPOIFrame.meta_object(), W.Blob.meta_object()) end,
 			unique_handlers = function() return set_difference(W.ScenarioPOIFrame.handlers, W.Frame.handlers) end,
-		} or nil,
+		},
 		ScrollFrame = {
 			inherits = {"Frame"},
 			object = TryCreateFrame("ScrollFrame"),
