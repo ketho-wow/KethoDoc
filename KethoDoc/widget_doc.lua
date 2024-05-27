@@ -369,6 +369,7 @@ local function TestWidget(test)
 end
 
 function KethoDoc:WidgetDocTest()
+	self:FixDocumentation()
 	APIDocumentation_LoadUI()
 	WidgetDocumentation = {}
 	for _, system in pairs(APIDocumentation.systems) do

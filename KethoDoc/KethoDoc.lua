@@ -30,40 +30,13 @@ if IsTestBuild() or ptr_realms[realmId] then
 	KethoDoc.branch = KethoDoc.branch.."_ptr"
 end
 
-local bliz_deprecated = {
-	"Blizzard_Deprecated",
-	"Blizzard_DeprecatedCurrencyScript",
-	"Blizzard_DeprecatedGuildScript",
-	"Blizzard_DeprecatedItemScript",
-	"Blizzard_DeprecatedPvpScript",
-	"Blizzard_DeprecatedSoundScript",
-	"Blizzard_DeprecatedSpellScript",
-}
-
-local function IsBlizDeprecated()
-	for _, v in pairs(bliz_deprecated) do
-		if (IsAddOnLoaded or C_AddOns.IsAddOnLoaded)(v) then
-			return true
-		end
-	end
-end
-
-function KethoDoc:EnableBlizzDeprecated()
-	for _, v in pairs(bliz_deprecated) do
-		(EnableAddOn or C_AddOns.EnableAddOn)(v)
-	end
-end
-
 if IsPublicBuild() then
-	if IsBlizDeprecated() then
-		print("|cff71d5ffKethoDoc:|r Please click |cFFFFFF00|Hgarrmission:KethoDoc|h[Reload]|h|r to disable all Blizzard_Deprecated addons and avoid dumping deprecated API."
-			.." You will have to re-enable them manually.")
+	if GetCVarBool("loadDeprecationFallbacks") then
+		print("|cff71d5ffKethoDoc:|r Please click |cFFFFFF00|Haddon:KethoDoc|h[Reload]|h|r to disable CVar loadDeprecationFallbacks and avoid dumping deprecated API.")
 		hooksecurefunc("SetItemRef", function(link)
 			local linkType, addon = strsplit(":", link)
-			if linkType == "garrmission" and addon == "KethoDoc" then
-				for _, v in pairs(bliz_deprecated) do
-					(DisableAddOn or C_AddOns.DisableAddOn)(v)
-				end
+			if linkType == "addon" and addon == "KethoDoc" then
+				C_CVar.SetCVar("loadDeprecationFallbacks", 0)
 				-- use a custom cvar instead of savedvariables
 				C_CVar.RegisterCVar("KethoDoc")
 				C_CVar.SetCVar("KethoDoc", 1)
@@ -71,9 +44,17 @@ if IsPublicBuild() then
 			end
 		end)
 	elseif C_CVar.GetCVarBool("KethoDoc") then
-		print("|cff71d5ffKethoDoc:|r Disabled all Blizzard_Deprecated addons.")
+		print("|cff71d5ffKethoDoc:|r Deprecations are unloaded.")
 		C_CVar.SetCVar("KethoDoc", 0)
 	end
+end
+
+
+function KethoDoc:FixDocumentation()
+	-- 10.2.7
+	MAX_STABLE_SLOTS = Constants.PetConsts.MAX_STABLE_SLOTS
+	NUM_PET_SLOTS_THAT_NEED_LEARNED_SPELL = Constants.PetConsts.NUM_PET_SLOTS_THAT_NEED_LEARNED_SPELL
+	EXTRA_PET_STABLE_SLOT = Constants.PetConsts.EXTRA_PET_STABLE_SLOT
 end
 
 function KethoDoc:GetAPI()
@@ -159,6 +140,7 @@ function KethoDoc:DumpWidgetAPI()
 end
 
 function KethoDoc:DumpEvents()
+	self:FixDocumentation()
 	APIDocumentation_LoadUI()
 	eb:Show()
 	eb:InsertLine("local Events = {")
