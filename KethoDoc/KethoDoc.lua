@@ -9,8 +9,6 @@ if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
 	KethoDoc.branch = "mainline"
 elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 	KethoDoc.branch = "vanilla"
-elseif WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC then
-	KethoDoc.branch = "wrath"
 elseif WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC then
 	KethoDoc.branch = "cata"
 end
@@ -24,10 +22,19 @@ local ptr_realms = {
 	-- classic_era
 	[5533] = "Classic Era PTR",
 }
+
+local beta_realms = {
+	-- 11.0.0
+	[970] = "Khadgar",
+	[976] = "Alleria",
+}
+
 local realmId = GetRealmID()
 
-if IsTestBuild() or ptr_realms[realmId] then
-	KethoDoc.branch = KethoDoc.branch.."_ptr"
+if beta_realms[realmId] then
+	KethoDoc.branch = "mainline_beta"
+-- elseif IsTestBuild() or ptr_realms[realmId] then
+-- 	KethoDoc.branch = KethoDoc.branch.."_ptr"
 end
 
 if IsPublicBuild() then
@@ -52,9 +59,11 @@ end
 
 function KethoDoc:FixDocumentation()
 	-- 10.2.7
-	MAX_STABLE_SLOTS = Constants.PetConsts.MAX_STABLE_SLOTS
-	NUM_PET_SLOTS_THAT_NEED_LEARNED_SPELL = Constants.PetConsts.NUM_PET_SLOTS_THAT_NEED_LEARNED_SPELL
-	EXTRA_PET_STABLE_SLOT = Constants.PetConsts.EXTRA_PET_STABLE_SLOT
+	if Constants.PetConsts then
+		MAX_STABLE_SLOTS = Constants.PetConsts.MAX_STABLE_SLOTS
+		NUM_PET_SLOTS_THAT_NEED_LEARNED_SPELL = Constants.PetConsts.NUM_PET_SLOTS_THAT_NEED_LEARNED_SPELL
+		EXTRA_PET_STABLE_SLOT = Constants.PetConsts.EXTRA_PET_STABLE_SLOT
+	end
 end
 
 function KethoDoc:GetAPI()
