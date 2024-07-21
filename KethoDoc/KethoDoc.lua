@@ -27,6 +27,8 @@ local beta_realms = {
 	-- 11.0.0
 	[970] = "Khadgar",
 	[976] = "Alleria",
+	-- 11.0.2
+	[4184] = "These Go To Eleven",
 }
 
 local realmId = GetRealmID()
@@ -58,13 +60,17 @@ end
 
 
 function KethoDoc:FixDocumentation()
-	-- 10.2.7
-	if Constants.PetConsts then
-		if not MAX_STABLE_SLOTS then
-			MAX_STABLE_SLOTS = Constants.PetConsts.MAX_STABLE_SLOTS
-			NUM_PET_SLOTS_THAT_NEED_LEARNED_SPELL = Constants.PetConsts.NUM_PET_SLOTS_THAT_NEED_LEARNED_SPELL
-			EXTRA_PET_STABLE_SLOT = Constants.PetConsts.EXTRA_PET_STABLE_SLOT
-		end
+	if not MAX_STABLE_SLOTS then -- 10.2.7
+		MAX_STABLE_SLOTS = -1
+		EXTRA_PET_STABLE_SLOT = -1
+		NUM_PET_SLOTS_THAT_NEED_LEARNED_SPELL = -1
+	end
+	if not Constants.PetConsts then -- 11.0.2
+		Constants.PetConsts = {
+			MAX_STABLE_SLOTS = -1,
+			EXTRA_PET_STABLE_SLOT = -1,
+			NUM_PET_SLOTS_THAT_NEED_LEARNED_SPELL = -1,
+		}
 	end
 end
 
@@ -498,9 +504,9 @@ local api = {
 	"GetBuildInfo",
 	"DumpGlobalAPI",
 	"DumpWidgetAPI",
+	"DumpLuaEnums", -- dump enums before applying doc fixes
 	"DumpEvents",
 	"DumpCVars",
-	"DumpLuaEnums",
 	"DumpFrames",
 	"DumpFrameXML",
 	"WidgetTest",

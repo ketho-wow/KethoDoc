@@ -241,7 +241,7 @@ TrimFlavor(KethoDoc.LoadOnDemand.mainline_ptr, "_Mainline")
 FilterFlavor(KethoDoc.LoadOnDemand.mainline_ptr, "_Classic")
 ]]
 
--- 11.0.0
+-- 11.0.2
 KethoDoc.LoadOnDemand.mainline_beta = {
 	-- "Blizzard_AccountSaveUI",
 	"Blizzard_AchievementUI_Mainline",
@@ -253,7 +253,6 @@ KethoDoc.LoadOnDemand.mainline_beta = {
 	"Blizzard_ArchaeologyUI_Mainline",
 	"Blizzard_ArdenwealdGardening",
 	"Blizzard_ArtifactUI",
-	"Blizzard_AuctionHouseShared",
 	"Blizzard_AuctionHouseUI",
 	"Blizzard_AzeriteEssenceUI",
 	"Blizzard_AzeriteRespecUI",
@@ -280,7 +279,6 @@ KethoDoc.LoadOnDemand.mainline_beta = {
 	"Blizzard_CovenantSanctum",
 	"Blizzard_DeathRecap",
 	"Blizzard_DebugTools",
-	"Blizzard_DelvesCompanionConfiguration",
 	"Blizzard_DelvesDashboardUI",
 	"Blizzard_DelvesDifficultyPicker",
 	"Blizzard_Dispatcher",
