@@ -29,9 +29,9 @@ local function TrimFlavor(t, flavor)
 	end
 end
 
--- 10.2.7
+-- 11.0.2
 KethoDoc.LoadOnDemand.mainline = {
-	-- "Blizzard_AccountSaveUI", -- Wrong active UI
+	-- "Blizzard_AccountSaveUI",
 	"Blizzard_AchievementUI_Mainline",
 	"Blizzard_AdventureMap",
 	"Blizzard_AlliedRacesUI",
@@ -41,7 +41,6 @@ KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_ArchaeologyUI_Mainline",
 	"Blizzard_ArdenwealdGardening",
 	"Blizzard_ArtifactUI",
-	"Blizzard_AuctionHouseShared",
 	"Blizzard_AuctionHouseUI",
 	"Blizzard_AzeriteEssenceUI",
 	"Blizzard_AzeriteRespecUI",
@@ -55,15 +54,12 @@ KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_ChallengesUI",
 	"Blizzard_CharacterCustomize",
 	"Blizzard_ChromieTimeUI",
-	"Blizzard_ClassTalentUI",
-	"Blizzard_ClassTrial",
 	"Blizzard_ClickBindingUI",
 	"Blizzard_Collections",
 	"Blizzard_Collections_Classic",
 	"Blizzard_CombatLog_Mainline",
 	"Blizzard_CombatText",
 	"Blizzard_Commentator",
-	"Blizzard_Communities_Mainline",
 	"Blizzard_Contribution",
 	"Blizzard_CovenantCallings",
 	"Blizzard_CovenantPreviewUI",
@@ -71,6 +67,8 @@ KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_CovenantSanctum",
 	"Blizzard_DeathRecap",
 	"Blizzard_DebugTools",
+	"Blizzard_DelvesDashboardUI",
+	"Blizzard_DelvesDifficultyPicker",
 	"Blizzard_Dispatcher",
 	"Blizzard_EncounterJournal_Mainline",
 	"Blizzard_EventTrace",
@@ -85,6 +83,7 @@ KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_GuildControlUI",
 	"Blizzard_HybridMinimap",
 	"Blizzard_InspectUI",
+	"Blizzard_InspectUI_Cata",
 	"Blizzard_IslandsPartyPoseUI",
 	"Blizzard_IslandsQueueUI",
 	"Blizzard_ItemInteractionUI",
@@ -104,8 +103,10 @@ KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_PartyPoseUI",
 	"Blizzard_PerksProgram",
 	"Blizzard_PlayerChoice",
+	"Blizzard_PlayerSpells",
 	"Blizzard_PlunderstormBasics",
 	"Blizzard_Professions",
+	"Blizzard_ProfessionsBook",
 	"Blizzard_ProfessionsCustomerOrders",
 	"Blizzard_ProfessionsTemplates",
 	"Blizzard_PVPUI",
@@ -117,10 +118,10 @@ KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_Settings",
 	"Blizzard_SharedMapDataProviders_Mainline",
 	"Blizzard_Soulbinds",
+	"Blizzard_SpellSearch",
 	"Blizzard_SubscriptionInterstitialUI",
-	"Blizzard_TalentUI_Mainline",
 	"Blizzard_TimeManager_Mainline",
-	-- "Blizzard_TimerunningCharacterCreate", -- Wrong active UI
+	-- "Blizzard_TimerunningCharacterCreate",
 	"Blizzard_TorghastLevelPicker",
 	"Blizzard_TrainerUI",
 	"Blizzard_TransformTree",
@@ -131,6 +132,7 @@ KethoDoc.LoadOnDemand.mainline = {
 
 TrimFlavor(KethoDoc.LoadOnDemand.mainline, "_Mainline")
 FilterFlavor(KethoDoc.LoadOnDemand.mainline, "_Classic")
+FilterFlavor(KethoDoc.LoadOnDemand.mainline, "_Cata")
 
 KethoDoc.LoadOnDemand.mainline_ptr = KethoDoc.LoadOnDemand.mainline
 --[[
