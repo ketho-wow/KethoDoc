@@ -182,7 +182,7 @@ function KethoDoc:DumpCVars()
 	local cvarFs = '\t\t["%s"] = {"%s", %d, %s, %s, %s, "%s"},'
 	local commandFs = '\t\t["%s"] = {%d, "%s"},'
 
-	for _, v in pairs((ConsoleGetAllCommands or C_Console.GetAllCommands)()) do
+	for _, v in pairs(ConsoleGetAllCommands()) do
 		if v.commandType == Enum.ConsoleCommandType.Cvar then
 			-- these just keep switching between false/nil
 			if not v.command:find("^CACHE") and v.command ~= "KethoDoc" then
