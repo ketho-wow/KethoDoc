@@ -186,7 +186,7 @@ function KethoDoc:DumpCVars()
 		if v.commandType == Enum.ConsoleCommandType.Cvar then
 			-- these just keep switching between false/nil
 			if not v.command:find("^CACHE") and v.command ~= "KethoDoc" then
-				local _, defaultValue, server, character, _, secure = (GetCVarInfo or C_CVar.GetCVarInfo)(v.command)
+				local _, defaultValue, server, character, _, secure = C_CVar.GetCVarInfo(v.command)
 				-- every time they change the category they seem to lose the help text
 				local cvarCache = self.cvar_cache.var[v.command]
 				if cvarCache then
@@ -491,10 +491,14 @@ end
 -- for auto marking globals in vscode extension
 function KethoDoc:DumpGlobals()
 	self:LoadLodAddons()
-	KethoDocData = {}
-	for k in pairs(_G) do
+	KethoDocData = {api = {}, other = {}}
+	for k, v in pairs(_G) do
 		if type(k) == "string" and not k:find("Ketho") and not k:find("table: ") then
-			KethoDocData[k] = true
+			if type(v) == "function" and not self:isFramexml(v) then
+				KethoDocData.api[k] = true
+			else
+				KethoDocData.other[k] = true
+			end
 		end
 	end
 end

@@ -94,7 +94,7 @@ local LuaFrameXml = {
 }
 
 -- /me headpats meorawr and ferronn
-local function isFramexml(func)
+function KethoDoc:isFramexml(func)
 	---@diagnostic disable-next-line: discard-returns
 	return pcall(function() coroutine.create(func) end)
 end
@@ -103,7 +103,7 @@ function KethoDoc:GetGlobalAPI()
 	local api_func, framexml_func = {}, {}
 	for k, v in pairs(_G) do
 		if type(v) == "function" then
-			if isFramexml(v) then
+			if self:isFramexml(v) then
 				framexml_func[k] = true
 			else
 				api_func[k] = true
@@ -116,7 +116,7 @@ function KethoDoc:GetGlobalAPI()
 	for k in pairs(LuaFrameXml) do
 		framexml_func[k] = nil
 	end
-	if (IsAddOnLoaded or C_AddOns.IsAddOnLoaded("Blizzard_PTRFeedback")) then
+	if C_AddOns.IsAddOnLoaded("Blizzard_PTRFeedback") then
 		-- Blizzard_PTRFeedback securehooks this
 		api_func.SetItemRef = nil
 		api_func.QuestMapLogTitleButton_OnEnter = nil -- mainline

@@ -1,4 +1,4 @@
-
+---@diagnostic disable: undefined-global
 --[[
 
 globals.lua (FindGlobals), a useful script to find global variable access in 
