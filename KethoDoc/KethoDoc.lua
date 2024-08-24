@@ -298,7 +298,7 @@ function KethoDoc:DumpLuaEnums(showGameErr)
 			tinsert(TableEnum, {name = enumType, value = enumValue})
 		end
 		sort(TableEnum, SortEnum)
-		local numberFormat = IsBitEnum(Enum[name], name) and "0x%X" or "%disable"
+		local numberFormat = IsBitEnum(Enum[name], name) and "0x%X" or "%d"
 		for _, enum in pairs(TableEnum) do
 			if type(enum.value) == "string" then -- 64 bit enum
 				numberFormat = '"%s"'
