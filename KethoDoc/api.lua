@@ -117,7 +117,9 @@ function KethoDoc:GetGlobalAPI()
 		framexml_func[k] = nil
 	end
 	if C_AddOns.IsAddOnLoaded("Blizzard_PTRFeedback") then
-		-- Blizzard_PTRFeedback securehooks this
+		-- EdiitMode securehooks
+		api_func.UpdateUIParentPosition = nil
+		-- Blizzard_PTRFeedback securehooks
 		api_func.SetItemRef = nil
 		api_func.QuestMapLogTitleButton_OnEnter = nil -- mainline
 		api_func.QuestLog_Update = nil -- classic
