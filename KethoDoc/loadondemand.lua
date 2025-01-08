@@ -134,118 +134,9 @@ TrimFlavor(KethoDoc.LoadOnDemand.mainline, "_Mainline")
 FilterFlavor(KethoDoc.LoadOnDemand.mainline, "_Classic")
 FilterFlavor(KethoDoc.LoadOnDemand.mainline, "_Cata")
 
-KethoDoc.LoadOnDemand.mainline_ptr = KethoDoc.LoadOnDemand.mainline
---[[
--- 10.2.7
 KethoDoc.LoadOnDemand.mainline_ptr = {
 	-- "Blizzard_AccountSaveUI",
-	"Blizzard_AchievementUI_Mainline",
-	"Blizzard_AdventureMap",
-	"Blizzard_AlliedRacesUI",
-	"Blizzard_AnimaDiversionUI",
-	"Blizzard_APIDocumentation",
-	"Blizzard_APIDocumentationGenerated",
-	"Blizzard_ArchaeologyUI_Mainline",
-	"Blizzard_ArdenwealdGardening",
-	"Blizzard_ArtifactUI",
-	"Blizzard_AuctionHouseShared",
-	"Blizzard_AuctionHouseUI",
-	"Blizzard_AzeriteEssenceUI",
-	"Blizzard_AzeriteRespecUI",
-	"Blizzard_AzeriteUI",
-	"Blizzard_BarberShopUI",
-	"Blizzard_BattlefieldMap",
-	"Blizzard_BehavioralMessaging",
-	"Blizzard_BlackMarketUI",
-	"Blizzard_BoostTutorial",
-	"Blizzard_Calendar_Mainline",
-	"Blizzard_ChallengesUI",
-	"Blizzard_CharacterCustomize",
-	"Blizzard_ChromieTimeUI",
-	"Blizzard_ClassTrial",
-	"Blizzard_ClickBindingUI",
-	"Blizzard_Collections",
-	"Blizzard_Collections_Classic",
-	"Blizzard_CombatLog_Mainline",
-	"Blizzard_CombatText",
-	"Blizzard_Commentator",
-	"Blizzard_Communities_Mainline",
-	"Blizzard_Contribution",
-	"Blizzard_CovenantCallings",
-	"Blizzard_CovenantPreviewUI",
-	"Blizzard_CovenantRenown",
-	"Blizzard_CovenantSanctum",
-	"Blizzard_DeathRecap",
-	"Blizzard_DebugTools",
-	"Blizzard_DelvesCompanionConfiguration",
-	"Blizzard_DelvesDifficultyPicker",
-	"Blizzard_Dispatcher",
-	"Blizzard_EncounterJournal_Mainline",
-	"Blizzard_EventTrace",
-	"Blizzard_ExpansionTrial",
-	"Blizzard_FlightMap",
-	"Blizzard_FontStyles_Shared",
-	"Blizzard_GarrisonTemplates",
-	"Blizzard_GarrisonUI_Mainline",
-	"Blizzard_GenericTraitUI",
-	"Blizzard_GMChatUI",
-	"Blizzard_GuildBankUI",
-	"Blizzard_GuildControlUI",
-	"Blizzard_HybridMinimap",
-	"Blizzard_InspectUI",
-	"Blizzard_IslandsPartyPoseUI",
-	"Blizzard_IslandsQueueUI",
-	"Blizzard_ItemInteractionUI",
-	"Blizzard_ItemSocketingUI",
-	"Blizzard_ItemUpgradeUI",
-	"Blizzard_Kiosk",
-	"Blizzard_LandingSoulbinds",
-	"Blizzard_MacroUI",
-	"Blizzard_MajorFactions",
-	"Blizzard_MapCanvas",
-	"Blizzard_MatchCelebrationPartyPoseUI",
-	"Blizzard_MovePad",
-	"Blizzard_NewPlayerExperience",
-	"Blizzard_NewPlayerExperienceGuide",
-	"Blizzard_ObliterumUI",
-	"Blizzard_OrderHallUI",
-	"Blizzard_PartyPoseUI",
-	"Blizzard_PerksProgram",
-	"Blizzard_PlayerChoice",
-	"Blizzard_PlayerSpells",
-	"Blizzard_PlunderstormBasics",
-	"Blizzard_Professions",
-	"Blizzard_ProfessionsBook",
-	"Blizzard_ProfessionsCustomerOrders",
-	"Blizzard_ProfessionsTemplates",
-	"Blizzard_PVPUI",
-	"Blizzard_RaidUI",
-	"Blizzard_ReforgingUI_Classic",
-	"Blizzard_RuneforgeUI",
-	"Blizzard_ScrappingMachineUI",
-	"Blizzard_SelectorUI",
-	"Blizzard_Settings",
-	"Blizzard_SharedMapDataProviders_Mainline",
-	"Blizzard_Soulbinds",
-	"Blizzard_SubscriptionInterstitialUI",
-	"Blizzard_TalentUI_Mainline",
-	"Blizzard_TimeManager_Mainline",
-	-- "Blizzard_TimerunningCharacterCreate",
-	"Blizzard_TorghastLevelPicker",
-	"Blizzard_TrainerUI",
-	"Blizzard_TransformTree",
-	"Blizzard_VoidStorageUI",
-	"Blizzard_WarfrontsPartyPoseUI",
-	"Blizzard_WeeklyRewards",
-}
-
-TrimFlavor(KethoDoc.LoadOnDemand.mainline_ptr, "_Mainline")
-FilterFlavor(KethoDoc.LoadOnDemand.mainline_ptr, "_Classic")
-]]
-
--- 11.0.2
-KethoDoc.LoadOnDemand.mainline_beta = {
-	-- "Blizzard_AccountSaveUI",
+	"Blizzard_AccountStore",
 	"Blizzard_AchievementUI_Mainline",
 	"Blizzard_AdventureMap",
 	"Blizzard_AlliedRacesUI",
@@ -271,6 +162,7 @@ KethoDoc.LoadOnDemand.mainline_beta = {
 	"Blizzard_ClickBindingUI",
 	"Blizzard_Collections",
 	"Blizzard_Collections_Classic",
+	"Blizzard_Collections_Wrath",
 	"Blizzard_CombatLog_Mainline",
 	"Blizzard_CombatText",
 	"Blizzard_Commentator",
@@ -279,6 +171,7 @@ KethoDoc.LoadOnDemand.mainline_beta = {
 	"Blizzard_CovenantPreviewUI",
 	"Blizzard_CovenantRenown",
 	"Blizzard_CovenantSanctum",
+	"Blizzard_CustomizationUI",
 	"Blizzard_DeathRecap",
 	"Blizzard_DebugTools",
 	"Blizzard_DelvesDashboardUI",
@@ -344,9 +237,13 @@ KethoDoc.LoadOnDemand.mainline_beta = {
 	"Blizzard_WeeklyRewards",
 }
 
-TrimFlavor(KethoDoc.LoadOnDemand.mainline_beta, "_Mainline")
-FilterFlavor(KethoDoc.LoadOnDemand.mainline_beta, "_Classic")
-FilterFlavor(KethoDoc.LoadOnDemand.mainline_beta, "_Cata")
+TrimFlavor(KethoDoc.LoadOnDemand.mainline_ptr, "_Mainline")
+FilterFlavor(KethoDoc.LoadOnDemand.mainline_ptr, "_Classic")
+FilterFlavor(KethoDoc.LoadOnDemand.mainline_ptr, "_Wrath")
+FilterFlavor(KethoDoc.LoadOnDemand.mainline_ptr, "_Cata")
+
+-- 11.0.2
+-- KethoDoc.LoadOnDemand.mainline_beta = {}
 
 -- 1.15.2
 KethoDoc.LoadOnDemand.vanilla = {

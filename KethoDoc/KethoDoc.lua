@@ -19,8 +19,8 @@ local ptr_realms = {
 	[969] = "Nobundo",
 	[3296] = "Benedictus",
 	[3299] = "Lycanthoth",
-	-- classic_era
 	[5533] = "Classic Era PTR",
+	[5774] = "Fyrakk",
 }
 
 local beta_realms = {
@@ -33,10 +33,10 @@ local beta_realms = {
 
 local realmId = GetRealmID()
 
-if beta_realms[realmId] then
-	KethoDoc.branch = "mainline_beta"
--- elseif IsTestBuild() or ptr_realms[realmId] then
--- 	KethoDoc.branch = KethoDoc.branch.."_ptr"
+if ptr_realms[realmId] or IsTestBuild() then
+	KethoDoc.branch = KethoDoc.branch.."_ptr"
+elseif beta_realms[realmId] then
+	KethoDoc.branch = KethoDoc.branch.."_beta"
 end
 
 if IsPublicBuild() then
