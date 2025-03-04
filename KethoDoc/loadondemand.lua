@@ -32,6 +32,7 @@ end
 -- 11.0.2
 KethoDoc.LoadOnDemand.mainline = {
 	-- "Blizzard_AccountSaveUI",
+	"Blizzard_AccountStore",
 	"Blizzard_AchievementUI_Mainline",
 	"Blizzard_AdventureMap",
 	"Blizzard_AlliedRacesUI",
@@ -57,6 +58,7 @@ KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_ClickBindingUI",
 	"Blizzard_Collections",
 	"Blizzard_Collections_Classic",
+	"Blizzard_Collections_Wrath",
 	"Blizzard_CombatLog_Mainline",
 	"Blizzard_CombatText",
 	"Blizzard_Commentator",
@@ -65,6 +67,7 @@ KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_CovenantPreviewUI",
 	"Blizzard_CovenantRenown",
 	"Blizzard_CovenantSanctum",
+	"Blizzard_CustomizationUI",
 	"Blizzard_DeathRecap",
 	"Blizzard_DebugTools",
 	"Blizzard_DelvesDashboardUI",
@@ -132,6 +135,7 @@ KethoDoc.LoadOnDemand.mainline = {
 
 TrimFlavor(KethoDoc.LoadOnDemand.mainline, "_Mainline")
 FilterFlavor(KethoDoc.LoadOnDemand.mainline, "_Classic")
+FilterFlavor(KethoDoc.LoadOnDemand.mainline, "_Wrath")
 FilterFlavor(KethoDoc.LoadOnDemand.mainline, "_Cata")
 
 KethoDoc.LoadOnDemand.mainline_ptr = {
