@@ -138,19 +138,23 @@ FilterFlavor(KethoDoc.LoadOnDemand.mainline, "_Classic")
 FilterFlavor(KethoDoc.LoadOnDemand.mainline, "_Wrath")
 FilterFlavor(KethoDoc.LoadOnDemand.mainline, "_Cata")
 
+-- 11.1.0
 KethoDoc.LoadOnDemand.mainline_ptr = {
 	-- "Blizzard_AccountSaveUI",
 	"Blizzard_AccountStore",
 	"Blizzard_AchievementUI_Mainline",
+	"Blizzard_AchievementUI_Mists",
 	"Blizzard_AdventureMap",
 	"Blizzard_AlliedRacesUI",
 	"Blizzard_AnimaDiversionUI",
 	"Blizzard_APIDocumentation",
 	"Blizzard_APIDocumentationGenerated",
 	"Blizzard_ArchaeologyUI_Mainline",
+	"Blizzard_ArchaeologyUI_Mists",
 	"Blizzard_ArdenwealdGardening",
 	"Blizzard_ArtifactUI",
-	"Blizzard_AuctionHouseUI",
+	"Blizzard_AuctionHouseUI_Classic",
+	"Blizzard_AuctionHouseUI_Mainline",
 	"Blizzard_AzeriteEssenceUI",
 	"Blizzard_AzeriteRespecUI",
 	"Blizzard_AzeriteUI",
@@ -164,10 +168,11 @@ KethoDoc.LoadOnDemand.mainline_ptr = {
 	"Blizzard_CharacterCustomize",
 	"Blizzard_ChromieTimeUI",
 	"Blizzard_ClickBindingUI",
-	"Blizzard_Collections",
-	"Blizzard_Collections_Classic",
+	"Blizzard_Collections_Mainline",
+	"Blizzard_Collections_Mists",
 	"Blizzard_Collections_Wrath",
 	"Blizzard_CombatLog_Mainline",
+	"Blizzard_CombatLog_Mists",
 	"Blizzard_CombatText",
 	"Blizzard_Commentator",
 	"Blizzard_Contribution",
@@ -182,19 +187,21 @@ KethoDoc.LoadOnDemand.mainline_ptr = {
 	"Blizzard_DelvesDifficultyPicker",
 	"Blizzard_Dispatcher",
 	"Blizzard_EncounterJournal_Mainline",
+	"Blizzard_EncounterJournal_Mists",
 	"Blizzard_EventTrace",
 	"Blizzard_ExpansionTrial",
 	"Blizzard_FlightMap",
-	"Blizzard_FontStyles_Shared",
 	"Blizzard_GarrisonTemplates",
 	"Blizzard_GarrisonUI_Mainline",
 	"Blizzard_GenericTraitUI",
 	"Blizzard_GMChatUI",
 	"Blizzard_GuildBankUI",
 	"Blizzard_GuildControlUI",
+	"Blizzard_GuildRename",
 	"Blizzard_HybridMinimap",
 	"Blizzard_InspectUI",
 	"Blizzard_InspectUI_Cata",
+	"Blizzard_InspectUI_Mists",
 	"Blizzard_IslandsPartyPoseUI",
 	"Blizzard_IslandsQueueUI",
 	"Blizzard_ItemInteractionUI",
@@ -231,6 +238,7 @@ KethoDoc.LoadOnDemand.mainline_ptr = {
 	"Blizzard_Soulbinds",
 	"Blizzard_SpellSearch",
 	"Blizzard_SubscriptionInterstitialUI",
+	"Blizzard_TalentUI_Mists",
 	"Blizzard_TimeManager_Mainline",
 	-- "Blizzard_TimerunningCharacterCreate",
 	"Blizzard_TorghastLevelPicker",
@@ -245,6 +253,7 @@ TrimFlavor(KethoDoc.LoadOnDemand.mainline_ptr, "_Mainline")
 FilterFlavor(KethoDoc.LoadOnDemand.mainline_ptr, "_Classic")
 FilterFlavor(KethoDoc.LoadOnDemand.mainline_ptr, "_Wrath")
 FilterFlavor(KethoDoc.LoadOnDemand.mainline_ptr, "_Cata")
+FilterFlavor(KethoDoc.LoadOnDemand.mainline_ptr, "_Mists")
 
 -- 11.0.2
 -- KethoDoc.LoadOnDemand.mainline_beta = {}
