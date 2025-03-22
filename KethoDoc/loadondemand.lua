@@ -267,6 +267,8 @@ KethoDoc.LoadOnDemand.vanilla = {
 	"Blizzard_APIDocumentationGenerated",
 	"Blizzard_ArchaeologyUI_Cata",
 	"Blizzard_ArenaUI",
+	"Blizzard_AuctionHouseUI_Classic",
+	"Blizzard_AuctionHouseUI_Mainline",
 	"Blizzard_AuctionUI_Classic",
 	"Blizzard_BarberShopUI",
 	"Blizzard_BattlefieldMap",
@@ -274,7 +276,7 @@ KethoDoc.LoadOnDemand.vanilla = {
 	"Blizzard_BindingUI",
 	"Blizzard_Calendar_Classic",
 	"Blizzard_Collections_Cata",
-	"Blizzard_Collections_Classic",
+	"Blizzard_Collections_Wrath",
 	"Blizzard_CombatLog_Cata",
 	"Blizzard_CombatLog_Classic",
 	"Blizzard_CombatLog_Wrath",
@@ -329,6 +331,8 @@ FilterFlavor(KethoDoc.LoadOnDemand.vanilla, "_TBC")
 FilterFlavor(KethoDoc.LoadOnDemand.vanilla, "_Wrath")
 FilterFlavor(KethoDoc.LoadOnDemand.vanilla, "_Cata")
 
+-- apparently I never dumped Blizzard_AuctionUI, Blizzard_Calendar and more
+-- Blizzard_AuctionUI should normally no longer be loaded in 1.15.6 so not sure whether to ignore it
 KethoDoc.LoadOnDemand.cata = {
 	-- "Blizzard_AccountSaveUI",
 	"Blizzard_AchievementUI_Cata",
@@ -337,6 +341,8 @@ KethoDoc.LoadOnDemand.cata = {
 	"Blizzard_APIDocumentationGenerated",
 	"Blizzard_ArchaeologyUI_Cata",
 	"Blizzard_ArenaUI",
+	"Blizzard_AuctionHouseUI_Classic",
+	"Blizzard_AuctionHouseUI_Mainline",
 	"Blizzard_AuctionUI_Classic",
 	"Blizzard_BarberShopUI",
 	"Blizzard_BattlefieldMap",
@@ -344,14 +350,12 @@ KethoDoc.LoadOnDemand.cata = {
 	"Blizzard_BindingUI",
 	"Blizzard_Calendar_Classic",
 	"Blizzard_Collections_Cata",
-	"Blizzard_Collections_Classic",
+	"Blizzard_Collections_Wrath",
 	"Blizzard_CombatLog_Cata",
 	"Blizzard_CombatLog_Classic",
 	"Blizzard_CombatLog_Wrath",
 	"Blizzard_CombatText",
 	"Blizzard_Commentator",
-	"Blizzard_Communities_Classic",
-	"Blizzard_Communities_Mainline",
 	"Blizzard_CraftUI_Classic",
 	"Blizzard_CraftUI_Vanilla",
 	"Blizzard_DebugTools",
@@ -363,8 +367,10 @@ KethoDoc.LoadOnDemand.cata = {
 	"Blizzard_GlyphUI_Cata",
 	"Blizzard_GlyphUI_Wrath",
 	"Blizzard_GMChatUI",
+	"Blizzard_GroupFinder_VanillaStyle",
 	"Blizzard_GuildBankUI_Classic",
 	"Blizzard_GuildControlUI",
+	"Blizzard_InspectUI_Cata",
 	"Blizzard_InspectUI_Classic",
 	"Blizzard_InspectUI_Vanilla",
 	"Blizzard_ItemSocketingUI",
@@ -379,6 +385,7 @@ KethoDoc.LoadOnDemand.cata = {
 	"Blizzard_SharedMapDataProviders_Cata",
 	"Blizzard_SharedMapDataProviders_Classic",
 	"Blizzard_SharedMapDataProviders_Wrath",
+	"Blizzard_SpellSearch",
 	"Blizzard_TalentUI_Cata",
 	"Blizzard_TalentUI_TBC",
 	"Blizzard_TalentUI_Vanilla",
@@ -392,8 +399,8 @@ KethoDoc.LoadOnDemand.cata = {
 }
 
 TrimFlavor(KethoDoc.LoadOnDemand.cata, "_Cata")
+TrimFlavor(KethoDoc.LoadOnDemand.cata, "_Classic")
 FilterFlavor(KethoDoc.LoadOnDemand.cata, "_Mainline")
-FilterFlavor(KethoDoc.LoadOnDemand.cata, "_Classic")
 FilterFlavor(KethoDoc.LoadOnDemand.cata, "_Vanilla")
 FilterFlavor(KethoDoc.LoadOnDemand.cata, "_TBC")
 FilterFlavor(KethoDoc.LoadOnDemand.cata, "_Wrath")
