@@ -1607,6 +1607,7 @@ m.cvar_test = {
 	enableRefHistory = true,
 	ErrorFileLog = true,
 	useDebugAllocators = true,
+	watchdogFreezeSeconds = true,
 	-- commands
 	HeapUsage = true,
 	HeapUsage2 = true,
