@@ -258,7 +258,7 @@ FilterFlavor(KethoDoc.LoadOnDemand.mainline_ptr, "_Mists")
 -- 11.0.2
 -- KethoDoc.LoadOnDemand.mainline_beta = {}
 
--- 1.15.2
+-- 1.15.7
 KethoDoc.LoadOnDemand.vanilla = {
 	-- "Blizzard_AccountSaveUI",
 	"Blizzard_AchievementUI_Cata",
@@ -284,6 +284,7 @@ KethoDoc.LoadOnDemand.vanilla = {
 	"Blizzard_Commentator",
 	"Blizzard_CraftUI_Classic",
 	"Blizzard_CraftUI_Vanilla",
+	"Blizzard_CustomizationUI",
 	"Blizzard_DebugTools",
 	"Blizzard_Dispatcher",
 	"Blizzard_EncounterJournal_Cata",
