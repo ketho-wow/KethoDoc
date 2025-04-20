@@ -1621,6 +1621,7 @@ m.cvar_test = {
 	HeapUsage2 = true,
 	HeapUsage3 = true,
 	logWowConnections = true,
+	MemAllocBySize = true,
 	MemTimings = true,
 	memTypeUsage = true,
 	MemUsage = true,
