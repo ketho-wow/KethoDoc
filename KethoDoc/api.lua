@@ -116,9 +116,9 @@ function KethoDoc:GetGlobalAPI()
 	for k in pairs(LuaFrameXml) do
 		framexml_func[k] = nil
 	end
+	-- EditMode securehooks
+	api_func.UpdateUIParentPosition = nil
 	if C_AddOns.IsAddOnLoaded("Blizzard_PTRFeedback") then
-		-- EditMode securehooks
-		api_func.UpdateUIParentPosition = nil
 		-- Blizzard_PTRFeedback securehooks
 		api_func.SetItemRef = nil
 		api_func.QuestMapLogTitleButton_OnEnter = nil -- mainline
