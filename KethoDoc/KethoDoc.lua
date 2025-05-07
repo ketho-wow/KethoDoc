@@ -11,6 +11,8 @@ elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 	KethoDoc.branch = "vanilla"
 elseif WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC then
 	KethoDoc.branch = "cata"
+elseif WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC then
+	KethoDoc.branch = "mists"
 end
 
 local ptr_realms = {
@@ -29,14 +31,16 @@ local beta_realms = {
 	[976] = "Alleria",
 	-- 11.0.2
 	[4184] = "These Go To Eleven",
+	-- 5.5.0
+	[4618] = "Classic Beta PvE",
 }
 
 local realmId = GetRealmID()
 
-if ptr_realms[realmId] or IsTestBuild() then
-	KethoDoc.branch = KethoDoc.branch.."_ptr"
-elseif beta_realms[realmId] then
+if beta_realms[realmId] or IsBetaBuild() then
 	KethoDoc.branch = KethoDoc.branch.."_beta"
+elseif ptr_realms[realmId] or IsTestBuild() then
+	KethoDoc.branch = KethoDoc.branch.."_ptr"
 end
 
 if IsPublicBuild() then
