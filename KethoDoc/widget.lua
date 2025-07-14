@@ -57,6 +57,7 @@ local FrameScriptObject = {
 	IsForbidden = true,
 	IsObjectType = true,
 	SetForbidden = true,
+	SetToDefaults = true,
 }
 
 local Object = {
