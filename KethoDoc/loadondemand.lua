@@ -402,7 +402,7 @@ FilterFlavor(KethoDoc.LoadOnDemand.cata, "_Vanilla")
 FilterFlavor(KethoDoc.LoadOnDemand.cata, "_TBC")
 FilterFlavor(KethoDoc.LoadOnDemand.cata, "_Wrath")
 
-KethoDoc.LoadOnDemand.mists_beta = {
+KethoDoc.LoadOnDemand.mists = {
 	-- "Blizzard_AccountSaveUI",
 	"Blizzard_AchievementUI_Cata",
 	"Blizzard_AchievementUI_Classic",
@@ -477,10 +477,10 @@ KethoDoc.LoadOnDemand.mists_beta = {
 	"Blizzard_TrainerUI",
 }
 
-TrimFlavor(KethoDoc.LoadOnDemand.mists_beta, "_Mists")
-TrimFlavor(KethoDoc.LoadOnDemand.mists_beta, "_Classic")
-FilterFlavor(KethoDoc.LoadOnDemand.mists_beta, "_Mainline")
-FilterFlavor(KethoDoc.LoadOnDemand.mists_beta, "_Vanilla")
-FilterFlavor(KethoDoc.LoadOnDemand.mists_beta, "_TBC")
-FilterFlavor(KethoDoc.LoadOnDemand.mists_beta, "_Wrath")
-FilterFlavor(KethoDoc.LoadOnDemand.mists_beta, "_Cata")
+TrimFlavor(KethoDoc.LoadOnDemand.mists, "_Mists")
+TrimFlavor(KethoDoc.LoadOnDemand.mists, "_Classic")
+FilterFlavor(KethoDoc.LoadOnDemand.mists, "_Mainline")
+FilterFlavor(KethoDoc.LoadOnDemand.mists, "_Vanilla")
+FilterFlavor(KethoDoc.LoadOnDemand.mists, "_TBC")
+FilterFlavor(KethoDoc.LoadOnDemand.mists, "_Wrath")
+FilterFlavor(KethoDoc.LoadOnDemand.mists, "_Cata")
