@@ -1,5 +1,5 @@
-## Interface: 110200, 110107, 50500, 40402, 11507
-## Version: 1.6.7
+## Interface: 110205, 110200, 50500, 11507
+## Version: 1.7.0
 ## Title: KethoDoc
 ## SavedVariables: KethoDocData
 

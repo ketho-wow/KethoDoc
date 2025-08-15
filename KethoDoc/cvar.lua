@@ -1,4 +1,25 @@
 local m = KethoDoc
+
+-- cvars that have different default values on ptr
+m.cvar_ptr_default = {
+	nameplateShowFriendlyNPCs = "0", -- 1
+	scriptErrors = "0", -- 1
+}
+
+-- cvars that indicate we are on ptr
+m.cvar_ptr = {
+	agentUID = true,
+	serverAlert = true,
+	telemetryWowlabsPackage = true,
+	telemetryWowPackage = true,
+}
+
+-- cvars that seemingly miss information on ptr
+m.cvar_nil = {
+	["advJournalLastOpened"] = {"0", 4, true, false, false, "Last time the Adventure Journal opened"},
+	["hideAdventureJournalAlerts"] = {"0", 4, true, false, false, "Hide alerts shown on the Adventure Journal Microbutton"},
+}
+
 -- every time they change something, the help text and/or category seemingly gets lost
 m.cvar_cache = {
 	var = {

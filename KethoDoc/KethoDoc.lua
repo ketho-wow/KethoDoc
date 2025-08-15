@@ -166,18 +166,30 @@ function KethoDoc:DumpEvents()
 	eb:Show()
 	eb:InsertLine("local Events = {")
 	sort(APIDocumentation.systems, function(a, b)
-		return (a.Namespace or a.Name) < (b.Namespace or b.Name)
+		return a.Name < b.Name
 	end)
 	for _, system in pairs(APIDocumentation.systems) do
 		if #system.Events > 0 then -- skip systems with no events
-			eb:InsertLine("\t"..(system.Namespace or system.Name).." = {")
+			eb:InsertLine("\t"..system.Name.." = {")
 			for _, event in pairs(system.Events) do
 				eb:InsertLine(format('\t\t"%s",', event.LiteralName))
 			end
 			eb:InsertLine("\t},")
-		end
+		end	
 	end
 	eb:InsertLine("}\n\nreturn Events")
+end
+
+local function SortCvar(a, b)
+	local _a = a.command
+	local _b = b.command
+	if KethoDoc.cvar_ptr[_a] and not KethoDoc.cvar_ptr[_b] then
+		return true
+	elseif not KethoDoc.cvar_ptr[_a] and KethoDoc.cvar_ptr[_b] then
+		return false
+	else
+		return _a:lower() < _b:lower()
+	end
 end
 
 function KethoDoc:DumpCVars()
@@ -199,6 +211,10 @@ function KethoDoc:DumpCVars()
 						v.category = cvarCache[2]
 					end
 				end
+				-- ignore ptr cvars switching default value
+				if self.cvar_ptr_default[v.command] then
+					defaultValue = self.cvar_ptr_default[v.command]
+				end
 				local helpString = ""
 				if v.help and #v.help > 0 then
 					helpString = v.help
@@ -206,31 +222,41 @@ function KethoDoc:DumpCVars()
 					helpString = cvarCache[6]
 				end
 				helpString = helpString:gsub('"', '\\"')
+				-- cvars that return incomplete information on ptr
+				if self.cvar_nil[v.command] then
+					defaultValue, _, server, character, secure, helpString = unpack(self.cvar_nil[v.command])
+				end
 				local tbl = self.cvar_test[v.command] and test_cvarTbl or cvarTbl
-				tinsert(tbl, cvarFs:format(v.command, defaultValue or "", v.category, tostring(server), tostring(character), tostring(secure), helpString))
+				tinsert(tbl, {
+					command = v.command,
+					line = cvarFs:format(v.command, defaultValue or "", v.category, tostring(server), tostring(character), tostring(secure), helpString),
+				})
 			end
 		elseif v.commandType == Enum.ConsoleCommandType.Command then
 			local tbl = self.cvar_test[v.command] and test_commandTbl or commandTbl
 			local helpString = v.help and #v.help > 0 and v.help:gsub('"', '\\"') or ""
-			tinsert(tbl, commandFs:format(v.command, v.category, helpString))
+			tinsert(tbl, {
+				command = v.command,
+				line = commandFs:format(v.command, v.category, helpString),
+			})
 		end
 	end
 	for _, tbl in pairs({cvarTbl, commandTbl, test_cvarTbl, test_commandTbl}) do
-		sort(tbl, self.SortCaseInsensitive)
+		sort(tbl, SortCvar)
 	end
 	eb:Show()
 	eb:InsertLine("local CVars = {")
 	eb:InsertLine("\tvar = {")
 	eb:InsertLine("\t\t-- var = default, category, account, character, secure, help")
 	for _, cvar in pairs(cvarTbl) do
-		eb:InsertLine(cvar)
+		eb:InsertLine(cvar.line)
 	end
 	eb:InsertLine("\t},")
 
 	eb:InsertLine("\tcommand = {")
 	eb:InsertLine("\t\t-- command = category, help")
 	for _, command in pairs(commandTbl) do
-		eb:InsertLine(command)
+		eb:InsertLine(command.line)
 	end
 	eb:InsertLine("\t},\n}\n")
 
@@ -238,12 +264,12 @@ function KethoDoc:DumpCVars()
 		eb:InsertLine("local PTR = {")
 		eb:InsertLine("\tvar = {")
 		for _, cvar in pairs(test_cvarTbl) do
-			eb:InsertLine(cvar)
+			eb:InsertLine(cvar.line)
 		end
 		eb:InsertLine("\t},")
 		eb:InsertLine("\tcommand = {")
 		for _, command in pairs(test_commandTbl) do
-			eb:InsertLine(command)
+			eb:InsertLine(command.line)
 		end
 		eb:InsertLine("\t},\n}")
 	else
