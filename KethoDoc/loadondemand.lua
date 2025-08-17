@@ -134,7 +134,7 @@ KethoDoc.LoadOnDemand.mainline = {
 	"Blizzard_TorghastLevelPicker",
 	"Blizzard_TrainerUI",
 	"Blizzard_TransformTree",
-	"Blizzard_VoidStorageUI",
+	-- "Blizzard_VoidStorageUI",
 	"Blizzard_WarfrontsPartyPoseUI",
 	"Blizzard_WeeklyRewards",
 }
