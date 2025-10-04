@@ -1,6 +1,6 @@
 $UiSourceUrl = "https://github.com/Gethe/wow-ui-source"
 $UiSourceDir = "wow-ui-source"
-$UiBranches  = @("ptr")
+$UiBranches  = @("beta")
 
 if (-not (Test-Path $UiSourceDir)) {
     & git clone $UiSourceUrl $UiSourceDir

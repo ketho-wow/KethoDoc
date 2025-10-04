@@ -283,7 +283,12 @@ end
 
 local function SortEnum(a, b)
 	if a.value ~= b.value then
-		return a.value < b.value
+		-- wtf blizz
+		if type(a.value) == "boolean" then
+			return a and not b
+		else
+			return a.value < b.value
+		end
 	else
 		return a.name < b.name
 	end
@@ -336,10 +341,12 @@ function KethoDoc:DumpLuaEnums(showGameErr)
 		for _, enum in pairs(TableEnum) do
 			if type(enum.value) == "string" then -- 64 bit enum
 				numberFormat = '"%s"'
+			elseif type(enum.value) == "boolean" then
+				numberFormat = "%s"
 			elseif enum.value < 0 then
 				numberFormat = "%d"
 			end
-			eb:InsertLine(format("\t\t%s = %s,", enum.name, format(numberFormat, enum.value)))
+			eb:InsertLine(format("\t\t%s = %s,", enum.name, format(numberFormat, tostring(enum.value))))
 		end
 		eb:InsertLine("\t},")
 	end
