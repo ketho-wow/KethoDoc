@@ -244,84 +244,6 @@ local widget_tests = {
 }
 KethoDocEditBox:SetAutoFocus(false)
 
-local undocumented_widgets = {
-	PlayerModel = {
-		"ApplySpellVisualKit",
-		"CanSetUnit",
-		"FreezeAnimation",
-		"GetDisplayInfo",
-		"GetDoBlend",
-		"GetKeepModelOnHide",
-		"HasAnimation",
-		"PlayAnimKit",
-		"RefreshCamera",
-		"RefreshUnit",
-		"SetAnimation",
-		"SetBarberShopAlternateForm",
-		"SetCamDistanceScale",
-		"SetCreature",
-		"SetCustomRace",
-		"SetDisplayInfo",
-		"SetDoBlend",
-		"SetItem",
-		"SetItemAppearance",
-		"SetKeepModelOnHide",
-		"SetPortraitZoom",
-		"SetRotation",
-		"SetUnit",
-		"StopAnimKit",
-		"ZeroCachedCenterXY",
-	},
-	CinematicModel = {
-		"EquipItem",
-		"InitializeCamera",
-		"InitializePanCamera",
-		"SetAnimOffset",
-		"SetCreatureData",
-		"SetFacingLeft",
-		"SetFadeTimes",
-		"SetHeightFactor",
-		"SetJumpInfo",
-		"SetPanDistance",
-		"SetSpellVisualKit",
-		"SetTargetDistance",
-		"StartPan",
-		"StopPan",
-		"UnequipItems",
-	},
-	DressUpModel = {
-		"Dress",
-		"GetAutoDress",
-		"GetItemTransmogInfo",
-		"GetItemTransmogInfoList",
-		"GetObeyHideInTransmogFlag",
-		"GetSheathed",
-		"GetUseTransmogChoices",
-		"GetUseTransmogSkin",
-		"SetAutoDress",
-		"SetItemTransmogInfo",
-		"SetObeyHideInTransmogFlag",
-		"SetSheathed",
-		"SetUseTransmogChoices",
-		"SetUseTransmogSkin",
-		"TryOn",
-		"Undress",
-		"UndressSlot",
-	},
-	TabardModel = {
-		"CanSaveTabardNow",
-		"CycleVariation",
-		"GetLowerBackgroundFileName",
-		"GetLowerEmblemFile",
-		"GetLowerEmblemTexture",
-		"GetUpperBackgroundFileName",
-		"GetUpperEmblemFile",
-		"GetUpperEmblemTexture",
-		"InitializeTabardColors",
-		"Save",
-	},
-}
-
 local function GetTableSize(tbl)
 	local c = 0
 	for _ in pairs(tbl) do
@@ -335,10 +257,6 @@ local function GetExpectedWidget(expected)
 	for _, system in pairs(expected) do
 		if WidgetDocumentation[system] then
 			for method in pairs(WidgetDocumentation[system]) do
-				t[method] = true
-			end
-		else
-			for _, method in pairs(undocumented_widgets[system]) do
 				t[method] = true
 			end
 		end
