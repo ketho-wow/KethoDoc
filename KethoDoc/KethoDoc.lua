@@ -2,8 +2,6 @@
 KethoDoc = {}
 local eb = KethoEditBox
 
-local toc = select(4, GetBuildInfo())
-
 if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
 	KethoDoc.isMainline = true
 	KethoDoc.branch = "mainline"
@@ -26,9 +24,12 @@ local ptr_realms = {
 }
 
 local beta_realms = {
+	-- 12.0.0
+	[976] = "Liadrin",
+
 	-- 11.0.0
 	[970] = "Khadgar",
-	[976] = "Alleria",
+
 	-- 11.0.2
 	[4184] = "These Go To Eleven",
 	-- 5.5.0
@@ -435,11 +436,20 @@ function KethoDoc:GetFrames()
 	for _, v in pairs(_G) do
 		-- cant interact with forbidden frames; only check for named frames
 		-- font objects can be forbidden (and have no parent)
-		if type(v) == "table" and v.IsForbidden and not v:IsForbidden() and v:GetName() and v.GetParent then
-			local parent = v:GetParent()
-			local name = v:GetDebugName()
-			if not parent or (parent == UIParent) or (parent == WorldFrame) then
-				t[name] = true
+		if type(v) == "table"
+			and v.IsForbidden
+			and not v:IsForbidden() then
+			-- Spew("name", v:GetName())
+			if not issecretvalue(v)
+				and not v:HasSecretValues()
+				-- and not issecretvalue(v.GetName)
+				-- and v:GetName()
+				and v.GetParent then
+				local parent = v:GetParent()
+				local name = v:GetDebugName()
+				if not parent or (parent == UIParent) or (parent == WorldFrame) then
+					t[name] = true
+				end
 			end
 		end
 	end
@@ -464,7 +474,7 @@ function KethoDoc:GetFrameXML()
 end
 
 function KethoDoc:DumpFrames()
-	self:DumpLodTable("Frames", self.GetFrames, self.initFrames)
+	-- self:DumpLodTable("Frames", self.GetFrames, self.initFrames)
 end
 
 function KethoDoc:DumpFrameXML()
