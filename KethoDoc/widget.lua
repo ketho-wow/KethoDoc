@@ -58,6 +58,12 @@ local FrameScriptObject = {
 	IsObjectType = true,
 	SetForbidden = true,
 	SetToDefaults = true,
+	-- secret values
+	HasAnySecretAspect = true,
+	HasSecretAspect = true,
+	HasSecretValues = true,
+	IsPreventingSecretValues = true,
+	SetPreventSecretValues = true,
 }
 
 local Object = {
