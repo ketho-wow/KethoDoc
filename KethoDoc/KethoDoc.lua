@@ -223,6 +223,7 @@ function KethoDoc:DumpCVars()
 					helpString = cvarCache[6]
 				end
 				helpString = helpString:gsub('"', '\\"')
+				helpString = helpString:gsub('\n', '\\n')
 				-- cvars that return incomplete information on ptr
 				if self.cvar_nil[v.command] then
 					defaultValue, _, server, character, secure, helpString = unpack(self.cvar_nil[v.command])
