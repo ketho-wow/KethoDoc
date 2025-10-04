@@ -290,7 +290,7 @@ end
 -- pretty dumb way without even using bitwise op
 local function IsBitEnum(tbl, name)
 	local t = tInvert(tbl)
-	if name:find("Flags$") and not t[3] then
+	if (name:find("Flags$") or name:find("Flag$")) and not t[3] then
 		return true
 	elseif name == "Damageclass" then
 		return true
