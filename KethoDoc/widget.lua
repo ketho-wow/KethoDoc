@@ -58,13 +58,20 @@ local FrameScriptObject = {
 	IsObjectType = true,
 	SetForbidden = true,
 	SetToDefaults = true,
-	-- secret values
-	HasAnySecretAspect = true,
-	HasSecretAspect = true,
-	HasSecretValues = true,
-	IsPreventingSecretValues = true,
-	SetPreventSecretValues = true,
 }
+
+if LE_EXPANSION_LEVEL_CURRENT == LE_EXPANSION_MIDNIGHT then
+	local secrest = {
+		HasAnySecretAspect = true,
+		HasSecretAspect = true,
+		HasSecretValues = true,
+		IsPreventingSecretValues = true,
+		SetPreventSecretValues = true,
+	}
+	for k in pairs(secrest) do
+		FrameScriptObject[k] = true
+	end
+end
 
 local Object = {
 	ClearParentKey = true,
@@ -793,6 +800,7 @@ function KethoDoc:WidgetTest()
 		local equal, size1, size2 = self:TableEquals(meta_object, expected)
 		if equal then
 			passed_count = passed_count + 1
+			print("Passed:", v[1])
 		else
 			print("Failed:", v[1], size1, size2)
 		end

@@ -1,7 +1,7 @@
 KethoDoc.LoadOnDemand = {}
 
 -- get framexml data before any loadondemand addons load
--- KethoDoc.initFrames = KethoDoc:GetFrames()
+KethoDoc.initFrames = KethoDoc:GetFrames()
 KethoDoc.initFrameXML = KethoDoc:GetFrameXML()
 
 -- this might throw some blizzard errors
@@ -204,6 +204,16 @@ KethoDoc.LoadOnDemand.mainline_ptr = {
 	"Blizzard_GMChatUI",
 	"Blizzard_GuildBankUI",
 	"Blizzard_GuildControlUI",
+	"Blizzard_HouseEditor",
+	"Blizzard_HouseList",
+	"Blizzard_HousingBulletinBoard",
+	"Blizzard_HousingCharter",
+	"Blizzard_HousingControls",
+	"Blizzard_HousingCornerstone",
+	"Blizzard_HousingCreateNeighborhood",
+	"Blizzard_HousingDashboard",
+	"Blizzard_HousingHouseFinder",
+	"Blizzard_HousingHouseSettings",
 	"Blizzard_HybridMinimap",
 	"Blizzard_InspectUI",
 	"Blizzard_IslandsPartyPoseUI",
