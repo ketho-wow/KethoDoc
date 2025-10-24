@@ -416,7 +416,7 @@ KethoDoc.LoadOnDemand.vanilla = {
 	"Blizzard_ArenaUI",
 	"Blizzard_AuctionHouseUI_Classic",
 	"Blizzard_AuctionHouseUI_Mainline",
-	"Blizzard_AuctionUI_Classic",
+	"Blizzard_AuctionUI_Classic", -- not sure if this is deprecated
 	"Blizzard_BarberShopUI",
 	"Blizzard_BattlefieldMap",
 	"Blizzard_BehavioralMessaging",
@@ -571,80 +571,6 @@ FilterFlavor(KethoDoc.LoadOnDemand.vanilla_ptr, "_Wrath")
 FilterFlavor(KethoDoc.LoadOnDemand.vanilla_ptr, "_Cata")
 FilterFlavor(KethoDoc.LoadOnDemand.vanilla_ptr, "_Mists")
 
--- apparently I never dumped Blizzard_AuctionUI, Blizzard_Calendar and more
--- Blizzard_AuctionUI should normally no longer be loaded in 1.15.6 so not sure whether to ignore it
-KethoDoc.LoadOnDemand.cata = {
-	-- "Blizzard_AccountSaveUI",
-	"Blizzard_AchievementUI_Cata",
-	"Blizzard_AchievementUI_Classic",
-	"Blizzard_APIDocumentation",
-	"Blizzard_APIDocumentationGenerated",
-	"Blizzard_ArchaeologyUI_Cata",
-	"Blizzard_ArenaUI",
-	"Blizzard_AuctionHouseUI_Classic",
-	"Blizzard_AuctionHouseUI_Mainline",
-	"Blizzard_AuctionUI_Classic",
-	"Blizzard_BarberShopUI",
-	"Blizzard_BattlefieldMap",
-	"Blizzard_BehavioralMessaging",
-	"Blizzard_BindingUI",
-	"Blizzard_Calendar_Classic",
-	"Blizzard_Collections_Cata",
-	"Blizzard_Collections_Wrath",
-	"Blizzard_CombatLog_Cata",
-	"Blizzard_CombatLog_Classic",
-	"Blizzard_CombatLog_Wrath",
-	"Blizzard_CombatText",
-	"Blizzard_Commentator",
-	"Blizzard_CraftUI_Classic",
-	"Blizzard_CraftUI_Vanilla",
-	"Blizzard_DebugTools",
-	"Blizzard_Dispatcher",
-	"Blizzard_EncounterJournal_Cata",
-	"Blizzard_EngravingUI",
-	"Blizzard_EventTrace",
-	"Blizzard_FontStyles_Shared",
-	"Blizzard_GlyphUI_Cata",
-	"Blizzard_GlyphUI_Wrath",
-	"Blizzard_GMChatUI",
-	"Blizzard_GroupFinder_VanillaStyle",
-	"Blizzard_GuildBankUI_Classic",
-	"Blizzard_GuildControlUI",
-	"Blizzard_InspectUI_Cata",
-	"Blizzard_InspectUI_Classic",
-	"Blizzard_InspectUI_Vanilla",
-	"Blizzard_ItemSocketingUI",
-	"Blizzard_Kiosk",
-	"Blizzard_MacroUI_Classic",
-	"Blizzard_MapCanvas",
-	"Blizzard_MovePad",
-	"Blizzard_RaidUI",
-	"Blizzard_RaidUI_Cata",
-	"Blizzard_RaidUI_Wrath",
-	"Blizzard_ReforgingUI_Classic",
-	"Blizzard_SharedMapDataProviders_Cata",
-	"Blizzard_SharedMapDataProviders_Classic",
-	"Blizzard_SharedMapDataProviders_Wrath",
-	"Blizzard_SpellSearch",
-	"Blizzard_TalentUI_Cata",
-	"Blizzard_TalentUI_TBC",
-	"Blizzard_TalentUI_Vanilla",
-	"Blizzard_TalentUI_Wrath",
-	"Blizzard_TimeManager_Classic",
-	"Blizzard_TradeSkillUI_Cata",
-	"Blizzard_TradeSkillUI_TBC",
-	"Blizzard_TradeSkillUI_Vanilla",
-	"Blizzard_TradeSkillUI_Wrath",
-	"Blizzard_TrainerUI",
-}
-
-TrimFlavor(KethoDoc.LoadOnDemand.cata, "_Cata")
-TrimFlavor(KethoDoc.LoadOnDemand.cata, "_Classic")
-FilterFlavor(KethoDoc.LoadOnDemand.cata, "_Mainline")
-FilterFlavor(KethoDoc.LoadOnDemand.cata, "_Vanilla")
-FilterFlavor(KethoDoc.LoadOnDemand.cata, "_TBC")
-FilterFlavor(KethoDoc.LoadOnDemand.cata, "_Wrath")
-
 KethoDoc.LoadOnDemand.mists = {
 	-- "Blizzard_AccountSaveUI",
 	"Blizzard_AchievementUI_Cata",
@@ -727,3 +653,94 @@ FilterFlavor(KethoDoc.LoadOnDemand.mists, "_Vanilla")
 FilterFlavor(KethoDoc.LoadOnDemand.mists, "_TBC")
 FilterFlavor(KethoDoc.LoadOnDemand.mists, "_Wrath")
 FilterFlavor(KethoDoc.LoadOnDemand.mists, "_Cata")
+
+-- 5.5.2
+KethoDoc.LoadOnDemand.mists_ptr = {
+	-- "Blizzard_AccountSaveUI",
+	"Blizzard_AchievementUI_Cata",
+	"Blizzard_AchievementUI_Classic",
+	"Blizzard_AchievementUI_Mists",
+	"Blizzard_APIDocumentation",
+	"Blizzard_APIDocumentationGenerated",
+	"Blizzard_ArchaeologyUI_Cata",
+	"Blizzard_ArchaeologyUI_Mists",
+	"Blizzard_ArenaUI",
+	"Blizzard_AuctionHouseUI_Classic",
+	"Blizzard_AuctionHouseUI_Mainline",
+	"Blizzard_AuctionUI_Classic",
+	-- "Blizzard_AutoCompletePopupList", -- missing
+	"Blizzard_BarberShopUI",
+	"Blizzard_BattlefieldMap",
+	"Blizzard_BehavioralMessaging",
+	"Blizzard_BindingUI",
+	"Blizzard_BlackMarketUI",
+	"Blizzard_Calendar_Classic",
+	"Blizzard_ChallengesUI_Mists",
+	"Blizzard_Collections_Cata",
+	"Blizzard_Collections_Mainline",
+	"Blizzard_Collections_Mists",
+	"Blizzard_Collections_Wrath",
+	"Blizzard_CombatLog_Cata",
+	"Blizzard_CombatLog_Classic",
+	"Blizzard_CombatLog_Mists",
+	"Blizzard_CombatLog_Wrath",
+	"Blizzard_CombatText",
+	"Blizzard_Commentator",
+	-- "Blizzard_CraftUI_Classic",
+	"Blizzard_CraftUI_Vanilla",
+	"Blizzard_CustomizationUI",
+	"Blizzard_DebugTools",
+	"Blizzard_Dispatcher",
+	"Blizzard_EncounterJournal_Cata",
+	"Blizzard_EncounterJournal_Mists",
+	"Blizzard_EngravingUI",
+	"Blizzard_EventTrace",
+	"Blizzard_GlyphUI_Cata",
+	"Blizzard_GlyphUI_Mists",
+	"Blizzard_GlyphUI_Wrath",
+	"Blizzard_GMChatUI",
+	"Blizzard_GroupFinder_VanillaStyle",
+	"Blizzard_GuildBankUI_Classic",
+	"Blizzard_GuildBankUI_Mists",
+	"Blizzard_GuildControlUI",
+	"Blizzard_InspectUI_Classic",
+	"Blizzard_ItemSocketingUI",
+	"Blizzard_ItemUpgradeUI_Mainline",
+	"Blizzard_ItemUpgradeUI_Mists",
+	"Blizzard_Kiosk",
+	"Blizzard_MacroUI_Classic",
+	"Blizzard_MapCanvas",
+	"Blizzard_MovePad",
+	"Blizzard_PVPUI_Mainline",
+	"Blizzard_PVPUI_Mists",
+	"Blizzard_QuestChoice",
+	"Blizzard_RaidUI",
+	"Blizzard_ReforgingUI_Classic",
+	-- "Blizzard_RemixArtifactTutorialUI", -- missing
+	"Blizzard_SharedMapDataProviders_Cata",
+	"Blizzard_SharedMapDataProviders_Classic",
+	"Blizzard_SharedMapDataProviders_Mists",
+	"Blizzard_SharedMapDataProviders_Wrath",
+	"Blizzard_SpellSearch",
+	-- "Blizzard_StatusUI", -- missing
+	"Blizzard_TalentUI_Cata",
+	"Blizzard_TalentUI_Mists",
+	"Blizzard_TalentUI_TBC",
+	"Blizzard_TalentUI_Vanilla",
+	"Blizzard_TalentUI_Wrath",
+	"Blizzard_TimeManager_Classic",
+	"Blizzard_TradeSkillUI_Cata",
+	"Blizzard_TradeSkillUI_Mists",
+	"Blizzard_TradeSkillUI_TBC",
+	"Blizzard_TradeSkillUI_Vanilla",
+	"Blizzard_TradeSkillUI_Wrath",
+	"Blizzard_TrainerUI",
+	-- "Blizzard_WowSurveyUI", -- missing
+}
+TrimFlavor(KethoDoc.LoadOnDemand.mists_ptr, "_Mists")
+TrimFlavor(KethoDoc.LoadOnDemand.mists_ptr, "_Classic")
+FilterFlavor(KethoDoc.LoadOnDemand.mists_ptr, "_Mainline")
+FilterFlavor(KethoDoc.LoadOnDemand.mists_ptr, "_Vanilla")
+FilterFlavor(KethoDoc.LoadOnDemand.mists_ptr, "_TBC")
+FilterFlavor(KethoDoc.LoadOnDemand.mists_ptr, "_Wrath")
+FilterFlavor(KethoDoc.LoadOnDemand.mists_ptr, "_Cata")

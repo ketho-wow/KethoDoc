@@ -21,6 +21,7 @@ local ptr_realms = {
 	[969] = "Nobundo",
 	[3296] = "Benedictus",
 	[3299] = "Lycanthoth",
+	[4904] = "Classic PTR Realm 1",
 	[5533] = "Classic Era PTR",
 	[5774] = "Fyrakk",
 }
