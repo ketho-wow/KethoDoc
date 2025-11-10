@@ -35,6 +35,8 @@ function KethoDoc:SortTable(tbl, sortType)
 			if va ~= vb then
 				return va and not vb
 			end
+		elseif ta == "string" then
+			return va < vb
 		elseif ta == "number" then
 			if va == vb then
 				return a.key < b.key
