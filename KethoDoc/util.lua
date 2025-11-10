@@ -22,7 +22,26 @@ function KethoDoc:SortTable(tbl, sortType)
 		})
 	end
 	sort(t, function(a, b)
-		return a[sortType] < b[sortType]
+		local va, vb = a[sortType], b[sortType]
+		local ta, tb = type(va), type(vb)
+		if ta ~= tb then
+			if ta == "boolean" and tb == "number" then
+				return true
+			elseif ta == "number" and tb == "boolean" then
+				return false
+			end
+		end
+		if ta == "boolean" then
+			if va ~= vb then
+				return va and not vb
+			end
+		elseif ta == "number" then
+			if va == vb then
+				return a.key < b.key
+			else
+				return va < vb
+			end
+		end
 	end)
 	return t
 end
