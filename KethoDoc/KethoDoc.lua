@@ -13,8 +13,6 @@ elseif WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC then
 	KethoDoc.branch = "mists"
 end
 
-local isMidnight = LE_EXPANSION_LEVEL_CURRENT == LE_EXPANSION_MIDNIGHT
-
 local ptr_realms = {
 	[909] = "Anasterian",
 	[912] = "Broxigar",
@@ -444,34 +442,14 @@ end
 
 function KethoDoc:GetFrames()
 	local t = {}
-	if isMidnight then
-		--[[
-		for _, v in pairs(_G) do
-			if type(v) == "table"
-				and v.IsForbidden
-				and not v:IsForbidden() then
-				if not issecretvalue(v)
-					and not v:HasSecretValues()
-					and v.GetParent then
-					local parent = v:GetParent()
-					local name = v:GetDebugName()
-					if not parent or (parent == UIParent) or (parent == WorldFrame) then
-						t[name] = true
-					end
-				end
-			end
-		end
-		]]
-	else
-		for _, v in pairs(_G) do
-			-- cant interact with forbidden frames; only check for named frames
-			-- font objects can be forbidden (and have no parent)
-			if type(v) == "table" and v.IsForbidden and not v:IsForbidden() and v:GetName() and v.GetParent then
-				local parent = v:GetParent()
-				local name = v:GetDebugName()
-				if not parent or (parent == UIParent) or (parent == WorldFrame) then
-					t[name] = true
-				end
+	for _, v in pairs(_G) do
+		-- cant interact with forbidden frames; only check for named frames
+		-- font objects can be forbidden (and have no parent)
+		if type(v) == "table" and v.IsForbidden and not v:IsForbidden() and v:GetName() and v.GetParent then
+			local parent = v:GetParent()
+			local name = v:GetDebugName()
+			if not parent or (parent == UIParent) or (parent == WorldFrame) then
+				t[name] = true
 			end
 		end
 	end
@@ -496,11 +474,7 @@ function KethoDoc:GetFrameXML()
 end
 
 function KethoDoc:DumpFrames()
-	if isMidnight then
-		print("All right then, keep your secrets")
-	else
-		self:DumpLodTable("Frames", self.GetFrames, self.initFrames)
-	end
+	self:DumpLodTable("Frames", self.GetFrames, self.initFrames)
 end
 
 function KethoDoc:DumpFrameXML()
