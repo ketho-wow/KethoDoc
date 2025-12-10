@@ -432,6 +432,9 @@ function KethoDoc:DumpConstants()
 		for _, t1 in pairs(self:SortTable(Constants, "key")) do
 			eb:InsertLine(format("\t%s = {", t1.key))
 			for _, t2 in pairs(self:SortTable(t1.value, "value")) do
+				if type(t2.value) == "string" then
+					t2.value = string.format('"%s"', t2.value)
+				end
 				eb:InsertLine(format("\t\t%s = %s,", t2.key, tostring(t2.value)))
 			end
 			eb:InsertLine("\t},")
