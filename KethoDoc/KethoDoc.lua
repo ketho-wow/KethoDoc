@@ -532,6 +532,15 @@ local function FilterTableObject(name, value)
 			return true
 		end
 	end
+	-- this would also filter `Settings` and `TooltipDataProcessor`
+	--[[
+		-- not all fields are functions
+	for _, v in pairs(value) do
+		if type(v) ~= "function" then
+			return true
+		end
+	end
+	]]
 end
 
 function KethoDoc:GetTableObjects()
