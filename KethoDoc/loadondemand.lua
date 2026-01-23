@@ -589,6 +589,98 @@ FilterFlavor(KethoDoc.LoadOnDemand.vanilla_ptr, "_Wrath")
 FilterFlavor(KethoDoc.LoadOnDemand.vanilla_ptr, "_Cata")
 FilterFlavor(KethoDoc.LoadOnDemand.vanilla_ptr, "_Mists")
 
+KethoDoc.LoadOnDemand.tbc = {
+	-- "Blizzard_AccountSaveUI",
+	"Blizzard_AchievementUI_Cata",
+	"Blizzard_AchievementUI_Classic",
+	"Blizzard_AchievementUI_Mists",
+	"Blizzard_APIDocumentation",
+	"Blizzard_APIDocumentationGenerated",
+	"Blizzard_ArchaeologyUI_Cata",
+	"Blizzard_ArchaeologyUI_Mists",
+	"Blizzard_ArenaUI",
+	"Blizzard_AuctionHouseUI_Classic",
+	"Blizzard_AuctionHouseUI_Mainline",
+	"Blizzard_AuctionUI_Classic",
+	"Blizzard_AutoCompletePopupList",
+	"Blizzard_BarberShopUI",
+	"Blizzard_BattlefieldMap",
+	"Blizzard_BehavioralMessaging",
+	"Blizzard_BindingUI",
+	"Blizzard_BlackMarketUI",
+	"Blizzard_Calendar_Classic",
+	"Blizzard_ChallengesUI_Mists",
+	"Blizzard_Collections_Cata",
+	"Blizzard_Collections_Mainline",
+	"Blizzard_Collections_Mists",
+	"Blizzard_Collections_Wrath",
+	"Blizzard_CombatLog_Cata",
+	"Blizzard_CombatLog_Classic",
+	"Blizzard_CombatLog_Mists",
+	"Blizzard_CombatLog_Wrath",
+	"Blizzard_CombatText",
+	"Blizzard_Commentator",
+	"Blizzard_CraftUI_Classic",
+	"Blizzard_CraftUI_Vanilla",
+	"Blizzard_CustomizationUI",
+	"Blizzard_DebugTools",
+	"Blizzard_Dispatcher",
+	"Blizzard_EncounterJournal_Cata",
+	"Blizzard_EncounterJournal_Mists",
+	"Blizzard_EngravingUI",
+	"Blizzard_EventTrace",
+	"Blizzard_GlyphUI_Cata",
+	"Blizzard_GlyphUI_Mists",
+	"Blizzard_GlyphUI_Wrath",
+	"Blizzard_GMChatUI",
+	"Blizzard_GroupFinder_VanillaStyle",
+	"Blizzard_GuildBankUI_Classic",
+	"Blizzard_GuildBankUI_Mists",
+	"Blizzard_GuildControlUI",
+	-- "Blizzard_HousingModelPreview", -- wrong game type
+	"Blizzard_InspectUI_Classic",
+	"Blizzard_ItemSocketingUI",
+	"Blizzard_ItemUpgradeUI_Mainline",
+	"Blizzard_ItemUpgradeUI_Mists",
+	"Blizzard_Kiosk",
+	"Blizzard_MacroUI_Classic",
+	"Blizzard_MapCanvas",
+	"Blizzard_MovePad",
+	"Blizzard_PVPUI_Mainline",
+	"Blizzard_PVPUI_Mists",
+	-- "Blizzard_QuestChoice", -- wrong game type
+	"Blizzard_RaidUI",
+	"Blizzard_ReforgingUI_Classic",
+	-- "Blizzard_RemixArtifactTutorialUI", -- wrong game type
+	"Blizzard_SharedMapDataProviders_Cata",
+	"Blizzard_SharedMapDataProviders_Classic",
+	"Blizzard_SharedMapDataProviders_Mists",
+	"Blizzard_SharedMapDataProviders_Wrath",
+	"Blizzard_SpellSearch",
+	"Blizzard_StatusUI",
+	"Blizzard_TalentUI_Cata",
+	"Blizzard_TalentUI_Mists",
+	"Blizzard_TalentUI_TBC",
+	"Blizzard_TalentUI_Vanilla",
+	"Blizzard_TalentUI_Wrath",
+	"Blizzard_TimeManager_Classic",
+	"Blizzard_TradeSkillUI_Cata",
+	"Blizzard_TradeSkillUI_Mists",
+	"Blizzard_TradeSkillUI_TBC",
+	"Blizzard_TradeSkillUI_Vanilla",
+	"Blizzard_TradeSkillUI_Wrath",
+	"Blizzard_TrainerUI",
+	"Blizzard_WowSurveyUI",
+}
+
+TrimFlavor(KethoDoc.LoadOnDemand.tbc, "_Vanilla")
+TrimFlavor(KethoDoc.LoadOnDemand.tbc, "_Classic")
+TrimFlavor(KethoDoc.LoadOnDemand.tbc, "_TBC")
+FilterFlavor(KethoDoc.LoadOnDemand.tbc, "_Mainline")
+FilterFlavor(KethoDoc.LoadOnDemand.tbc, "_Wrath")
+FilterFlavor(KethoDoc.LoadOnDemand.tbc, "_Cata")
+FilterFlavor(KethoDoc.LoadOnDemand.tbc, "_Mists")
+
 KethoDoc.LoadOnDemand.mists = {
 	-- "Blizzard_AccountSaveUI",
 	"Blizzard_AchievementUI_Cata",

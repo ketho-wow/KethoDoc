@@ -7,6 +7,8 @@ if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
 	KethoDoc.branch = "mainline"
 elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 	KethoDoc.branch = "vanilla"
+elseif WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
+	KethoDoc.branch = "tbc"
 elseif WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC then
 	KethoDoc.branch = "cata"
 elseif WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC then
