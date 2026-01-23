@@ -64,22 +64,6 @@ if IsPublicBuild() then
 	end
 end
 
-
-function KethoDoc:FixDocumentation()
-	if not MAX_STABLE_SLOTS then -- 10.2.7
-		MAX_STABLE_SLOTS = -1
-		EXTRA_PET_STABLE_SLOT = -1
-		NUM_PET_SLOTS_THAT_NEED_LEARNED_SPELL = -1
-	end
-	if not Constants.PetConsts then -- 11.0.2
-		Constants.PetConsts = {
-			MAX_STABLE_SLOTS = -1,
-			EXTRA_PET_STABLE_SLOT = -1,
-			NUM_PET_SLOTS_THAT_NEED_LEARNED_SPELL = -1,
-		}
-	end
-end
-
 function KethoDoc:GetAPI()
 	local api_func, framexml_func = self:GetGlobalAPI()
 	self:InsertTable(api_func, self:GetNamespaceAPI())
@@ -162,8 +146,35 @@ function KethoDoc:DumpWidgetAPI()
 	eb:InsertLine("}\n\nreturn WidgetAPI")
 end
 
+local function IsWidgetScriptObject(s)
+	if s:find("^FrameAPI") then
+		return true
+	elseif s:find("^Simple") then
+		return true
+	elseif s == "MinimapFrameAPI" or s == "PingPinFrameAPI" then
+		return true
+	end
+end
+
+function KethoDoc:DumpScriptObjects()
+	APIDocumentation_LoadUI()
+	eb:Show()
+	eb:InsertLine("local ScriptObjectAPI = {")
+	for _, system in pairs(APIDocumentation.systems) do
+		if system.Type == "ScriptObject" then
+			if not IsWidgetScriptObject(system.Name) then
+				eb:InsertLine(string.format("\t%s = {", system.Name))
+				for _, func in pairs(system.Functions) do
+					eb:InsertLine(format('\t\t"%s",', func.Name))
+				end
+				eb:InsertLine("\t},")
+			end
+		end
+	end
+	eb:InsertLine("}\n\nreturn ScriptObjectAPI")
+end
+
 function KethoDoc:DumpEvents()
-	self:FixDocumentation()
 	APIDocumentation_LoadUI()
 	eb:Show()
 	eb:InsertLine("local Events = {")
@@ -553,6 +564,7 @@ local api = {
 	"GetBuildInfo",
 	"DumpGlobalAPI",
 	"DumpWidgetAPI",
+	"DumpScriptObjects",
 	"DumpLuaEnums", -- dump enums before applying doc fixes
 	"DumpEvents",
 	"DumpCVars",

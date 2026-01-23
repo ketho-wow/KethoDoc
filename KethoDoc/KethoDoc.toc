@@ -1,5 +1,5 @@
-## Interface: 120000, 110205, 50500, 11507
-## Version: 1.7.3
+## Interface: 120000, 50500, 11507
+## Version: 1.7.4
 ## Title: KethoDoc
 ## SavedVariables: KethoDocData
 
