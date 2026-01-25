@@ -575,9 +575,41 @@ local api = {
 	"WidgetTest",
 }
 
+local PROJECT_IDS = {
+	[WOW_PROJECT_MAINLINE or 1] = "WOW_PROJECT_MAINLINE",
+	[WOW_PROJECT_CLASSIC or 2] = "WOW_PROJECT_CLASSIC",
+	[WOW_PROJECT_WOWLABS or 3] = "WOW_PROJECT_WOWLABS",
+	[WOW_PROJECT_BURNING_CRUSADE_CLASSIC or 5] = "WOW_PROJECT_BURNING_CRUSADE_CLASSIC",
+	[WOW_PROJECT_WRATH_CLASSIC or 11] = "WOW_PROJECT_WRATH_CLASSIC",
+	[WOW_PROJECT_CATACLYSM_CLASSIC or 14] = "WOW_PROJECT_CATACLYSM_CLASSIC",
+	[WOW_PROJECT_MISTS_CLASSIC or 19] = "WOW_PROJECT_MISTS_CLASSIC",
+}
+
+local EXPANSION_LEVELS = {
+	[LE_EXPANSION_CLASSIC or 0] = "LE_EXPANSION_CLASSIC",
+	[LE_EXPANSION_BURNING_CRUSADE or 1] = "LE_EXPANSION_BURNING_CRUSADE",
+	[LE_EXPANSION_WRATH_OF_THE_LICH_KING or 2] = "LE_EXPANSION_WRATH_OF_THE_LICH_KING",
+	[LE_EXPANSION_CATACLYSM or 3] = "LE_EXPANSION_CATACLYSM",
+	[LE_EXPANSION_MISTS_OF_PANDARIA or 4] = "LE_EXPANSION_MISTS_OF_PANDARIA",
+	[LE_EXPANSION_WARLORDS_OF_DRAENOR or 5] = "LE_EXPANSION_WARLORDS_OF_DRAENOR",
+	[LE_EXPANSION_LEGION or 6] = "LE_EXPANSION_LEGION",
+	[LE_EXPANSION_BATTLE_FOR_AZEROTH or 7] = "LE_EXPANSION_BATTLE_FOR_AZEROTH",
+	[LE_EXPANSION_SHADOWLANDS or 8] = "LE_EXPANSION_SHADOWLANDS",
+	[LE_EXPANSION_DRAGONFLIGHT or 9] = "LE_EXPANSION_DRAGONFLIGHT",
+	[LE_EXPANSION_WAR_WITHIN or 10] = "LE_EXPANSION_WAR_WITHIN",
+	[LE_EXPANSION_MIDNIGHT or 11] = "LE_EXPANSION_MIDNIGHT",
+}
+
 function KethoDoc:GetBuildInfo()
-	local fs = 'GetBuildInfo() => "%s", "%s", "%s", %d'
-	eb:Show(fs:format(GetBuildInfo()))
+	local t = {}
+	tinsert(t, format('GetBuildInfo() => "%s", "%s", "%s", %d', GetBuildInfo()))
+	tinsert(t, format("WOW_PROJECT_ID => %s (%d)", PROJECT_IDS[WOW_PROJECT_ID], WOW_PROJECT_ID))
+	tinsert(t, format("LE_EXPANSION_LEVEL_CURRENT => %s (%d)", EXPANSION_LEVELS[LE_EXPANSION_LEVEL_CURRENT], LE_EXPANSION_LEVEL_CURRENT))
+	tinsert(t, format("IsPublicBuild() => %s", tostring(IsPublicBuild())))
+	tinsert(t, format("IsTestBuild() => %s", tostring(IsTestBuild())))
+	tinsert(t, format("IsBetaBuild() => %s", tostring(IsBetaBuild())))
+	tinsert(t, format("IsDebugBuild() => %s", tostring(IsDebugBuild())))
+	eb:Show(table.concat(t, "\n"))
 end
 
 function KethoDoc:LazyDump()
