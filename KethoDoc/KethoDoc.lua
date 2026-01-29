@@ -299,7 +299,11 @@ local function SortEnum(a, b)
 	if a.value ~= b.value then
 		-- wtf blizz
 		if type(a.value) == "boolean" then
-			return a.name < b.name
+			if type(b.value) == "boolean" then
+				return a.name < b.name
+			else
+				return true
+			end
 		else
 			return a.value < b.value
 		end
@@ -439,12 +443,18 @@ function KethoDoc:DumpLuaEnums(showGameErr)
 	end
 end
 
+local SortConstantsValue = {
+	EncounterTimelineIconMasks = true,
+	UICharacterClasses = true,
+}
+
 function KethoDoc:DumpConstants()
 	if Constants then
 		eb:InsertLine("\nConstants = {")
 		for _, t1 in pairs(self:SortTable(Constants, "key")) do
 			eb:InsertLine(format("\t%s = {", t1.key))
-			for _, t2 in pairs(self:SortTable(t1.value, "value")) do
+			local sortType = SortConstantsValue[t1.key] and "value" or "key"
+			for _, t2 in pairs(self:SortTable(t1.value, sortType)) do
 				if type(t2.value) == "string" then
 					t2.value = string.format('"%s"', t2.value)
 				end
