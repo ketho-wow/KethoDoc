@@ -299,7 +299,7 @@ local function SortEnum(a, b)
 	if a.value ~= b.value then
 		-- wtf blizz
 		if type(a.value) == "boolean" then
-			return a and not b
+			return a.name < b.name
 		else
 			return a.value < b.value
 		end
