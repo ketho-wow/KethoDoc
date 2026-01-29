@@ -561,20 +561,6 @@ function KethoDoc:DumpGlobals()
 	end
 end
 
-local currentDump = 0
-local api = {
-	"GetBuildInfo",
-	"DumpGlobalAPI",
-	"DumpWidgetAPI",
-	"DumpScriptObjects",
-	"DumpLuaEnums", -- dump enums before applying doc fixes
-	"DumpEvents",
-	"DumpCVars",
-	"DumpFrames",
-	"DumpFrameXML",
-	"WidgetTest",
-}
-
 local PROJECT_IDS = {
 	[WOW_PROJECT_MAINLINE or 1] = "WOW_PROJECT_MAINLINE",
 	[WOW_PROJECT_CLASSIC or 2] = "WOW_PROJECT_CLASSIC",
@@ -602,15 +588,33 @@ local EXPANSION_LEVELS = {
 
 function KethoDoc:GetBuildInfo()
 	local t = {}
+	tinsert(t, format("```lua"))
 	tinsert(t, format('GetBuildInfo() => "%s", "%s", "%s", %d', GetBuildInfo()))
+	tinsert(t, format("```"))
+	tinsert(t, format("```lua"))
 	tinsert(t, format("WOW_PROJECT_ID => %s (%d)", PROJECT_IDS[WOW_PROJECT_ID], WOW_PROJECT_ID))
 	tinsert(t, format("LE_EXPANSION_LEVEL_CURRENT => %s (%d)", EXPANSION_LEVELS[LE_EXPANSION_LEVEL_CURRENT], LE_EXPANSION_LEVEL_CURRENT))
 	tinsert(t, format("IsPublicBuild() => %s", tostring(IsPublicBuild())))
 	tinsert(t, format("IsTestBuild() => %s", tostring(IsTestBuild())))
 	tinsert(t, format("IsBetaBuild() => %s", tostring(IsBetaBuild())))
 	tinsert(t, format("IsDebugBuild() => %s", tostring(IsDebugBuild())))
+	tinsert(t, format("```"))
 	eb:Show(table.concat(t, "\n"))
 end
+
+local currentDump = 0
+local api = {
+	"GetBuildInfo",
+	"DumpGlobalAPI",
+	"DumpWidgetAPI",
+	"DumpScriptObjects",
+	"DumpLuaEnums", -- dump enums before applying doc fixes
+	"DumpEvents",
+	"DumpCVars",
+	"DumpFrames",
+	"DumpFrameXML",
+	"WidgetTest",
+}
 
 function KethoDoc:LazyDump()
 	currentDump = currentDump + 1
