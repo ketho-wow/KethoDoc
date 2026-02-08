@@ -471,7 +471,7 @@ function KethoDoc:GetFrames()
 	for _, v in pairs(_G) do
 		-- cant interact with forbidden frames; only check for named frames
 		-- font objects can be forbidden (and have no parent)
-		if type(v) == "table" and v.IsForbidden and not v:IsForbidden() and v:GetName() and v.GetParent then
+		if type(v) == "table" and (not issecrettable or not issecrettable(v)) and v.IsForbidden and not v:IsForbidden() and v:GetName() and v.GetParent then
 			local parent = v:GetParent()
 			local name = v:GetDebugName()
 			if not parent or (parent == UIParent) or (parent == WorldFrame) then
