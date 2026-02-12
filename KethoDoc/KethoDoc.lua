@@ -443,12 +443,12 @@ function KethoDoc:DumpLuaEnums(showGameErr)
 	end
 end
 
-local SortConstantsValue = {
-	EncounterTimelineIconMasks = true,
-	UICharacterClasses = true,
-}
 
 function KethoDoc:DumpConstants()
+	local SortConstantsValue = {
+		EncounterTimelineIconMasks = true,
+		UICharacterClasses = true,
+	}
 	if Constants then
 		eb:InsertLine("\nConstants = {")
 		for _, t1 in pairs(self:SortTable(Constants, "key")) do
