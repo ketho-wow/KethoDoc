@@ -61,14 +61,13 @@ local FrameScriptObject = {
 }
 
 if LE_EXPANSION_LEVEL_CURRENT == LE_EXPANSION_MIDNIGHT then
-	local secrest = {
+	local secrets = {
 		HasAnySecretAspect = true,
 		HasSecretAspect = true,
 		HasSecretValues = true,
 		IsPreventingSecretValues = true,
-		SetPreventSecretValues = true,
 	}
-	for k in pairs(secrest) do
+	for k in pairs(secrets) do
 		FrameScriptObject[k] = true
 	end
 end
