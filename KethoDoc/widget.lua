@@ -610,7 +610,7 @@ KethoDoc.WidgetOrder = {
 	"StatusBar",
 	"FogOfWarFrame",
 	"UnitPositionFrame",
-	KethoDoc.isMainline and "Blob" or nil, -- abstract
+	not KethoDoc.NoBlob and "Blob" or nil, -- abstract
 	"ArchaeologyDigSiteFrame", "QuestPOIFrame", "ScenarioPOIFrame",
 	"Browser",
 	"Checkout",
@@ -774,21 +774,6 @@ function KethoDoc:WidgetTest()
 		{"OffScreenFrame",          {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
 		{"WorldFrame",              {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
 	}
-
-	-- skip certain unit tests for classic, bit ugly
-	if not self.isMainline then
-		local onlyMainline = {
-			Blob = true,
-			ArchaeologyDigSiteFrame = true,
-			QuestPOIFrame = true,
-			ScenarioPOIFrame = true,
-		}
-		for i = #widgets, 1, -1 do
-			if onlyMainline[widgets[i][1]] then
-				table.remove(widgets, i)
-			end
-		end
-	end
 
 	local passed_count = 0
 	for _, v in pairs(widgets) do

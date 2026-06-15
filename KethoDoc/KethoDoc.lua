@@ -39,6 +39,8 @@ local beta_realms = {
 	[4618] = "Classic Beta PvE",
 }
 
+KethoDoc.NoBlob = (KethoDoc.branch == "vanilla" or KethoDoc.branch == "tbc")
+
 local realmId = GetRealmID()
 
 if beta_realms[realmId] or IsBetaBuild() then
@@ -487,7 +489,7 @@ end
 function KethoDoc:GetFrameXML()
 	local _, t = self:GetAPI()
 	for namespace, v in pairs(_G) do
-		if type(namespace) == "string" and type(v) == "table" and namespace:find("Util$") then
+		if type(namespace) == "string" and type(v) == "table" and namespace:find("Util$") and not namespace:find("^C_") then
 			for funcname, v2 in pairs(v) do
 				if type(v2) == "function" then
 					local name = format("%s.%s", namespace, funcname)
