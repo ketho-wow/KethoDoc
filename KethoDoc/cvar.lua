@@ -1671,6 +1671,11 @@ m.cvar_test = {
 	ErrorFileLog = true,
 	useDebugAllocators = true,
 	watchdogFreezeSeconds = true,
+	-- 12.0.7
+	enableMemoryTrap = true,
+	Aftermath = true,
+	AftermathCallstacks = true,
+
 	-- commands
 	HeapUsage = true,
 	HeapUsage2 = true,
@@ -1681,4 +1686,11 @@ m.cvar_test = {
 	memTypeUsage = true,
 	MemUsage = true,
 	MemUsageDetailed = true,
+	MemUsageStackTrace = true, -- 12.0.7
+}
+
+-- some cvars seem to appear/disappear randomly with nil `account, character, secure`
+m.cvar_weird = {
+	activeCUFProfile = true,
+	unlockedExpansionLandingPages = true,
 }

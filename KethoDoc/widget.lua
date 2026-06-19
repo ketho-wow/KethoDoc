@@ -50,10 +50,13 @@ local function set_difference(a, b)
 	return t
 end
 
-
 local FrameScriptObject = {
+	AddForbiddenAspects = true,
 	GetName = true,
+	GetObjectTable = true,
 	GetObjectType = true,
+	HasAnyForbiddenAspect = true,
+	HasAnyForbiddenAspects = true,
 	IsForbidden = true,
 	IsObjectType = true,
 	SetForbidden = true,
