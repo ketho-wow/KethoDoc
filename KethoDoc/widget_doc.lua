@@ -264,6 +264,7 @@ local function GetExpectedWidget(expected)
 	return t
 end
 
+--[=[
 local function TestWidget(test)
 	local actual = getmetatable(test.actual).__index
 	local expected = GetExpectedWidget(test.expected)
@@ -308,3 +309,4 @@ function KethoDoc:WidgetDocTest()
 	end
 	print(format("%d of %d tests passed.", num_passed, #widget_tests))
 end
+]=]

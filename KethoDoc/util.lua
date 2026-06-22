@@ -48,17 +48,6 @@ function KethoDoc:SortTable(tbl, sortType)
 	return t
 end
 
-function KethoDoc:MixinTable(...)
-	local t = {}
-	for i = 1, select("#", ...) do
-		local object = select(i, ...)
-		for name in pairs(object.unique_methods()) do
-			t[name] = true
-		end
-	end
-	return t
-end
-
 function KethoDoc:CompareTable(left, right)
 	local intersect, onlyLeft, onlyRight = {}, {}, {}
 	for k, v in pairs(left) do
@@ -80,7 +69,7 @@ function KethoDoc.SortCaseInsensitive(a, b)
 	return a:lower() < b:lower()
 end
 
-function KethoDoc:TableEquals(actual, expected)
+function KethoDoc:TableEquals(actual, expected, verbose)
 	local isEquals = true
 	local size1, size2 = 0, 0
 
@@ -88,7 +77,9 @@ function KethoDoc:TableEquals(actual, expected)
 		size1 = size1 + 1
 		if not expected[k] then
 			isEquals = false
-			-- print("a", k)
+			if verbose then
+				print("a", k)
+			end
 		end
 	end
 
@@ -96,7 +87,9 @@ function KethoDoc:TableEquals(actual, expected)
 		size2 = size2 + 1
 		if not actual[k] then
 			isEquals = false
-			-- print("b", k)
+			if verbose then
+				print("b", k)
+			end
 		end
 	end
 
