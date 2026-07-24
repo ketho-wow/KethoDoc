@@ -170,6 +170,13 @@ function KethoDoc:SetupWidgets()
 				return set_difference(W.FontString.meta_object(), u)
 			end,
 		},
+		VectorGraphics = {
+			inherits = {"Region"},
+			object = TryCreateFrame("Frame"):CreateVectorGraphics(),
+			unique_methods = function()
+				return set_difference(W.VectorGraphics.meta_object(), W.Region.meta_object())
+			end,
+		},
 		TextureBase = { -- abstract
 			inherits = {"Region"},
 			meta_object = function()
@@ -572,6 +579,9 @@ KethoDoc.WidgetOrder = {
 	"Font",
 	"FontString",
 
+	-- vectorgraphics
+	"VectorGraphics",
+
 	-- texture
 	"TextureBase",
 	"Texture",
@@ -725,6 +735,8 @@ function KethoDoc:WidgetTest()
 		{"FontInstance",            {}},
 		{"Font",                    {W.FontInstance, W.FrameScriptObject}},
 		{"FontString",              {W.FontInstance, W.Region, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+
+		{"VectorGraphics",          {               W.Region, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
 
 		{"TextureBase",             {               W.Region, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
 		{"Texture",                 {W.TextureBase, W.Region, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
