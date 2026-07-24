@@ -1661,20 +1661,20 @@ var["RAIDgroundEffectAnimation"] = {"0", 5, false, false, false, "Raid Ground ef
 
 m.cvar_test = {
 	-- cvars
+	Aftermath = true,
+	AftermathCallstacks = true,
+	AftermathShaderDebug = true,
 	agentLogLevel = true,
 	debugAllocSingleBlade = true,
 	debugAllocTrackStacktrace = true,
 	debugLog0 = true, -- also shows in release build but only on ptr
 	debugLog1 = true, -- idem
 	debugLog2 = true,
+	enableMemoryTrap = true,
 	enableRefHistory = true,
 	ErrorFileLog = true,
 	useDebugAllocators = true,
 	watchdogFreezeSeconds = true,
-	-- 12.0.7
-	enableMemoryTrap = true,
-	Aftermath = true,
-	AftermathCallstacks = true,
 
 	-- commands
 	HeapUsage = true,
@@ -1686,7 +1686,7 @@ m.cvar_test = {
 	memTypeUsage = true,
 	MemUsage = true,
 	MemUsageDetailed = true,
-	MemUsageStackTrace = true, -- 12.0.7
+	MemUsageStackTrace = true,
 }
 
 -- some cvars seem to appear/disappear randomly with nil `account, character, secure`

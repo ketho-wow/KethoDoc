@@ -168,7 +168,7 @@ local function GetGameTooltipMethods()
 end
 
 -- fires LUA_WARNING for ArchaeologyDigSiteFrame on classic but wont halt execution
-function TryCreateFrame_v2(frameType, ...)
+local function TryCreateFrame_v2(frameType, ...)
 	local ok, frame = pcall(CreateFrame, frameType, ...)
 	if ok and frame.GetObjectType then
 		return frame
