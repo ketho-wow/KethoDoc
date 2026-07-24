@@ -277,7 +277,7 @@ function KethoDoc:SetupWidgets()
 		},
 		TextureCoordTranslation = {
 			inherits = {"Animation"},
-			object = KethoFrame.animgroup.texcoordtranslation, -- can only be created in XML
+			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("TextureCoord"),
 			-- TextureCoordTranslation \ Animation
 			unique_methods = function() return set_difference(W.TextureCoordTranslation.meta_object(), W.Animation.meta_object()) end,
 			unique_handlers = function() return set_difference(W.TextureCoordTranslation.handlers, W.Animation.handlers) end,
