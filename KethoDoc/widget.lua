@@ -170,13 +170,6 @@ function KethoDoc:SetupWidgets()
 				return set_difference(W.FontString.meta_object(), u)
 			end,
 		},
-		VectorGraphics = {
-			inherits = {"Region"},
-			object = TryCreateFrame("Frame"):CreateVectorGraphics(),
-			unique_methods = function()
-				return set_difference(W.VectorGraphics.meta_object(), W.Region.meta_object())
-			end,
-		},
 		TextureBase = { -- abstract
 			inherits = {"Region"},
 			meta_object = function()
@@ -207,6 +200,13 @@ function KethoDoc:SetupWidgets()
 			-- Texture \ Region
 			unique_methods = function() return set_difference(W.Line.meta_object(), W.TextureBase.meta_object()) end,
 		},
+		VectorGraphics = {
+			inherits = {"Region"},
+			object = TryCreateFrame("Frame"):CreateVectorGraphics(),
+			unique_methods = function()
+				return set_difference(W.VectorGraphics.meta_object(), W.Region.meta_object())
+			end,
+		},
 		AnimationGroup = {
 			inherits = {"Object", "ScriptObject"},
 			object = TryCreateFrame("Frame"):CreateAnimationGroup(),
@@ -234,39 +234,12 @@ function KethoDoc:SetupWidgets()
 			unique_methods = function() return set_difference(W.Alpha.meta_object(), W.Animation.meta_object()) end,
 			unique_handlers = function() return set_difference(W.Alpha.handlers, W.Animation.handlers) end,
 		},
-		LineScale = {
-			inherits = {"Animation"},
-			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("LineScale"),
-			-- LineScale \ Animation
-			unique_methods = function() return set_difference(W.LineScale.meta_object(), W.Animation.meta_object()) end,
-			unique_handlers = function() return set_difference(W.LineScale.handlers, W.Animation.handlers) end,
-		},
-		LineTranslation = {
-			inherits = {"Animation"},
-			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("LineTranslation"),
-			-- LineTranslation \ Animation
-			unique_methods = function() return set_difference(W.LineTranslation.meta_object(), W.Animation.meta_object()) end,
-			unique_handlers = function() return set_difference(W.LineTranslation.handlers, W.Animation.handlers) end,
-		},
 		Path = {
 			inherits = {"Animation"},
 			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Path"),
 			-- Path \ Animation
 			unique_methods = function() return set_difference(W.Path.meta_object(), W.Animation.meta_object()) end,
 			unique_handlers = function() return set_difference(W.Path.handlers, W.Animation.handlers) end,
-		},
-		ControlPoint = {
-			inherits = {"Object"},
-			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Path"):CreateControlPoint(),
-			-- ControlPoint \ Object
-			unique_methods = function() return set_difference(W.ControlPoint.meta_object(), W.Object.meta_object()) end,
-		},
-		Rotation = {
-			inherits = {"Animation"},
-			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Rotation"),
-			-- Rotation \ Animation
-			unique_methods = function() return set_difference(W.Rotation.meta_object(), W.Animation.meta_object()) end,
-			unique_handlers = function() return set_difference(W.Rotation.handlers, W.Animation.handlers) end,
 		},
 		Scale = {
 			inherits = {"Animation"},
@@ -275,12 +248,12 @@ function KethoDoc:SetupWidgets()
 			unique_methods = function() return set_difference(W.Scale.meta_object(), W.Animation.meta_object()) end,
 			unique_handlers = function() return set_difference(W.Scale.handlers, W.Animation.handlers) end,
 		},
-		TextureCoordTranslation = {
+		LineScale = {
 			inherits = {"Animation"},
-			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("TextureCoord"),
-			-- TextureCoordTranslation \ Animation
-			unique_methods = function() return set_difference(W.TextureCoordTranslation.meta_object(), W.Animation.meta_object()) end,
-			unique_handlers = function() return set_difference(W.TextureCoordTranslation.handlers, W.Animation.handlers) end,
+			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("LineScale"),
+			-- LineScale \ Animation
+			unique_methods = function() return set_difference(W.LineScale.meta_object(), W.Animation.meta_object()) end,
+			unique_handlers = function() return set_difference(W.LineScale.handlers, W.Animation.handlers) end,
 		},
 		Translation = {
 			inherits = {"Animation"},
@@ -288,6 +261,27 @@ function KethoDoc:SetupWidgets()
 			-- Translation \ Animation
 			unique_methods = function() return set_difference(W.Translation.meta_object(), W.Animation.meta_object()) end,
 			unique_handlers = function() return set_difference(W.Translation.handlers, W.Animation.handlers) end,
+		},
+		LineTranslation = {
+			inherits = {"Animation"},
+			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("LineTranslation"),
+			-- LineTranslation \ Animation
+			unique_methods = function() return set_difference(W.LineTranslation.meta_object(), W.Animation.meta_object()) end,
+			unique_handlers = function() return set_difference(W.LineTranslation.handlers, W.Animation.handlers) end,
+		},
+		Rotation = {
+			inherits = {"Animation"},
+			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Rotation"),
+			-- Rotation \ Animation
+			unique_methods = function() return set_difference(W.Rotation.meta_object(), W.Animation.meta_object()) end,
+			unique_handlers = function() return set_difference(W.Rotation.handlers, W.Animation.handlers) end,
+		},
+		TextureCoordTranslation = {
+			inherits = {"Animation"},
+			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("TextureCoord"),
+			-- TextureCoordTranslation \ Animation
+			unique_methods = function() return set_difference(W.TextureCoordTranslation.meta_object(), W.Animation.meta_object()) end,
+			unique_handlers = function() return set_difference(W.TextureCoordTranslation.handlers, W.Animation.handlers) end,
 		},
 		FlipBook = {
 			inherits = {"Animation"},
@@ -302,6 +296,19 @@ function KethoDoc:SetupWidgets()
 			-- VertexColor \ Animation
 			unique_methods = function() return set_difference(W.VertexColor.meta_object(), W.Animation.meta_object()) end,
 			unique_handlers = function() return set_difference(W.VertexColor.handlers, W.Animation.handlers) end,
+		},
+		RadialProgress = {
+			inherits = {"Animation"},
+			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("RadialProgress"),
+			-- RadialProgress \ Animation
+			unique_methods = function() return set_difference(W.RadialProgress.meta_object(), W.Animation.meta_object()) end,
+			unique_handlers = function() return set_difference(W.RadialProgress.handlers, W.Animation.handlers) end,
+		},
+		ControlPoint = {
+			inherits = {"Object"},
+			object = TryCreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Path"):CreateControlPoint(),
+			-- ControlPoint \ Object
+			unique_methods = function() return set_difference(W.ControlPoint.meta_object(), W.Object.meta_object()) end,
 		},
 		Frame = {
 			inherits = {"ScriptRegion"},
@@ -579,28 +586,26 @@ KethoDoc.WidgetOrder = {
 	"Font",
 	"FontString",
 
-	-- vectorgraphics
-	"VectorGraphics",
-
 	-- texture
 	"TextureBase",
 	"Texture",
 	"MaskTexture",
 	"Line",
+	"VectorGraphics",
 
 	-- animation
 	"AnimationGroup",
 	"Animation",
 	"Alpha",
-	"Scale",
-	"LineScale",
-	"Translation",
-	"LineTranslation",
-	"Path", "ControlPoint",
+	"Path",
+	"Scale", "LineScale",
+	"Translation", "LineTranslation",
 	"Rotation",
 	"TextureCoordTranslation",
 	"FlipBook",
 	"VertexColor",
+	"RadialProgress",
+	"ControlPoint",
 
 	-- frame
 	"Frame",

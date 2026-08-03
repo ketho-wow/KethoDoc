@@ -6,34 +6,32 @@ KethoDoc.WidgetOrder_v2 = {
 	"ScriptRegion",
 	"AnimatableObject",
 	"Region",
-	"FontInstance",
-	"Blob",
 
 	-- fontinstance
+	"FontInstance",
 	"Font",
 	"FontString",
-
-	"VectorGraphics",
 
 	-- texture
 	"TextureBase",
 	"Texture",
 	"MaskTexture",
 	"Line",
+	"VectorGraphics",
 
 	-- animation
 	"AnimationGroup",
 	"Animation",
 	"Alpha",
-	"Scale",
-	"LineScale",
-	"Translation",
-	"LineTranslation",
-	"Path", "ControlPoint",
+	"Path",
+	"Scale", "LineScale",
+	"Translation", "LineTranslation",
 	"Rotation",
 	"TextureCoordTranslation",
 	"FlipBook",
 	"VertexColor",
+	"RadialProgress",
+	"ControlPoint",
 
 	-- frame
 	"Frame",
@@ -55,7 +53,7 @@ KethoDoc.WidgetOrder_v2 = {
 	"Minimap", -- unique
 	"FogOfWarFrame",
 	"UnitPositionFrame",
-	"ArchaeologyDigSiteFrame", "QuestPOIFrame", "ScenarioPOIFrame",
+	"Blob",	"ArchaeologyDigSiteFrame", "QuestPOIFrame", "ScenarioPOIFrame",
 	"Browser",
 	"Checkout",
 	"OffScreenFrame",
@@ -211,6 +209,7 @@ function KethoDoc:GetWidgetObjects_v2()
 		Path                    = {CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Path"), {"SimpleAnimPathAPI"}},
 		PlayerModel             = {CreateFrame("PlayerModel"), {"FrameAPICharacterModelBase"}},
 		QuestPOIFrame           = {TryCreateFrame_v2("QuestPOIFrame"), {"FrameAPIQuestPOI"}},
+		RadialProgress          = {CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("RadialProgress"), {"SimpleAnimRadialProgressAPI"}},
 		Rotation                = {CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Rotation"), {"SimpleAnimRotationAPI"}},
 		Scale                   = {CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Scale"), {"SimpleAnimScaleAPI"}},
 		ScenarioPOIFrame        = {TryCreateFrame_v2("ScenarioPOIFrame"), {"FrameAPIScenarioPOI"}},
@@ -220,7 +219,7 @@ function KethoDoc:GetWidgetObjects_v2()
 		StatusBar               = {CreateFrame("StatusBar"), {"SimpleStatusBarAPI"}},
 		TabardModel             = {CreateFrame("TabardModel"), {"FrameAPITabardModelBase", "FrameAPITabardModel"}}, 
 		Texture                 = {CreateFrame("Frame"):CreateTexture(), {"SimpleTextureAPI"}},
-		TextureCoordTranslation = {KethoFrame.animgroup.texcoordtranslation, {"SimpleAnimTextureCoordTranslationAPI"}},
+		TextureCoordTranslation = {CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("TextureCoord"), {"SimpleAnimTextureCoordTranslationAPI"}},
 		Translation             = {CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("Translation"), {"SimpleAnimTranslationAPI"}},
 		UnitPositionFrame       = {CreateFrame("UnitPositionFrame"), {"FrameAPIUnitPositionFrame"}},
 		VertexColor             = {CreateFrame("Frame"):CreateAnimationGroup():CreateAnimation("VertexColor"), {"SimpleAnimVertexColorAPI"}},
