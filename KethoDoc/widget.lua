@@ -597,15 +597,14 @@ KethoDoc.WidgetOrder = {
 	"AnimationGroup",
 	"Animation",
 	"Alpha",
-	"Path",
 	"Scale", "LineScale",
 	"Translation", "LineTranslation",
+	"Path", "ControlPoint",
 	"Rotation",
 	"TextureCoordTranslation",
 	"FlipBook",
 	"VertexColor",
 	"RadialProgress",
-	"ControlPoint",
 
 	-- frame
 	"Frame",
