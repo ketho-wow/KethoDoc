@@ -289,6 +289,7 @@ function KethoDoc:GetWidgetTests_v2()
 		Path                    = {"SimpleAnimPathAPI", "SimpleAnimAPI", "SimpleObjectAPI", "SimpleFrameScriptObjectAPI"},
 		PlayerModel             = {"FrameAPICharacterModelBase", "SimpleModelAPI", "SimpleFrameAPI", "SimpleAnimatableObjectAPI", "SimpleScriptRegionResizingAPI", "SimpleScriptRegionAPI", "SimpleObjectAPI", "SimpleFrameScriptObjectAPI"},
 		QuestPOIFrame           = {"FrameAPIQuestPOI", "FrameAPIBlob", "SimpleFrameAPI", "SimpleAnimatableObjectAPI", "SimpleScriptRegionResizingAPI", "SimpleScriptRegionAPI", "SimpleObjectAPI", "SimpleFrameScriptObjectAPI"},
+		RadialProgress          = {"SimpleAnimRadialProgressAPI", "SimpleAnimAPI", "SimpleObjectAPI", "SimpleFrameScriptObjectAPI"},
 		Rotation                = {"SimpleAnimRotationAPI", "SimpleAnimAPI", "SimpleObjectAPI", "SimpleFrameScriptObjectAPI"},
 		Scale                   = {"SimpleAnimScaleAPI", "SimpleAnimAPI", "SimpleObjectAPI", "SimpleFrameScriptObjectAPI"},
 		ScenarioPOIFrame        = {"FrameAPIScenarioPOI", "FrameAPIBlob", "SimpleFrameAPI", "SimpleAnimatableObjectAPI", "SimpleScriptRegionResizingAPI", "SimpleScriptRegionAPI", "SimpleObjectAPI", "SimpleFrameScriptObjectAPI"},

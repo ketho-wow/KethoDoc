@@ -740,25 +740,25 @@ function KethoDoc:WidgetTest()
 		{"FontInstance",            {}},
 		{"Font",                    {W.FontInstance, W.FrameScriptObject}},
 		{"FontString",              {W.FontInstance, W.Region, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
-
-		{"VectorGraphics",          {               W.Region, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
-
+		
 		{"TextureBase",             {               W.Region, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
 		{"Texture",                 {W.TextureBase, W.Region, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
 		{"MaskTexture",             {W.TextureBase, W.Region, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
 		{"Line",                    {W.TextureBase, W.Region, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"VectorGraphics",          {               W.Region, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
 
 		{"AnimationGroup",          {             W.ScriptObject, W.Object, W.FrameScriptObject}},
-		{"Animation",               {             W.ScriptObject, W.Object, W.FrameScriptObject}},
 		{"Alpha",                   {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"Animation",               {             W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"ControlPoint",            {                             W.Object, W.FrameScriptObject}},
+		{"FlipBook",                {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
 		{"LineScale",               {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
-		{"Translation",             {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
 		{"LineTranslation",         {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
 		{"Path",                    {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
-		{"ControlPoint",            {                             W.Object, W.FrameScriptObject}},
+		{"RadialProgress",          {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
 		{"Rotation",                {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
 		{"TextureCoordTranslation", {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
-		{"FlipBook",                {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
+		{"Translation",             {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
 		{"VertexColor",             {W.Animation, W.ScriptObject, W.Object, W.FrameScriptObject}},
 
 		{"Frame",                   {                                 W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
