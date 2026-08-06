@@ -51,19 +51,8 @@ local function set_difference(a, b)
 end
 
 local FrameScriptObject = {
-	AddAccessRestrictions = true,
-	AddForbiddenAspects = true,
-	AddSecretAspect = true,
-	CanBeAccessedInContext = true,
-	GetAccessRestrictions = true,
-	GetForbiddenAspects = true,
-	GetInheritableForbiddenAspects = true,
 	GetName = true,
-	GetObjectTable = true,
 	GetObjectType = true,
-	HasAccessConstraints = true,
-	HasAnyAccessRestrictions = true,
-	HasAnyForbiddenAspects = true,
 	HasAnySecretAspect = true,
 	HasSecretAspect = true,
 	HasSecretValues = true,
@@ -73,6 +62,26 @@ local FrameScriptObject = {
 	SetForbidden = true,
 	SetToDefaults = true,
 }
+
+local FrameScriptObject_mainline = {
+	AddAccessRestrictions = true,
+	AddForbiddenAspects = true,
+	AddSecretAspect = true,
+	CanBeAccessedInContext = true,
+	GetAccessRestrictions = true,
+	GetForbiddenAspects = true,
+	GetInheritableForbiddenAspects = true,
+	GetObjectTable = true,
+	HasAccessConstraints = true,
+	HasAnyAccessRestrictions = true,
+	HasAnyForbiddenAspects = true,
+}
+
+if KethoDoc.isMainline then
+	for k in pairs(FrameScriptObject_mainline) do
+		FrameScriptObject[k] = true
+	end
+end
 
 local Object = {
 	ClearParentKey = true,
@@ -199,13 +208,6 @@ function KethoDoc:SetupWidgets()
 			object = TryCreateFrame("Frame"):CreateLine(),
 			-- Texture \ Region
 			unique_methods = function() return set_difference(W.Line.meta_object(), W.TextureBase.meta_object()) end,
-		},
-		VectorGraphics = {
-			inherits = {"Region"},
-			object = TryCreateFrame("Frame"):CreateVectorGraphics(),
-			unique_methods = function()
-				return set_difference(W.VectorGraphics.meta_object(), W.Region.meta_object())
-			end,
 		},
 		AnimationGroup = {
 			inherits = {"Object", "ScriptObject"},
@@ -539,14 +541,26 @@ function KethoDoc:SetupWidgets()
 			unique_methods = function() return set_difference(W.UnitPositionFrame.meta_object(), W.Frame.meta_object()) end,
 			unique_handlers = function() return set_difference(W.UnitPositionFrame.handlers, W.Frame.handlers) end,
 		},
-		WorldFrame = {
-			inherits = {"Frame"},
-			object = WorldFrame, -- unique, no extra methods
-			-- WorldFrame \ Frame
-			unique_methods = function() return set_difference(W.WorldFrame.meta_object(), W.Frame.meta_object()) end,
-			unique_handlers = function() return set_difference(W.WorldFrame.handlers, W.Frame.handlers) end,
-		},
 	}
+
+	-- hacks
+	if CreateFrame("Frame").CreateVectorGraphics then
+		self.WidgetClasses.VectorGraphics = {
+			inherits = {"Region"},
+			object = TryCreateFrame("Frame"):CreateVectorGraphics(),
+			unique_methods = function()
+				return set_difference(W.VectorGraphics.meta_object(), W.Region.meta_object())
+			end,
+		}
+	end
+	-- more hacks
+	if self.branch == "vanilla" then
+		self.WidgetClasses.Blob = nil
+		self.WidgetClasses.ArchaeologyDigSiteFrame = nil
+		self.WidgetClasses.QuestPOIFrame = nil
+		self.WidgetClasses.ScenarioPOIFrame = nil
+		self.WidgetClasses.RadialProgress = nil
+	end
 
 	-- set meta objects
 	for _, widget in pairs(self.WidgetClasses) do
@@ -631,7 +645,6 @@ KethoDoc.WidgetOrder = {
 	"Browser",
 	"Checkout",
 	"OffScreenFrame",
-	"WorldFrame", -- unique
 	--"ModelFFX",
 	--"UICamera",
 	--"TaxiRouteFrame",
@@ -790,21 +803,22 @@ function KethoDoc:WidgetTest()
 		{"Browser",                 {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
 		{"Checkout",                {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
 		{"OffScreenFrame",          {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
-		{"WorldFrame",              {                        W.Frame, W.ScriptRegion, W.ScriptObject, W.Object, W.FrameScriptObject}},
 	}
 
 	local passed_count = 0
 	for _, v in pairs(widgets) do
 		local widget_class = W[v[1]]
-		local meta_source = widget_class.meta_object
-		local meta_object = type(meta_source) == "function" and meta_source() or meta_source
-		local expected = self:MixinTable(widget_class, unpack(v[2]))
-		local equal, size1, size2 = self:TableEquals(meta_object, expected)
-		if equal then
-			passed_count = passed_count + 1
-			print("Passed:", v[1])
-		else
-			print("Failed:", v[1], size1, size2)
+		if widget_class then
+			local meta_source = widget_class.meta_object
+			local meta_object = type(meta_source) == "function" and meta_source() or meta_source
+			local expected = self:MixinTable(widget_class, unpack(v[2]))
+			local equal, size1, size2 = self:TableEquals(meta_object, expected)
+			if equal then
+				passed_count = passed_count + 1
+				print("Passed:", v[1])
+			else
+				print("Failed:", v[1], size1, size2)
+			end
 		end
 	end
 	print(format("Widgets: Passed %d of %d tests", passed_count, #widgets))

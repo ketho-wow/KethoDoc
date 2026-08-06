@@ -227,7 +227,6 @@ function KethoDoc:GetWidgetObjects_v2()
 		-- TaxiRouteFrame unavailable
 		-- UICamera unavailable
 		-- UnitButton unavailable
-		-- WorldFrame = {WorldFrame}, -- unique, no extra methods
 	}
 	t.EditBox[1]:SetAutoFocus(false) -- steals our focus otherwise
 	if APIDocumentation:FindAPIByName("system", "SimpleVectorGraphicsAPI") then
