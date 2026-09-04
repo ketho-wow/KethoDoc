@@ -81,6 +81,21 @@ KethoDoc.LuaAPI = { -- see compat.lua
 	unpack = true,
 	wipe = true, -- table.wipe; wow lua
 	xpcall = true,
+
+	Clamp = true, -- math.clamp
+	CountTable = true, -- table.count
+	GetKeysArray = true, -- table.keys
+	GetValuesArray = true, -- table.values
+	Lerp = true, -- math.lerp
+	Round = true, -- math.round
+	RoundToSignificantDigits = true, -- math.round
+	Saturate = true, -- math.saturate
+	Sign = true, -- math.sign
+	TableIsEmpty = true, -- table.isempty
+	tContains = true, -- table.contains
+	tDeleteItem = true, -- table.removevalue
+	tIndexOf = true, -- table.indexof
+	tUnorderedRemove = true, -- table.removeunordered
 }
 
 local LuaFrameXml = {

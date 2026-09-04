@@ -812,7 +812,7 @@ function KethoDoc:WidgetTest()
 			local meta_source = widget_class.meta_object
 			local meta_object = type(meta_source) == "function" and meta_source() or meta_source
 			local expected = self:MixinTable(widget_class, unpack(v[2]))
-			local equal, size1, size2 = self:TableEquals(meta_object, expected)
+			local equal, size1, size2 = self:TableEquals(meta_object, expected, true)
 			if equal then
 				passed_count = passed_count + 1
 				print("Passed:", v[1])
