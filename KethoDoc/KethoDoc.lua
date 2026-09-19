@@ -89,7 +89,9 @@ end
 function KethoDoc:DumpLuaAPI()
 	local api = {}
 	for apiName in pairs(self.LuaAPI) do
-		tinsert(api, apiName)
+		if _G[apiName] then
+			tinsert(api, apiName)
+		end
 	end
 	for _, tblName in pairs({"bit", "coroutine", "math", "string", "table"}) do
 		for methodName, value in pairs(_G[tblName]) do

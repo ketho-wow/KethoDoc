@@ -81,6 +81,7 @@ KethoDoc.LuaAPI = { -- see compat.lua
 	unpack = true,
 	wipe = true, -- table.wipe; wow lua
 	xpcall = true,
+	require = true,
 
 	Clamp = true, -- math.clamp
 	CountTable = true, -- table.count

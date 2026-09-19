@@ -1,5 +1,5 @@
-## Interface: 120100, 120007, 50504, 20506, 11509
-## Version: 1.7.9
+## Interface: 120100, 120007, 50504, 20506, 11509, 16001
+## Version: 1.8.0
 ## Title: KethoDoc
 ## SavedVariables: KethoDocData
 
