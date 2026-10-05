@@ -2,52 +2,21 @@
 KethoDoc = {}
 local eb = KethoEditBox
 
-if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
-	KethoDoc.isMainline = true
-	KethoDoc.branch = "mainline"
-elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
-	KethoDoc.branch = "vanilla"
-elseif WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
-	KethoDoc.branch = "tbc"
-elseif WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC then
-	KethoDoc.branch = "cata"
-elseif WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC then
-	KethoDoc.branch = "mists"
-end
+---@alias Family "Mainline" | "Classic"
+---@alias Game "Standard" | "Camelot" | "Mists" | "TBC" | "Vanilla"
 
-local ptr_realms = {
-	[909] = "Anasterian",
-	[912] = "Broxigar",
-	[969] = "Nobundo",
-	[3296] = "Benedictus",
-	[3299] = "Lycanthoth",
-	[4904] = "Classic PTR Realm 1",
-	[5533] = "Classic Era PTR",
-	[5774] = "Fyrakk",
+---@type Family
+KethoDoc.Family = C_AddOns.GetAddOnMetadata("KethoDoc", "X-Family")
+
+---@type Game
+KethoDoc.Game = C_AddOns.GetAddOnMetadata("KethoDoc", "X-Game")
+
+KethoDoc.Build = {
+	Public = IsPublicBuild(),
+	Beta = IsBetaBuild(),
+	Test = IsTestBuild(),
+	Debug = IsDebugBuild(),
 }
-
-local beta_realms = {
-	-- 12.0.0
-	[976] = "Liadrin",
-
-	-- 11.0.0
-	[970] = "Khadgar",
-
-	-- 11.0.2
-	[4184] = "These Go To Eleven",
-	-- 5.5.0
-	[4618] = "Classic Beta PvE",
-}
-
-KethoDoc.NoBlob = (KethoDoc.branch == "vanilla" or KethoDoc.branch == "tbc")
-
-local realmId = GetRealmID()
-
-if beta_realms[realmId] or IsBetaBuild() then
-	KethoDoc.branch = KethoDoc.branch.."_beta"
-elseif ptr_realms[realmId] or IsTestBuild() then
-	KethoDoc.branch = KethoDoc.branch.."_ptr"
-end
 
 if IsPublicBuild() then
 	if GetCVarBool("loadDeprecationFallbacks") then
@@ -316,7 +285,7 @@ local function SortEnum(a, b)
 	end
 end
 
--- pretty dumb way without even using bitwise op
+-- doing this pretty dumb way without even using bitwise op
 local function IsBitEnum(tbl, name)
 	local t = tInvert(tbl)
 	if (name:find("Flags$") or name:find("Flag$")) and not t[3] then
@@ -503,6 +472,9 @@ function KethoDoc:GetFrameXML()
 	return t
 end
 
+--- known frames that seem to pop in out and out for me
+-- ChatFrame4Tab (something to do with my chat windows)
+-- SideDressUpFrame
 function KethoDoc:DumpFrames()
 	self:DumpLodTable("Frames", self.GetFrames, self.initFrames)
 end
@@ -582,6 +554,7 @@ local PROJECT_IDS = {
 	[WOW_PROJECT_BURNING_CRUSADE_CLASSIC or 5] = "WOW_PROJECT_BURNING_CRUSADE_CLASSIC",
 	[WOW_PROJECT_WRATH_CLASSIC or 11] = "WOW_PROJECT_WRATH_CLASSIC",
 	[WOW_PROJECT_CATACLYSM_CLASSIC or 14] = "WOW_PROJECT_CATACLYSM_CLASSIC",
+	[WOW_PROJECT_CAMELOT or 18] = "WOW_PROJECT_CAMELOT",
 	[WOW_PROJECT_MISTS_CLASSIC or 19] = "WOW_PROJECT_MISTS_CLASSIC",
 }
 
@@ -609,9 +582,10 @@ function KethoDoc:GetBuildInfo()
 	tinsert(t, format("IsPublicBuild() => %s", tostring(IsPublicBuild())))
 	tinsert(t, format("IsTestBuild() => %s", tostring(IsTestBuild())))
 	tinsert(t, format("IsBetaBuild() => %s", tostring(IsBetaBuild())))
-	tinsert(t, format("IsDebugBuild() => %s", tostring(IsDebugBuild())))
 	tinsert(t, format("WOW_PROJECT_ID => %s (%d)", PROJECT_IDS[WOW_PROJECT_ID], WOW_PROJECT_ID))
 	tinsert(t, format("LE_EXPANSION_LEVEL_CURRENT => %s (%d)", EXPANSION_LEVELS[LE_EXPANSION_LEVEL_CURRENT], LE_EXPANSION_LEVEL_CURRENT))
+	tinsert(t, format('TOC Family => "%s"', self.Family))
+	tinsert(t, format('TOC Game => "%s"', self.Game))
 	tinsert(t, format("```"))
 	eb:Show(table.concat(t, "\n"))
 end

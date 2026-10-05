@@ -77,7 +77,7 @@ local FrameScriptObject_mainline = {
 	HasAnyForbiddenAspects = true,
 }
 
-if KethoDoc.isMainline then
+if KethoDoc.Family == "Mainline" then
 	for k in pairs(FrameScriptObject_mainline) do
 		FrameScriptObject[k] = true
 	end
@@ -554,7 +554,7 @@ function KethoDoc:SetupWidgets()
 		}
 	end
 	-- more hacks
-	if self.branch == "vanilla" then
+	if self.Game == "Vanilla" then
 		self.WidgetClasses.Blob = nil
 		self.WidgetClasses.ArchaeologyDigSiteFrame = nil
 		self.WidgetClasses.QuestPOIFrame = nil

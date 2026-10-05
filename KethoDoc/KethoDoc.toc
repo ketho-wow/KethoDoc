@@ -1,7 +1,9 @@
-## Interface: 120100, 120007, 50504, 20506, 11509, 16001
-## Version: 1.8.0
+## Interface: 120105, 120100, 50504, 20506, 11509, 16001
+## Version: 1.8.1
 ## Title: KethoDoc
 ## SavedVariables: KethoDocData
+## X-Family: [Family]
+## X-Game: [Game]
 
 editbox.lua
 KethoDoc.lua
