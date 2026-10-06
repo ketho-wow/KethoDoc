@@ -24,6 +24,7 @@ m.cvar_nil = {
 m.cvar_cache = {
 	var = {
 		-- var = default, category, account, character, secure, help
+		["KioskCharacterTemplateSet"] = {"0", 8, false, false, true, "Character template set ID to select at character creation. Defaults to 0."},
 		["agentUID"] = {"wow_beta", 4, false, false, false, "The UID provided by Battle.net to be passed to Agent"},
 		["serverAlert"] = {"https://breaking-news.support.blizzard.com/service/wow-classic-client/ptr/us/en-US", 6, false, false, false, "Get the glue-string tag for the URL"},
 		["telemetryWowlabsPackage"] = {"Blizzard.Telemetry.Wow_Camelot_PTR", 5, false, false, false, "The secondary package we want to send telemetry to e.g. Wow_Wowlabs"},
@@ -1914,8 +1915,7 @@ m.cvar_test = {
 	MemUsageStackTrace = true,
 }
 
--- some cvars seem to appear/disappear randomly with nil `account, character, secure`
-m.cvar_weird = {
-	activeCUFProfile = true,
-	unlockedExpansionLandingPages = true,
-}
+-- wonky cvars
+-- ["activeCUFProfile"] = {"", 4, nil, nil, nil, "The last active CUF Profile."},
+-- ["lastLockedDelvesCompanionAbilities"] = {"", 4, nil, nil, nil, "Stores the nodeIDs of the locked delve companion abilities, to highlight them when unlocked."},
+-- ["unlockedExpansionLandingPages"] = {"", 4, nil, nil, nil, "Bitfield for which expansion landing pages have been unlocked/seen by the user"},

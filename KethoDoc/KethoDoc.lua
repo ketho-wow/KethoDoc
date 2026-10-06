@@ -191,35 +191,38 @@ function KethoDoc:DumpCVars()
 			-- these just keep switching between false/nil
 			if not v.command:find("^CACHE") and v.command ~= "KethoDoc" then
 				local _, defaultValue, server, character, _, secure = C_CVar.GetCVarInfo(v.command)
-				-- every time they change the category they seem to lose the help text
-				local cvarCache = self.cvar_cache.var[v.command]
-				if cvarCache then
-					-- the category resets back to 5 seemingly randomly
-					if v.category == 5 then
-						v.category = cvarCache[2]
+				-- some cvars seem to appear/disappear randomly with nil `account, character, secure`
+				if not (server == nil and character == nil and secure == nil) then
+					-- every time they change the category they seem to lose the help text
+					local cvarCache = self.cvar_cache.var[v.command]
+					if cvarCache then
+						-- the category resets back to 5 seemingly randomly
+						if v.category == 5 then
+							v.category = cvarCache[2]
+						end
 					end
+					-- ignore ptr cvars switching default value
+					if self.cvar_ptr_default[v.command] then
+						defaultValue = self.cvar_ptr_default[v.command]
+					end
+					local helpString = ""
+					if v.help and #v.help > 0 then
+						helpString = v.help
+					elseif cvarCache and cvarCache[6] then
+						helpString = cvarCache[6]
+					end
+					helpString = helpString:gsub('"', '\\"')
+					helpString = helpString:gsub('\n', '\\n')
+					-- cvars that return incomplete information on ptr
+					if self.cvar_nil[v.command] then
+						defaultValue, _, server, character, secure, helpString = unpack(self.cvar_nil[v.command])
+					end
+					local tbl = self.cvar_test[v.command] and test_cvarTbl or cvarTbl
+					tinsert(tbl, {
+						command = v.command,
+						line = cvarFs:format(v.command, defaultValue or "", v.category, tostring(server), tostring(character), tostring(secure), helpString),
+					})
 				end
-				-- ignore ptr cvars switching default value
-				if self.cvar_ptr_default[v.command] then
-					defaultValue = self.cvar_ptr_default[v.command]
-				end
-				local helpString = ""
-				if v.help and #v.help > 0 then
-					helpString = v.help
-				elseif cvarCache and cvarCache[6] then
-					helpString = cvarCache[6]
-				end
-				helpString = helpString:gsub('"', '\\"')
-				helpString = helpString:gsub('\n', '\\n')
-				-- cvars that return incomplete information on ptr
-				if self.cvar_nil[v.command] then
-					defaultValue, _, server, character, secure, helpString = unpack(self.cvar_nil[v.command])
-				end
-				local tbl = self.cvar_test[v.command] and test_cvarTbl or cvarTbl
-				tinsert(tbl, {
-					command = v.command,
-					line = cvarFs:format(v.command, defaultValue or "", v.category, tostring(server), tostring(character), tostring(secure), helpString),
-				})
 			end
 		elseif v.commandType == Enum.ConsoleCommandType.Command then
 			local tbl = self.cvar_test[v.command] and test_commandTbl or commandTbl
