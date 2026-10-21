@@ -4,20 +4,20 @@ KethoDoc.LoadOnDemand = {}
 KethoDoc.initFrames = KethoDoc:GetFrames()
 KethoDoc.initFrameXML = KethoDoc:GetFrameXML()
 
-function KethoDoc:GetLodAddons()
+function KethoDoc:GetLodAddons(game)
 	local game = self.LoadOnDemand[self.Game]
 	if self.Build.Beta then
 		return game.Beta
 	elseif self.Build.Test then
 		return game.Test
-	elseif self.Build.Public then
-		return game.Public
+	else -- just fallback to whatever we have
+		return game.Public or game.Test or game.Beta
 	end
 end
 
 -- this might throw some blizzard errors
 function KethoDoc:LoadLodAddons()
-	local addons = self:GetLodAddons()
+	local addons = self:GetLodAddons(game)
 	for _, addon in pairs(addons) do
 		(LoadAddOnWithErrorHandling or UIParentLoadAddOn)(addon)
 	end

@@ -1913,6 +1913,7 @@ m.cvar_test = {
 	MemUsage = true,
 	MemUsageDetailed = true,
 	MemUsageStackTrace = true,
+	-- dumpSmallAlloc -- possibly since 1.60.1 ish
 }
 
 -- wonky cvars
