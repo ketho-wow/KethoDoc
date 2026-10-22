@@ -6,13 +6,16 @@ KethoDoc.initFrameXML = KethoDoc:GetFrameXML()
 
 function KethoDoc:GetLodAddons(game)
 	local game = self.LoadOnDemand[self.Game]
+	local res
 	if self.Build.Beta then
-		return game.Beta
+		res = game.Beta
 	elseif self.Build.Test then
-		return game.Test
-	else -- just fallback to whatever we have
-		return game.Public or game.Test or game.Beta
+		res = game.Test
+	elseif self.Build.Public then
+		res = game.Public
 	end
+	-- just fallback to whatever we have
+	return res or game.Beta or game.Test or game.Public
 end
 
 -- this might throw some blizzard errors

@@ -1,4 +1,4 @@
-## Interface: 120105, 120100, 50504, 20506, 11509, 16001
+## Interface: 120107, 120105, 50504, 20506, 11509, 16001
 ## Version: 1.8.1
 ## Title: KethoDoc
 ## SavedVariables: KethoDocData

@@ -10,6 +10,24 @@ KethoDoc.Family = C_AddOns.GetAddOnMetadata("KethoDoc", "X-Family")
 
 ---@type Game
 KethoDoc.Game = C_AddOns.GetAddOnMetadata("KethoDoc", "X-Game")
+if not KethoDoc.Game then -- polyfill until we get proper API
+	if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+		KethoDoc.Family = "Mainline"
+		KethoDoc.Game = "Standard"
+	elseif WOW_PROJECT_ID == WOW_PROJECT_CAMELOT then
+		KethoDoc.Family = "Mainline"
+		KethoDoc.Game = "Camelot"
+	elseif WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC then
+		KethoDoc.Family = "Classic"
+		KethoDoc.Game = "Mists"
+	elseif WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
+		KethoDoc.Family = "Classic"
+		KethoDoc.Game = "TBC"
+	elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+		KethoDoc.Family = "Classic"
+		KethoDoc.Game = "Vanilla"
+	end
+end
 
 KethoDoc.Build = {
 	Public = IsPublicBuild(),
@@ -587,8 +605,10 @@ function KethoDoc:GetBuildInfo()
 	tinsert(t, format("IsBetaBuild() => %s", tostring(IsBetaBuild())))
 	tinsert(t, format("WOW_PROJECT_ID => %s (%d)", PROJECT_IDS[WOW_PROJECT_ID], WOW_PROJECT_ID))
 	tinsert(t, format("LE_EXPANSION_LEVEL_CURRENT => %s (%d)", EXPANSION_LEVELS[LE_EXPANSION_LEVEL_CURRENT], LE_EXPANSION_LEVEL_CURRENT))
-	tinsert(t, format('TOC [Family] => "%s"', self.Family))
-	tinsert(t, format('TOC [Game] => "%s"', self.Game))
+	if self.Family then
+		tinsert(t, format('TOC [Family] => "%s"', self.Family))
+		tinsert(t, format('TOC [Game] => "%s"', self.Game))
+	end
 	tinsert(t, format("```"))
 	eb:Show(table.concat(t, "\n"))
 end
