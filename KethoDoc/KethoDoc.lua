@@ -605,9 +605,11 @@ function KethoDoc:GetBuildInfo()
 	tinsert(t, format("IsBetaBuild() => %s", tostring(IsBetaBuild())))
 	tinsert(t, format("WOW_PROJECT_ID => %s (%d)", PROJECT_IDS[WOW_PROJECT_ID], WOW_PROJECT_ID))
 	tinsert(t, format("LE_EXPANSION_LEVEL_CURRENT => %s (%d)", EXPANSION_LEVELS[LE_EXPANSION_LEVEL_CURRENT], LE_EXPANSION_LEVEL_CURRENT))
-	if self.Family then
-		tinsert(t, format('TOC [Family] => "%s"', self.Family))
-		tinsert(t, format('TOC [Game] => "%s"', self.Game))
+	local family = C_AddOns.GetAddOnMetadata("KethoDoc", "X-Family")
+	local game = C_AddOns.GetAddOnMetadata("KethoDoc", "X-Game")
+	if family then
+		tinsert(t, format('TOC [Family] => "%s"', family))
+		tinsert(t, format('TOC [Game] => "%s"', game))
 	end
 	tinsert(t, format("```"))
 	eb:Show(table.concat(t, "\n"))
